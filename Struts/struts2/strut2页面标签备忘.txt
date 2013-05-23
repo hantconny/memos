@@ -1,0 +1,121 @@
+·页面访问方法
+	1)对于普通action(指Action类中方法名为execute的)，使用***.action访问(***代表在struts.xml中<action>节点的name属性值)
+	2)对于DispatchAction(指Action类中方法名为自定义的)，使用***!methodName.action访问(***代表在struts.xml中<action>节点的name属性值，methodName是具体方法名)
+
+
+·struts2页面标签
+	1.使用时导入<%@ taglib uri="/struts-tags" prefix="s" %>
+	2.<s:property value="#action.user.usrName"/>相当于<bean:write name="" property=""/>，而且可以处理null值，#action.user可以从action中取得user
+	3.<s:property value="#scope.user.usrName"/>scope指parameters, request, session, application几个作用域。
+	4.要从页面传递user对象的usrName值给action，使用<s:textfield name="user.usrName"></s:textfield>。user是action中一个对象级的私有属性，提供了getter和setter方法，可以看做是form传参
+	5.可以使用session, request等作用域，有两种做法：
+		1)action类必须声明RequestAware，SessionAware相应接口(不推荐)
+		2)action类必须继承ActionSupport类，该类来自于xwork相关的包。
+			2.1)使用方法：
+			ActionContext ctx = ActionContext.getContext();
+			ctx.put(String key, Object value);	//在request中放置
+			ctx.getSession().put(String key, Object value);		//在session中放置
+		3)action中使用ServletActionContext来获取HttpServlet***对象
+			3.1)使用方法：
+			ServletActionContext.getResponse();	// get HttpServletResponse
+			ServletActionContext.getRequest();	// get HttpServletRequest
+
+
+·<s:select>标签
+	0.<s:select list="#request.taskStatusList" listKey="taskStatusCodeId" listValue="taskStatusCode"></s:select>
+	0.1)taskStatusCodeId和taskStatusCode均为Task的基本数据类型字段
+	1.<s:select list="#request.taskUserRelList" listKey="user.userId" listValue="user.userName"></s:select>
+	1.1)user是TaskUserRel的复杂数据类型字段
+	1.2)TaskUserRel
+			User user
+				Integer userId
+				String userName
+	2.list属性：必须。作用域内的一个集合对象
+	3.listKey属性：翻译为HTML代码的<option value="">的value属性
+	4.listValue属性：翻译为HTML代码的<option></option>的显示值
+	5.headerKey="-1"和headerValue="全部"配合，可以在第一个位置插入一个Key为-1值为"全部的选项"
+	6.可以使用<s:iterator>来循环打印出<option>
+	<s:iterator var="status" value="#application.statusList">
+		<option value='<s:property value="#status.statusId"/>'>
+			<s:property value="#status.statusName"/>
+		</option>
+	</s:iterator>
+
+
+·<s:textfield>标签
+	在value属性中使用动态赋值:
+	<s:textfield value="%{session.login.usrId}"></s:textfield>
+	该标签的value属性不接受任何表达式值，所以，使用一种新的方法来从request, session, application等作用域中取值
+	
+	语法：
+		%{}，括号中的语法同EL等表达式
+
+
+·<s:hidden>标签
+	与<s:textfield>标签类似，也不接受任何表达式值
+	<s:hidden value="%{#session.login.userId}"></s:hidden>
+	该标签的value属性不接受任何表达式值，所以，使用一种新的方法来从request, session, application等作用域中取值
+	
+	语法：
+		%{}，括号中的语法同EL等表达式
+
+
+·<s:property/>标签
+	1.该标签默认会进行HTML转义，所有标签都会被当做字符串输出
+	2.要输出HTML标签：配置escape="false"，不转义即可
+
+
+·<s:password>标签
+	1.该标签用在需要使用密码框的地方
+	2.指定showPassword属性为true可以显示小圆点
+	3.如：<s:password name="user.usrPassword" showPassword="true"></s:password>
+
+
+·<s:text>标签
+	用来做国际化，name中放置globalMessage_en_US.properties或globalMessage_zh_CN.properties中的键名
+
+
+·<s:iterator>标签
+	1.status属性相当于普通for循环中的迭代变量
+	2.使用st.index可以获得当前迭代变量的值
+	3.如：
+	<s:iterator status="st" value="#application.ChargeCode">
+		<s:if test="%{st.index == 0}">
+			current index is 0
+		</s:if>
+	</s:iterator>
+	
+
+·<s:date>标签
+	1.用来显示日期
+	2.使用name绑定前后台值
+	3.如：
+	<s:date name="#request.createDate" format="yyyy年-MM月-dd日"/>
+
+
+·<s:radio>标签
+	基本上与<s:select>标签相似
+	0.	<s:radio list="#application.chargeCodeList" listKey="chargeId" listValue="chargeCode" value="#iTaskUserRel.projectChargeRel.chargeCode.chargeId">
+		</s:radio>
+	1.list属性：必须。作用域内的一个集合对象
+	2.listKey属性：翻译为HTML代码的<input type="radio" value=""/>的value属性
+	3.listValue属性：翻译为HTML代码<input type="radio" value=""/>之后的显示值
+	4.headerKey="-1"和headerValue="全部"配合，可以在第一个位置插入一个Key为-1值为"全部"的选项
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

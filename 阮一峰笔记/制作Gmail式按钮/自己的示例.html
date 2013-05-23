@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+<style>
+@import url("button.css");
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"></script> 
+<script type="text/javascript"> 
+       $(document).ready(function(){
+       	$(".goog-imageless-button").hover(   	
+       		function(){
+       			if(!$(this).hasClass("goog-imageless-button-disabled")){
+        		$(this).addClass("goog-imageless-button-hover"); 
+        		}
+       		},
+       		function(){
+       			if(!$(this).hasClass("goog-imageless-button-disabled")){
+       			$(this).removeClass("goog-imageless-button-hover"); 
+       			}
+       		}
+       	);
+       	$(".goog-imageless-button").mousedown(
+       		function(){
+       			if(!$(this).hasClass("goog-imageless-button-disabled")){
+       			$(this).addClass("goog-imageless-button-checked"); 
+       			}
+       		}
+	      ).mouseup(
+	      function(){
+	      	if(!$(this).hasClass("goog-imageless-button-disabled")){
+	      	$(this).removeClass("goog-imageless-button-checked"); 
+	      	}
+	      }
+	      );
+	      $("#pillButton > div").click(
+	      function(){
+	      	$("#pillButton > div").removeClass("goog-imageless-button-checked");
+	      	$(this).addClass("goog-imageless-button-checked"); 
+	      });
+	      $(".goog-imageless-button").focus(function(){$(this).addClass("goog-imageless-button-focused")});
+	      $(".goog-imageless-button").blur(function(){$(this).removeClass("goog-imageless-button-focused")});
+       });
+</script> 
+</head>
+<body>
+<div class="goog-imageless-button goog-inline-block"> 
+			<div class="goog-inline-block goog-imageless-button-outer-box"> 
+				<div class="goog-inline-block goog-imageless-button-inner-box"> 
+					<div class="goog-imageless-button-pos"> 
+						<div class="goog-imageless-button-top-shadow">&nbsp;</div> 
+						<div class="goog-imageless-button-content">Submit</div> 
+						</div> 
+						</div> 
+						</div> 
+						</div>
+</body>
+</html>

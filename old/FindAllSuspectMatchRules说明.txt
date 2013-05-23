@@ -1,0 +1,12 @@
+FindAllSuspectMatchRules详细流程：
+参数说明：
+	input，一个vector，就是source party
+	componentObject，ISuspectProcessor
+逻辑说明：
+	new一个vecSuspectTypePriority
+	new一个vecMatchEngineTypeCodePriority，并且设定为3，（qualityStage暂时不看）表示如果有A1存在，返回A1，如果没有A1存在，返回A2
+	使用suspectComponent进行suspect,得到vecA1Suspects集合
+	检查CDC设置是开或关
+	检查collapsedPartiesNumberLimit是多少，默认在CONFIGELEMENT中为0,表示不限制
+	循环vecA1Suspects, 一般将vecA1Suspects加到vecRet中，返回给调用方
+	

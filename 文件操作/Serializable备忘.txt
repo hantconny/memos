@@ -1,0 +1,27 @@
+0.1	使用FileOutputStream向文件输送字节码
+		FileOutputStream fos = new FileOutputStream("test.txt");
+	使用ObjectOutputStream向FileOutputStream输送对象
+		ObjectOutputStream os = new ObjectOutputStream(fos);
+	使用对象流写入对象
+		os.writeObject(Object obj);
+	
+
+	使用FileInputStream开读文件：字节码转文件流
+		FileInputStream fis = new FileInputStream("test.txt");
+	使用ObjectInputStream读字节码输入流：文件流转对象流
+		ObjectInputStream is = new ObjectInputStream(fis);
+	使用对象流来读对象：对象流转对象
+		is.readObject();
+
+1.1	要实现序列化，必须保证版图上所有对象都声明了Serializable接口
+2.1	如果某类是声明了Serializable接口，那么该类的子类也自动可以序列化
+	以Car和MiniCar为例
+2.2	如果子类增加了新的字段，必须保证该字段也是可序列化的
+	以Car和MiniCar为例，虽然MiniCar继承自Car(声明了Serializable接口)，表明MiniCar也可序列化。
+	但是，MiniCar中包含的Tire属性(MIniCar中新增的)没有标记为Serializable，序列化仍然会失败。
+2.3	如果类中的某个字段不能或不应该被实例化，就把它标记为transient的。反序列化是会成为默认类型(对象级null)
+	对象级或主数据类型均可以。
+3.1	解序列化时，构造函数不会执行，因为一旦执行构造，对象会被new成默认状态。
+	解序列化得到的状态就没有了，一切也就失去了意义。
+	但是，如果该对象在继承树上有一个不可Serializable的祖先类，那么，在这个祖先类之上的构造函数会执行。
+4.1	静态变量不会被序列化，因为静态变量是在Class上的，而不是每个实例一个。

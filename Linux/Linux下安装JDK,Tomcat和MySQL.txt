@@ -1,0 +1,210 @@
+1. 安装MySQL
+安装步骤：
+首先下载这两个包
+MySQL-server-5.1.7-0.i386.rpm
+MySQL-client-community-5.0.45-0.rhe13.i386.rpm
+在官网www.mysql.com有下载，查看适合自己内核的版本
+（查看内核信息指令：
+   cat /proc/version ）
+
+再安装mysql服务器
+   rpm -ivh  MySQL-server-5.1.7-0.i386.rpm
+
+接着安装mysql客户端
+   rpm -ivh  MySQL-client-community-5.0.45-0.rhe13.i386.rpm
+
+最后运行mysql_install_db ,初始化数据库
+   /usr/bin/mysql_install_db
+
+都安装好后测试是否成功
+   netstat -nat
+默认端口号为3306
+
+
+2. 安装JDK
+首先在官网上下载JDK的包， 如Linux x86 - Self Extracting Installer：   jdk-6u27-linux-i586.bin
+建立/usr/java目录，将JDK文件考到其下，并给文件加上可执行权限
+   chmod +x jdk-1_5_0_06-linux-i586-rpm.bin
+
+执行jdk-1_5_0_06-linux-i586-rpm.bin
+   ./jdk-1_5_0_06-linux-i586-rpm.bin
+执行后生成jdk-1_5_0_06-linux-i586-rpm
+
+如果需要的话， 安装jdk-1_5_0_06-linux-i586-rpm
+   rpm -ivh jdk-1_5_0_06-linux-i586-rpm
+
+配置环境变量
+   环境变量配置，修改/etc/profile文件后添加
+
+#set java environment 
+JAVA_HOME=/usr/java/jdk1.6.0_27
+CLASSPATH=.:$JAVA_HOME/lib/tools.jar 
+PATH=$JAVA_HOME/bin:$PATH 
+export JAVA_HOME CLASSPATH PATH 
+
+让当前配置立即生效
+    source /etc/profile  
+测试配置环境
+   echo $JAVA_HOME
+   echo $CLASSPATH
+也可以写一个HelloWorld.java测试一下
+
+
+3. 安装Tomcat6.0
+下载 apache-tomcat-6.0.33.tar.gz
+在本地解压
+   tar zxvf apach-tomcat-6.0.16.tar.gz
+   mv apach-tomcat-6.0.16 /usr/local
+
+配置环境变量（参照JDK的方法，在下面加上一句）
+    #set tomcat environment
+    export TOMCAT_HOME=/usr/local/apache-tomcat-6.0.33
+让当前配置立即生效
+    source /etc/profile  
+   
+启动tomcat   
+    $TOMCAT_HOME/bin/startup.sh 
+	或者 sudo /etc/init.d/tomcat6 stop
+    Using CATALINA_BASE:   /usr/local/apache-tomcat-6.0.16
+    Using CATALINA_HOME:   /usr/local/apache-tomcat-6.0.16
+    Using CATALINA_TMPDIR: /usr/local/apache-tomcat-6.0.16/temp
+    Using JRE_HOME:       /usr/local/jdk1.6.0_04
+sudo mv /mnt/alex_shared/TMS.war /var/lib/tomcat6/webapps/
+在浏览器中输入http://localhost:8080/就可以看到tomcat的logo了
+ubuntu server中tomcat/webapps的位置  
+/var/lib/tomcat6/webapps
+
+重启tomcat6
+$ sudo /etc/init.d/tomcat6 restart
+
+tms发布过程
+1. 把打好的WAR包考到/mnt/alex_shared2/下
+2. sudo /etc/init.d/tomcat6 stop
+3. cd /var/lib/tomcat6/webapps
+4. sudo rm -rf TMS*
+5. sudo cp /mnt/alex_shared2/TMS.war /var/lib/tomcat6/webapps
+6. sudo /etc/init.d/tomcat6 start
+
+
+
+挂u盘之前，运行命令cat /proc/partitions,看看现在系统中有哪些分区。插上u盘以后，再次运行上述命令，看看多出来什么分区（通常是sda1，PS由于偶是在虚拟机下装的，所以是sdb1).
+
+1、插入U盘
+
+2、输入 fdisk -l /dev/sda 查看输出结果，比如我的是这样的：
+     # fdisk -l /dev/sda
+     Disk /dev/sda: 131 MB, 131104768 bytes
+     3 heads, 32 sectors/track, 2667 cylinders
+     Units = cylinders of 96 * 512 = 49152 bytes
+
+       Device Boot      Start         End      Blocks   Id System
+    /dev/sdb1   *           1        2668      128016    6 FAT16
+
+3、看了上面的输出就知道U盘所在的设备了，比如我的就是/dev/sdb1，接着便是挂载了，假设我将U盘挂载到/mnt/usb目录(没有的话，新建)中，就是
+mount -t msdos /dev/sdb1 /mnt/usb
+如果是fat16就使用下面的命令
+mount -t msdos /dev/sdb1 /mnt/usb
+如果是fat32 
+mount -t vfat /dev/sdb1 /mnt/usb
+如果是ext2格式，就用命令：
+mount -t ext2 /dev/sda1 /mnt/usb
+
+一、修改配置文件获得永久IP地址：
+#vi /etc/sysconfig/network-scripts/ifcfg-eth0
+                DEVICE=eth0
+                ONBOOT=yes
+                BOOTPROTO=static
+                IPADDR=192.168.10.100
+                NETMASK=255.255.255.0
+                GATEWAY=192.168.10.1
+                   :wq
+ubuntu下设置方法
+sudo vi /etc/network/interfaces 
+
+应该会看到如下内容： 
+    auto eth0 
+    iface lo inet loopback 
+
+改成：
+    auto eth0 
+    iface eth0 inet static 
+    address 192.168.1.5 
+    netmask 255.255.255.0 
+    gateway 192.168.1.1 
+保存后
+$sudo /etc/init.d/networking restart 即可
+
+#/etc/init.d/network restart
+二、    要用service iptables stop把系统防火墙关掉。
+          把安全级别调低
+          #vi /etc/selinux/config
+          把其中SELINUX=disabled项设为该值
+
+
+mysql不能remote access修改
+1. 注释掉/etc/mysql/my.cnf里的, 
+bind-address = 127.0.0.1
+如果不知道文件在哪里 find / -name my.cnf
+2. mysql>  GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+3. mysql>  flush privileges; 
+
+关于mysql中文乱码问题
+1. 下载中文字符集
+sudo apt-get install language-pack-zh
+
+2.配置语言环境变量
+vi /etc/environment
+添加如下两行 
+LANG=" zh_CN.UTF-8"
+language=" zh_CN:zh:en_US:en"
+
+vi /var/lib/locales/supported.d/local
+添加如下两行
+en_US.UTF-8 UTF-8
+zh_CN.UTF-8 UTF-8
+
+3. 改变mysql的字符集
+修改/etc/mysql/my.cnf 为clinet和mysqld添加
+default-character-set=utf8
+
+完成!! 以下为查看语句
+vi /etc/default/locale
+  1.查看数据库支持的所有字符集
+        show character set;或show char set;
+
+  2.查看当前状态 里面包括当然的字符集设置
+        status或者\s
+
+  3.查看系统字符集设置，包括所有的字符集设置
+        show variables like 'char%';
+
+  4.查看数据表中字符集设置
+        show full columns from tablename; 或者 show create table tablename\G;
+
+  5.查看数据库编码
+        show create database dnname; 
+
+修改字符集命令
+级别 命令 时效 备注
+服务器 SET GLOBAL character_set_server=utf8;  临时　
+服务器 修改配置文件：  [mysqld] default-character-set=utf8  永久 　
+数据库 SET GLOBAL character_set_database=utf8; 临时 　
+数据库 同修改服务器 临时 　
+表 ALTER TABLE table_name DEFAULT CHARSET utf8; 永久 　
+列 alter table `t_test` change `name` `name` varchar (255)  character set  utf8 collate utf8_general_ci null default null; 永久 　
+连接 show variables like 'char%'; 临时 　
+连接 修改配置文件：  [client] default-character-set=utf8  永久 　
+
+
+
+创建时指定字符集
+级别 命令
+服务器级 在安装MySQL时可以设置服务器的默认编码格式
+数据库级 CREATE DATABASE db_name DEFAULT CHARACTER SET utf8;
+表级 CREATE TABLE  `db_name`.`tb_name` (       id VARCHAR(20) NOT NULL,      name VARCHAR(20) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+列级 CREATE TABLE  `db_name`.`tb_name` (   id varchar(20) NOT NULL,   name varchar(20) CHARACTER SET utf8 );
+
+共享本地文件夹的方法
+sudo mount -t cifs -o iocharset=utf8,username=twdell002,password=tw888 //192.168.1.101/alex_shared /mnt/alex_shared
+suod mount -t cifs -o iocharset=utf8,username=<local user name>,password=<local pwd> //<local IP address>/shared /mnt/dell
+																													<remote directory>

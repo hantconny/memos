@@ -1,0 +1,99 @@
+1.添加spring支持
+	添加支持前需要删除windows-preferences-project capasibility-spring2.5-asm2.2.3.jar,否则会冲突造成ContextLoaderListener的ClassNotFound错误。
+	将applicationContext.xml文件放置在src下
+	action对应的节点名使用id，而不再使用struts1配置中的name
+2.添加hibernate支持
+	同strut1的ssh配置
+3.在WebRoot/WEB-INF/lib/包下放置6个struts2必须的包
+
+4.在src下放置struts2的dtd文件
+
+5.在src下建立struts.xml文件，使用dtd模板，形如：
+	<package name="st2" namespace="/" extends="struts-default">
+		<action name="deal" class="deal0">
+			<result name="success">/index.jsp</result>
+		</action>
+	</package>
+
+	package节点的name属性一般与项目名保持一致，这是一种实践。
+	package节点的namespace属性为/
+	package节点的extends属性为struts-default，位于struts2-core-2.1.8.1.jar/struts2-core-2.1.8.1.jar下
+
+	一个action节点定义一个Action，name即Action类名去掉Action后缀（小写首字母）（一般按此设计，可以任意取名），class与applicationContext.xml中的<bean>节点的id属性对应
+	result节点定义了要跳转的页面，相当于struts1中的forward
+
+	
+	<!-- 简化struts标签的格式，否则每个struts标签都被包裹在一个table中 -->
+	<constant name="struts.ui.theme" value="simple"></constant>
+
+	<!-- 设置编码格式 -->
+	<constant name="struts.i18n.encoding" value="utf-8"></constant>
+
+	<!-- 支持不重启服务修改配置文件 -->
+	<constant name="struts.devMode" value="true" />
+
+6.配置web.xml文件
+	添加filter，类型为FilterDispatcher
+	添加listener，类型为ContextLoaderListener
+	配置context-param，用来寻找spring配置文件applicationContext.xml
+	
+	形如：
+	<!-- 配置filter -->
+	<filter>
+		<filter-name>fl</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+		或
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>fl</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 配置listener -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- 配置context-param以发现applicationContext.xml -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>WEB-INF/classes/applicationContext.xml</param-value>
+	</context-param>
+
+7.建com.web.action包
+
+8.在action包下建普通类作为Action，如DealAction(名称随意)，包含形如的方法：
+	String methodName(){
+		/* 业务逻辑 */
+		return "success";
+	}
+	或
+	String execute(){
+		/* 业务逻辑 */
+		return "success";
+	}
+	
+	返回类型必须是String，方法名可以是execute（相当于普通的Action），或者自定义的方法名（相当于DispatchAction），在页面调用时略有不同
+	
+	如果要在action中使用request或session等作用域，有两种方法：
+		1)可以声明RequestAware接口或SessionAware接口
+		1)可以继承ActionSupport类，该类来自与xwork相关的包
+
+9.Form的使用
+	struts2没有实体的form，可以在action中定义private的属性，提供getter和setter方法作为form传递参数
+
+10.页面访问方法
+	1)对于普通action(指Action类中方法名为execute的)，使用***.action访问(首字母小写)
+	2)对于DispatchAction(指Action类中方法名为自定义的)，使用***!methodName.action访问(首字母小写)
+
+11.struts2页面标签
+	1.使用时导入<%@ taglib uri="/struts-tags" prefix="s" %>
+	2.<s:property value="#action.user.usrName"/>相当于<bean:write name="" property=""/>，而且可以处理null值
+	3.#action.user可以从action中取得user
+	4.要传递user对象的usrName值给action，与strut1类似，使用<s:textfield name="user.usrName"></s:textfield>。user是action中一个对象级的私有属性，提供了getter和setter方法，可以看做是form传参
+	5.可以使用session，request等作用域，有两种做法：
+		1)action类必须声明RequestAware，SessionAware相应接口
+		2)action类必须继承ActionSupport类，该类来自于xwork相关的包。
+			2.1)使用方法：
+			ActionContext ctx = ActionContext.getContext();
+			ctx.put(String key, Object value);	//在request中放置
+			ctx.getSession().put(String key, Object value);		//在session中放置

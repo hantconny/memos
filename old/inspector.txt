@@ -1,0 +1,11 @@
+attribute
+<optional><field>attrval</field>, </optional><optional><field>elemdesc</field></optional>
+
+phone
+<optional><field>phicc</field>, </optional><optional><field>pharea</field>, </optional><optional><field>phnumber</field>, </optional><optional><field>phextn</field>, </optional><optional><field>phcmnt</field></optional>
+
+name
+<optional><field>onmlast</field>, </optional><optional><field>onmfirst</field>, </optional><optional><field>onmmiddle</field>, </optional><optional><field>onmprefix</field>, </optional><optional><field>onmsuffix</field>, </optional><optional><field>onmdegree</field>, </optional><optional><field>onmtitle</field></optional>
+
+address
+<optional><field>stline1</field>, </optional><optional><field>stline2</field>, </optional><optional><field>stline3</field>, </optional><optional><field>stline4</field>, </optional><optional><field>city</field>, </optional><optional><field>state</field>, </optional><optional><field>zipcode</field>, </optional><optional><field>country</field>, </optional><optional><field>region</field>, </optional><optional><field>bill2flag</field>, </optional><optional><field>ship2flag</field>, </optional><optional><field>addrnum</field>, </optional><optional><field>addrinact</field>, </optional><optional><field>province</field>, </optional><optional><field>county</field>, </optional><optional><field>localaddr1</field>, </optional><optional><field>localaddr2</field>, </optional><optional><field>localaddr3</field>, </optional><optional><field>origzipcode</field>, </optional><optional><field>origstate</field>, </optional><optional><field>origcountry</field>, </optional><optional><field>origcity</field></optional>

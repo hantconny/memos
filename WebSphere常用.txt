@@ -1,0 +1,35 @@
+增加MaxHeapSize
+server1 ->
+	Java and Process Management -> Process Definition
+	Additional Properties -> Java Virtual Machine
+	Configuration -> Maximum Heap Size
+	Apply
+	Save
+	ReStart the server
+
+WebSphere/AppServer/profiles/Dmgr01/config/cells/<cellname>/nodes/<nodename>/servers/dmgr/server.xml
+<nodename>中通常包含manager来作为名字
+adding the initialHeapSize and maximumHeapSize attributes on the jvmEntries.
+
+
+命令行开关WebSphere
+启动顺序
+startManager
+startNode
+startServer server1
+
+关闭顺序
+stopServer server1
+stopNode
+stopManager
+
+stopManager和startManager的命令在WebSphere/AppServer/profiles/Dmgr01/bin/下
+其余命令在对应的profile的bin目录下
+
+即使stopSserver以后，仍然可以进入admin console
+
+
+在ND版本的WebSphere上创建新server（默认值有一个server1）
+见文档
+
+在workspace中deploy的mdm会被放到workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0下

@@ -1,0 +1,89 @@
+Application Context 有三种常用的
+ClassPathXmlApplicationContext
+	从classpath中加载xml, 会从classpath中搜索xxx.xml, 包括jar包. Spring.In.Action P18
+FileSystemXmlApplicationContext
+	从文件系统中加载xml, 只会从指定路径中搜索xxx.xml
+XmlWebApplicationContext
+	从web应用中加载xml
+	
+Spring的bean可以被配置成单例模式(singleton), 默认情况下就是单例模式
+<bean id="ticket" class="com.springinaction.springidol.Ticket" scope="singleton" />
+与<bean id="ticket" class="com.springinaction.springidol.Ticket" />是一样的
+也可以被配置成每次都new一个新的.
+<bean id="ticket" class="com.springinaction.springidol.Ticket" scope="prototype" />
+singleton(default)
+prototype
+request
+session
+global-session
+
+调用顺序是先构造, 然后init-method, 最后什么时候调destroy-method由Spring容器决定
+<bean id="classroom" class="com.ternwit.entity.Classroom" init-method="open" destroy-method="close"/>
+如果xml中的很多bean都需要这样init和destroy, 那么可以把这两个方法定义在beans节点中, 就是根节点
+<beans ... default-init-method="turnOnLights" default-destroy-method="turnOffLights">
+	<!-- some bean -->
+</beans>
+注意定义在beans节点里面就是default-init-method和default-destroy-method
+而定义在bean节点中就是init-method和destroy-method
+如果一些bean没有beans节点中定义的default方法, 不会有任何问题
+
+<property>也可以通过引入p这个namespace来替换
+<bean id="userBo" class="com.ternwit.bo.impl">
+	<property name="userDao" ref="userDao" />
+</bean>
+与
+<bean id="userBo" class="com.ternwit.bo.impl" p:userDao-ref="userDao">
+</bean>
+效果等同, 要使用p这个namespace, 必须引入: 
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:p="http://www.springframework.org/schema/p"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+inner bean
+<bean id="kenny" class="com.springinaction.springidol.Instrumentalist">
+	<property name="instrument">
+		<bean class="org.springinaction.springidol.Saxophone" />
+	</property>
+</bean>
+和
+<bean id="kenny" class="com.springinaction.springidol.Instrumentalist">
+	<property name="instrument" ref="...">
+	</property>
+</bean>
+效果一样, 但是inner bean无法被重用, 而且对阅读xml产生障碍
+
+Spring Transaction
+Spring对于事务的支持是通过Transaction Manager来代理的
+JCA
+JtaTransactionManager适用于分布式
+WebLogicJtaTransactionManager适用于WebLogic的分布式
+WebSphereUowTransactionManager适用于WebSphere的分布式
+
+Spring Transaction的propagation behavior
+PROPAGATION_MANDATORY
+PROPAGATION_NESTED
+PROPAGATION_NEVER
+PROPAGATION_NOT_SUPPORTED
+PROPAGATION_REQUIRED
+PROPAGATION_REQUIRES_NEW
+PROPAGATION_SUPPORTS
+
+isolation level
+concurrency会导致几种问题: 
+· dirty reads Tx1正在读取的数据已经被Tx2读取并准备修改(还没有提交), Tx2如果不修改数据, 一切OK,Tx2如果修改了数据,那么Tx1读取的数据就是错误的, 称为dirty read
+· nonrepeatable reads Tx1对同一条记录查询多次, 但是每次查询结果都不一样, 原因就是其他concurrency的Tx2,3,4...对该记录进行了修改
+· phantom reads Tx1先查询几条记录, Tx2并行插入了别的记录, 在随后的查询中, Tx1发现原先不存在的记录出现了. 称为幻读.
+
+ISOLATION_DEFAULT	使用底层DB默认值
+ISOLATION_READ_UNCOMMITTED	允许Tx1读取Tx2正在修改(尚未commit的数据), 可能导致dirty reads
+ISOLATION_READ_COMMITTED	允许Tx1读取Tx2已经修改(并commit的数据), 可以避免dirty reads, 但是不能避免nonrepeatable reads 和phantom reads
+ISOLATION_REPEATABLE_READ
+ISOLATION_SERIALIZABLE
+
+read-only
+作为优化设计, 如果一个transaction的所有操作都只是对底层DB进行读操作, 那么设置为read-only
+但是要求在一个新的transaction中, 所以propagation必须设置为required, required_new, nested
+
+transaction timeout

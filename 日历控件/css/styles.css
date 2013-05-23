@@ -1,0 +1,43 @@
+body{
+	text-align:center;	
+}
+.main_div{
+	width:800px;
+	text-align:left;
+	padding:0px;
+	margin:0px;
+}
+div,p,span,a,li,ul,input,button,td,th,textarea{	
+	font-family:verdana,ËÎÌו;
+	font-size:12.5px;
+}
+input,button,select{
+	height:20px;
+	border:solid 1px black;
+}
+textarea{
+	border:solid 1px black;
+}
+.cal tr th{
+	border:solid 1px blue;
+	width:80px;
+	height:30px;
+}
+.cal tr td{
+	border:solid 1px blue;
+	width:80px;
+	height:80px;
+}
+.input_table th{
+	text-align:right;
+}
+
+.input_title{
+	font-size:25px;
+	font-weight:bold;
+	padding:10px;
+}
+.data_table th{
+	background-color:gray;
+	color:#FFF;
+}

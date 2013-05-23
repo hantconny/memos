@@ -1,0 +1,79 @@
+@Controller("loginAction") 给Action层用，写在类上面
+@Service("userBo") 给Bo层用，写在类上面
+@Repository("userDao") 给Dao层用，写在类上面
+@Resource(name="staffDao") 给正常的bo, dao注入用，写在字段上
+
+applicationContext.xml中配置
+<context:annotation-config/>
+<context:component-scan base-package="com.ternwit" />
+
+
+用注解搞定事务
+<tx:annotation-driven transaction-manager="transactionManager" />
+不再使用切面等配置文件
+
+@Scope("prototype")
+在Bo中存在如分页参数这样的实例变量时，为了控制并发时不串，使用@Scope("prototype")，改变Spring默认的单例模式。
+@Override
+public List<Review> pageReviewList(Integer currentPage, Integer pageSize) {
+	String jpql = "select review from Review review order by review.reviewId asc ";
+	Map<String, Object> params = new HashMap<String, Object>();
+	/* 分页参数 */
+	Integer[] result = PaginationUtil.initPageParams(currentPage, pageSize);
+	List<Review> list = reviewDao.paginationByJPQL(jpql, params, result[0], result[1]);
+	return list;
+}
+
+
+与Struts1不同，Struts2默认是多例模式。
+但是交给Spring托管后，由于Spring默认是单例模式，所以Struts2的Action也变成了单例。
+因此在Action中必须加上@Scope("prototype")来保证Struts2的多例模式。
+
+注意：
+当Action中出现分页时，不应该在get/set中控制逻辑，而是继续保持简单的生成的get/set方法。并在具体涉及分页的方法中使用逻辑控制分页参数。
+/* 分页 */
+private Integer currentPage = 1;
+private Integer pageSize = 5;
+private Integer maxPage = -1;
+public Integer getCurrentPage() {
+	return currentPage;
+}
+
+public void setCurrentPage(Integer currentPage) {
+	this.currentPage = currentPage;
+}
+
+public Integer getPageSize() {
+	return pageSize;
+}
+
+public void setPageSize(Integer pageSize) {
+	this.pageSize = pageSize;
+}
+
+public Integer getMaxPage() {
+	return maxPage;
+}
+
+public void setMaxPage(Integer maxPage) {
+	this.maxPage = maxPage;
+}
+
+/** 点击左侧tree初始化查看评价列表 */
+public String viewReviewList() {
+	ActionContext ctx = ActionContext.getContext();
+	List<Review> list = reviewBo.pageReviewList(currentPage, pageSize);
+	ctx.put("reviewList", list);
+
+	Integer sum = reviewBo.countReview();
+	maxPage = sum / pageSize;
+	maxPage = sum % pageSize != 0 ? maxPage + 1 : maxPage;
+	
+	if (currentPage >= maxPage) {
+		this.currentPage = maxPage;
+	} else if (currentPage <= 1) {
+		this.currentPage = 1;
+	}
+	ctx.put("sum", sum);
+	return "review/list";
+}

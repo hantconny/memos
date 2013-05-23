@@ -1,0 +1,36 @@
+1.项目-右键属性-Java Build Path-Liberaries-Add Liberay-MyEclipse Liberaies-Hibernate 3.2 Annotations & Entity Manager 和 Hibernate 3.2 Core Libraries
+2.src下新建XML(Basci Templates)-命名为hibernate.cfg.xml-选择第一个Create XML file from a DTD file-Select XML Catalog Entry-选Hibernate Configuration DTD 3.0//EN
+3.配置hibernate.cfg.xml文件如图
+4.新建com.entity包，建实体
+5.在com.entity下-右键新建-XML(Basci Templates)-实体名.hbm.xml文件-Create XML file from a DTD file-Hibernate Mapping DTD 3.0//EN
+6.所有的都可以写在一个xml文件中
+<hibernate-mapping>
+	<class table="TBL_Qx" name="com.entity.Qx" schema="dbo" catalog="y2_zf">
+		<id name="qxid" column="qxid" type="java.lang.Integer">
+			<generator class="native"></generator>
+		</id>
+		<property name="qx" column="qx" type="java.lang.String" not-null="true"></property>
+	</class>
+</hibernate-mapping>
+
+<class>
+table:与DB表名对应，大小写不敏感
+name:对应类名的完全限定名，大小写敏感
+schema:数据路角色，dbo
+catalog:数据库名
+
+<id>主键列
+name:与按照实体类的get、set方法的获得属性名对应，符合bean法则
+column:DB中的列名，如果name与column一致，column可以省略
+type:Java端得数据类型，完全限定名
+length:数据长度
+
+<generator>
+class:主键列的产生方式native
+
+<property>
+name:与按照实体类的get、set方法的获得属性名对应，符合bean法则
+column:DB中的列名，如果name与column一致，column可以省略
+type:Java端得数据类型，完全限定名。如果不写：写入时与数据库一致，读取时与实体一致
+not-null:不为空，true
+

@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> New Document </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+<script>
+	// Create Javascript Object
+
+	// method 1
+	// 缺点:实例c1与原型Cat之间看不出联系
+	var Cat = {
+		name : '',
+		color : ''
+	}
+
+	var c1 = {};
+	c1.name="yellow";
+	c1.color="dark";
+
+	alert(c1.name + " with " + c1.color);
+	
+
+	// method 2
+	// 构造函数模式
+	function Dog(color, name){
+		this.color = color;
+		this.name = name;
+	}
+
+	var d1 = new Dog('yellow', 'kevin');
+
+	alert(d1.name + " with " + d1.color);
+	alert(d1['color'] + " using [] " + d1['name'] + d1['eat']);
+
+	// d1会有一个constructor属性, 指向Dog
+	alert(d1.constructor == Dog);	// true
+
+	// 和Java一样，也有一个instanceof
+	alert(d1 instanceof Dog);	// true
+
+	// 构造函数的问题, 浪费内存
+	// 对于Dog类固定的东西, 如方法, 不变的属性, 将他们指定给prototype对象
+	// 添加一个eat方法, 一样可以传递参数
+	Dog.prototype.eat = function(food){
+		alert("Dog likes " + food);
+	}
+
+	d1.eat('bones');
+
+	// 验证prototype
+	// isPrptotypeOf区分大小写
+	// 判断某个proptotype对象(Dog)和某个实例(d1)之间的关系
+	alert(Dog.prototype.isPrototypeOf(d1));	// true
+
+	// hasOwnProperty()
+	// 判断某一个属性到底是本地(d1)属性, 还是继承自prototype对象(Dog)的属性
+	// 直接在构造函数中定义的, 返回true
+	// 使用prototype定义的, 返回false
+	alert("d1有本地name属性：" + d1.hasOwnProperty('name'));	// true
+	alert("d1有本地eat方法：" + d1.hasOwnProperty('eat'));	// false
+
+	// in操作符
+	// 判断某个实例(d1)是否含有某个属性, 不管是不是本地属性
+	alert('color' in d1);
+	alert('eat' in d1);
+
+	// 使用in完成类似foreach
+	for(var prop in d1){
+		alert("d1[" + prop + "] = " + d1[prop]);
+	}
+
+</script>
+</HEAD>
+
+<BODY>
+
+</BODY>
+</HTML>

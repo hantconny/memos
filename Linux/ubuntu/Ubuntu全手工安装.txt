@@ -1,0 +1,75 @@
+切换到jdk.bin目录
+sudo cp jdk1.6.0_29.bin /usr/src将jdk的bin包拷到usr/src目录下, 会提示输入密码
+cd /usr/src
+sudo chmod u+x jdk1.6.0_29.bin更改执行权限
+sudo ./jdk1.6.0_29.bin执行bin包
+最后会提示按Enter继续
+sudo vi /etc/environment
+添加CLASSPATH和JAVA_HOME
+CLASSPATH=.:/usr/src/jdk1.6.0_29/lib
+JAVA_HOME=/usr/src/jdk1.6.0_29
+修改PATH
+PATH＝"<原先的值>:/usr/src/jdk1.6.0_29/bin"
+sudo update-alternatives --install /usr/bin/java java /usr/src/jdk1.6.0_29/bin/java 300
+sudo update-alternatives --install /usr/bin/javac javac /usr/src/jdk1.6.0_29/bin/javac 300
+sudo update-alternatives --config java
+随后输入java -version看是否配置成功
+
+
+切换到ant.tar.gz目录
+sudo cp apache-ant-1.8.2-bin.tar.gz /usr/src将ant的tar包拷到usr/src目录下, 会提示输入密码
+cd /usr/src
+tar zxvf apache-ant-1.8.2-bin.tar.gz
+sudo vi /etc/environment
+添加ANT_HOME
+ANT_HOME=/usr/src/apache-ant-1.8.2
+修改PATH
+PATH＝"<原先的值>:/usr/src/apache-ant-1.8.2/bin"
+修改CLASSPATH
+CLASSPATH=<原先值>:${ANT_HOME}/lib
+需要重启
+随后输入ant -version看是否配置成功
+
+
+下载apache包
+sudo cp httpd-2.2.21.tar.gz /usr/src
+cd /usr/src
+sudo tar zxvf httpd-2.2.21.tar.gz 
+sudo cd  httpd-2.2.21
+sudo ./configure --prefix=/usr/local/apache --enable-mods-shared=most --enable-ssl=shared --with-ssl=/usr/local
+如果提示如下错误：
+checking for C compiler default output file name... configure: error: C compiler cannot create executables
+原因是未安装libc6-dev ，执行
+sudo apt-get install build-essential
+然后从新执行
+sudo  ./configure --prefix=/usr/local/apache2 --enable-module=most --enable-rewrite --enable-shared=max --enable-so
+接着执行
+sudo make
+sudo make install
+sudo groupadd apache
+sudo useradd -g apache apache
+sudo passwd apache
+sudo chown -R apache:apache /usr/local/apache2
+修改apache的配置文件，执行
+sudo gedit /usr/local/apache2/conf/httpd.conf
+找到
+User deamon
+Group deamon
+修改成
+User apache
+Group apache
+找到
+#ServerName www.example.com:80
+改为
+ServerName *:80
+保存
+执行命令
+sudo /usr/local/apache2/bin/apachectl start
+启动apache
+打开浏览器，访问http://localhost
+如果一切顺利，应该可以看到apache的测试页面
+
+MySQL
+http://wiki.ubuntu.org.cn/MYSQL5FromSource
+PHP
+http://hi.baidu.com/ismayday/blog/item/9d1edbb470521d778ad4b24c.html

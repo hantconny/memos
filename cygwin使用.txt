@@ -1,0 +1,26 @@
+下载setup.exe
+安装xinit
+openbox
+openssh
+选装（非必需）
+nano
+vim
+
+在c:\cgywin\home\机器名\下建一个.xinitrc文件
+可以在cgywin的命令行输echo > .xinitrc
+然后复制 exec openbox
+保存文件
+
+先用putty登录到linux机器上
+export DISPLAY=:0.0
+
+然后打开cgywin
+输入xinit
+会新开一个xterm的窗口
+右键 ternimal > xterm
+在xterm窗口下会出一个终端，在终端输入
+ssh -Y -l 用户名 linux ip
+会提示输密码
+输入密码
+输入一个xclock测试一下，如果看见一个钟表，就说明成功了。
+

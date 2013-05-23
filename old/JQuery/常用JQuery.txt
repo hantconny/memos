@@ -1,0 +1,29 @@
+/* 阻止F5刷新页面 */
+$(document).keydown(
+	function () {
+		var f = event.keyCode;
+		if (116 == f) {
+			event.keyCode = 0;
+			event.cancelBubble = true;
+			return false;
+		}
+	}
+)
+
+/* 阻止在文本框中输入某些字符 */
+$('[name=year]').keydown(
+	function () {
+		var keyPress = event.keyCode;
+		/* 主键区0-9分别对应48-57 */
+		/* 小键盘区0-9分别对应96-105 */
+		if(keyPress < 48 || (keyPress > 57 && keyPress < 96) || keyPress > 105){
+			event.returnValue = false;
+		}
+		/* 退格-8 */
+		/* delete-46 */
+		/* 光标左上右下37-40 */
+		if (8 == keyPress || 46 == keyPress || keyPress ==37 || keyPress == 39) {
+			event.returnValue = true;
+		}
+	}
+)

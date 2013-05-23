@@ -1,0 +1,72 @@
+插件：
+Clover ETL community edition
+	plugin URL
+	http://designer.cloveretl.com/community-update
+	username:caizheng.c.z@gmail.com
+	password:caizheng
+	documentation URL
+	http://www.cloveretl.com/documentation/UserGuide/index.jsp
+
+Mule
+	http://dist.muleforge.org/mule-ide/updates-2.1.x/
+
+Subclipse
+	http://subclipse.tigris.org/update_1.6.x
+
+pyDev
+	http://pydev.org/updates
+
+Jetty
+http://download.eclipse.org/jetty/updates/jetty-wtp
+
+Aptana Studio
+http://download.aptana.com/studio3/plugin/install
+添加jQuery支持:
+	Commands > Bundle Development > Install Bundle > jQuery
+
+JInto - properties文件UTF8转码
+http://www.guh-software.de/eclipse/
+
+
+使用CXF发布WebService：
+http://help.eclipse.org/indigo/index.jsp?topic=%2Forg.eclipse.jst.ws.jaxws.doc.user%2Fgettingstarted%2Frequirements.html
+
+
+Web项目引用Java项目：
+Java项目的Build Path 和 Deployment Assembly不动
+Web项目的Build Path > Project，将Java项目引入
+Web项目的Deployment Assembly将Java项目引入
+Web项目的Deployment Assembly将Java项目中所有jar引入
+
+
+全局编码：
+Windows > Preferences > General > Workspace > Text file encoding > Other > UTF-8
+
+
+全局换行：
+Windows > Preferences > General > Workspace > New text file line delimiter > Other > Unix
+
+
+全局TAB定义：
+Windows > Preferences > General > Editors > Text Editors
+	Displayed tab width: 4
+	Insert spaces for tabs: checked
+	
+
+Java编辑器的TAB定义：
+Windows > Preferences > Java > Code Style > Formatter
+	Click Edit button > Indentation tab > General settings
+	Tab policy: Spaces only
+
+
+改键：
+Windows-Preference-General-Keys
+输入con，将Content Assist改为Alt+/Alt+/
+
+
+SVN标记不显示：
+Window > Preferences > General > Appearance > Label Decorations > check SVN
+
+
+删除不用的workspace记录
+Window > Preferences > General > Startup and Shutdown > Workspaces > 选择 > Remove

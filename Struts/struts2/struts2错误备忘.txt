@@ -1,0 +1,10 @@
+·当发生No result defined for action **Action and result input错误时的处理方法：
+	1.检查validate方法有没有通过
+	2.检查页面元素中是否有重命名，当元素重名时，后台action类对应的接收此同名参数的是变量没有写成数组时就会导致这种错误
+	3.检查页面标签错误，尤其是strut2标签，如<s:date>，<s:iterator>
+	4.解决方法：
+	在自己的action类中重写ActionSupport中的
+		void addActionError(String anErrorMessage)
+		void addActionMessage(String aMessage)
+		void addFieldError(String fieldName, String errorMessage)
+	这三个方法，在并在其实现代码中设置断点，监控传入的参数，并可获知页面的相关报错具体原因

@@ -1,0 +1,16 @@
+1.导入struts2-dojo-plugin-2.1.8.1.jar包
+2.在页面导入<%@ taglib uri="/struts-dojo-tags" prefix="sx"%>标签库
+3.放置一个<sx:head/>标签
+4.使用<sx:datetimepicker/>标签即可
+
+
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
+<head>
+    <sx:head />
+</head>
+<body>
+    <sx:datetimepicker name="date" />
+</body>
+
+
+但是和dojo整合使用时会丢失dojo的css样式，可能存在冲突，尚未解决。

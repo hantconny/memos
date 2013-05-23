@@ -1,0 +1,22 @@
+1.在ssh中加入log4j
+
+	1)在src目录下写一个log4j.properties
+		log4j.rootLogger=ERROR, stdout
+		log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+		log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+		log4j.appender.stdout.layout.ConversionPattern=D-D %d{ABSOLUTE} %30.30c %5.5p %m%n
+		log4j.logger.org.directwebremoting.log.startup=INFO5.5p %m%n
+		log4j.logger.org.directwebremoting.log.startup=INFO
+	
+	2)在web.xml中配置两个属性
+	
+	1.1)log4j.properties的文件位置:
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>WEB-INF/classes/log4j.properties</param-value>
+	</context-param>
+	
+	1.2)Spring监听器
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>

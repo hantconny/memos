@@ -1,0 +1,52 @@
+与Struts1不同，Struts2默认是多例模式。
+但是交给Spring托管后，由于Spring默认是单例模式，所以Struts2的Action也变成了单例。
+因此在Action中必须加上@Scope("prototype")来保证Struts2的多例模式。
+
+注意：
+当Action中出现分页时，不应该在get/set中控制逻辑，而是继续保持简单的生成的get/set方法。并在具体涉及分页的方法中使用逻辑控制分页参数。
+/* 分页 */
+private Integer currentPage = 1;
+private Integer pageSize = 5;
+private Integer maxPage = -1;
+public Integer getCurrentPage() {
+	return currentPage;
+}
+
+public void setCurrentPage(Integer currentPage) {
+	this.currentPage = currentPage;
+}
+
+public Integer getPageSize() {
+	return pageSize;
+}
+
+public void setPageSize(Integer pageSize) {
+	this.pageSize = pageSize;
+}
+
+public Integer getMaxPage() {
+	return maxPage;
+}
+
+public void setMaxPage(Integer maxPage) {
+	this.maxPage = maxPage;
+}
+
+/** 点击左侧tree初始化查看评价列表 */
+public String viewReviewList() {
+	ActionContext ctx = ActionContext.getContext();
+	List<Review> list = reviewBo.pageReviewList(currentPage, pageSize);
+	ctx.put("reviewList", list);
+
+	Integer sum = reviewBo.countReview();
+	maxPage = sum / pageSize;
+	maxPage = sum % pageSize != 0 ? maxPage + 1 : maxPage;
+	
+	if (currentPage >= maxPage) {
+		this.currentPage = maxPage;
+	} else if (currentPage <= 1) {
+		this.currentPage = 1;
+	}
+	ctx.put("sum", sum);
+	return "review/list";
+}

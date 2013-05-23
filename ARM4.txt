@@ -1,0 +1,32 @@
+编译安装ARM4.0http://huang.yunsong.net/2008/compiling-arm-sdk-windows.html
+注意有一个类报错，117行，因为注释没有用/**/圈起来
+要装vs2005，jdk用MDM的就可以，注意PATH，JAVA_HOME中不要有空格，例如Program Files
+
+D:\old\arm40sdk-1.1\java\org\opengroup\arm40\sdk\test\Arm4TestBase.java
+
+http://www.ibm.com/developerworks/cn/education/opensource/os-eclipse-arm/section6.html
+
+使用publish的话，MDM会被放在D:\old\MDM10\.metadata\.plugins\org.eclipse.wst.server.core\tmp0
+而不是正常的websphere的profile的installedApp下
+
+
+arm编译完以后（先c，后java，java有一个文件注释没有用/**/圈起来，修改一下再编译，注意加encoding什么的，看pdf）。
+
+编译完会在D:\old\arm40sdk-1.1\java\下找到三个jar文件
+arm40.jar
+arm40nullsdk.jar
+arm40sdk.jar
+
+mdm里面添加arm40sdk.jar和arm40.jar即可。
+
+import > Java EE Utility Jar
+然后会在描述文件的Utility JARs和lib下同时看到这连个jar文件出现，看tw文档，MDM10似乎不需要在配置DWLCommonServicesEJB的Java EE Module Dependence
+
+MDM9还没有试，下午试一下。
+
+
+让arm将监控结果输出到log文件
+新建一个环境变量叫ARM4_LOGFILE=D:\LOGFILE\arm4.log，注销当前用户或重启系统生效，这个可能与arm有关，不注销（重启）无法找到该环境变量
+
+重启websphere，不知道是否必须
+

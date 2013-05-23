@@ -1,0 +1,10 @@
+配置：
+Settings > Preferences... > New Document/Default Directory
+	Encoding	
+		选UTF-8 without BOM 并且选中 Apply to opened ANSI files
+	Format
+		选Unix
+		
+正则：
+"\w+,\w+,\w+"    >> ""
+

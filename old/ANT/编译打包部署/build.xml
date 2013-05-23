@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="WebApp" default="compile" basedir=".">
+	<property file="build.properties" />
+
+	<path id="path.svnant">
+		<fileset dir="${ant.path}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="path.svnant" />
+	
+	<target name="svncheckout">
+		<svnSetting id="svnparams" username="${svn.username}" password="${svn.password}" javahl="false" />
+		<svn refid="svnparams">
+			<checkout url="${svn.url}" destPath="${basedir}" />
+		</svn>
+	</target>
+
+	<target name="clean" description="clean">
+		<delete dir="${webroot.dir}/${dest.dir}" />
+		<mkdir dir="${webroot.dir}/${dest.dir}" />
+	</target>
+
+	<target name="compile" depends="clean" description="compile java source code">
+		<javac srcdir="${src.dir}" destdir="${webroot.dir}/${dest.dir}">
+			<compilerarg line="-encoding UTF-8" />
+			<classpath>
+				<fileset dir="${webroot.dir}/${lib.dir}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		<copy todir="${webroot.dir}/${dest.dir}/">
+			<fileset dir="${src.dir}/">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="war" depends="compile" description="package java class code into war file">
+		<war destfile="${ant.project.name}.war" webxml="${webroot.dir}/${xml}">
+			<classes dir="${webroot.dir}/${dest.dir}" />
+			<lib dir="${webroot.dir}/${lib.dir}" />
+			<fileset dir="${webroot.dir}" includes="**/*.*" />
+		</war>
+	</target>
+
+	<target name="deploy" depends="war" description="publish war to tomcat">
+		<copy todir="${tomcat.webapp.dir}">
+			<fileset dir="${basedir}">
+				<include name="**/*.war" />
+			</fileset>
+		</copy>
+	</target>
+
+</project>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> New Document </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+<script src="jquery-1.4.js"></script>
+<script>
+	$(function(){
+		// alert();
+		$("#tweet").keyup(function(){
+			var $content = $(this).val().length;
+			// alert($content);
+			// alert(140-$content);
+			$("#wordleft").text(140-$content);
+		})
+	})
+</script>
+</HEAD>
+
+<BODY>
+	»¹Ê£<span id="wordleft">140</span>¸ö×Ö
+	<input id="tweet">
+</BODY>
+</HTML>

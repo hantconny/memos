@@ -1,0 +1,65 @@
+1.切换目录：
+	cd /到根目录
+	如：cd /usr/share/tomcat 到usr/share/tomcat目录
+	cd ~到属于你的目录
+	如：cd ~会切换到/home/ternwit
+	cd ..
+	如：cd ..切换到上一级目录
+	
+pwd命令
+	显示当前目录
+
+2.善用tab键
+	如：输入cd 空格，按两下tab会提示
+
+3.删除文件/文件夹下所有的文件:
+	rm file_path/dir_path -r		删除该文件/文件夹下所有文件
+
+	如：rm /usr/share/tomcat -r		会删除/usr/share/tomcat目录以及包含的所有文件
+
+4.移动文件/文件夹到目标路径:
+	mv src_path target_path			移动文件/文件夹到新的目录
+	
+	如：mv /home/jimmy/apatch_tomcat_6 /usr/share/tomcat		会将/home/jimmy目录下的apatch_tomcat_6移动到/usr/share的tomcat文件夹下，原来的文件夹就没有了。
+	
+	该命令也可以重命名文件或文件夹:
+	mv old_file/old_dir new_file/new_dir		重命名文件/文件夹
+
+	如：mv /usr/share/apatch_tomcat_6 /usr/share/tomcat		会将/usr/share目录下的apatch_tomcat_6文件夹重命名为tomcat
+
+5.tar解压：
+	tar xf pageage_name
+	
+	如：tar xf apatch_tomcat_6.taz		会在当前目录下创建一个apatch_tomcat_6文件夹，并将apatch_tomcat_6.taz的内容解压到apatch_tomcat_6文件夹中
+
+6.安装配置phpmyadmin
+	1)在phpmyadmin文件夹下找到config.sample.inc.php
+	2)sudo gedit config.sample.inc.php打开
+	3)修改为你自己数据库的用户名密码，以MySQL为例：
+		$cfg['Servers'][$i]['controluser'] = 'root'; 
+		$cfg['Servers'][$i]['controlpass'] = 'ok';
+	4)配置cookie
+		$cfg['blowfish_secret'] = 'leosn';
+	5)保存
+
+	6)终端，切到/var/www/
+	7)在var/www目录下建立一个软链接，指向phpmyadmin
+		sudo ln -s /usr/share/phpmyadmin
+
+7.解决mysql中文乱码
+	打开/etc/mysql/my.cnf文件	sudo gedit /etc/mysql/my/cnf
+	在[client]下添加	default-character-set=utf8
+	在[mysqld]下添加	default-character-set=utf8
+	保存即可
+
+	进入phpmyadmin，查看字符编码：
+	SHOW VARIABLES LIKE 'character_set_%'可以看到所有编码都变成utf8
+
+
+8.软链接和硬链接的区别：
+	可以用一个类比来解释：
+	Linux下所有的文件名都是指针，指向文件具体存放的位置。
+	创建硬连接，相当于复制了这个指针，因此两个指针指向同一个地址。也就是说两个文件名指向完全相同的一个文件。
+	创建软连接，相当于创建了一个指向指针的指针，因此当被指对象删除时就失效了。
+
+9.启动：sudo /etc/init.d/mysql start 停止：sudo /etc/init.d/mysql stop 重启：sudo /etc/init.d/mysql restart

@@ -1,0 +1,49 @@
+1.	编写一个类，继承自TimerTask，TimerTask是一个抽象类。
+	实现run()方法，该方法来自Runnable接口中的run()。
+	在run()方法中编写要定时执行的逻辑。
+
+2.	编写测试类
+	实例化Timer类，采用无参构造
+	利用Timer实例调用schedule(TimerTask task, long delay, long period)方法
+	
+3.	参数说明：
+	task即刚才编写的继承自TimerTask的类实例
+	delay指定在测试类开始运行后多少毫秒开始执行计时器
+	period指定计时器每隔多少毫秒执行一次
+
+4.	文档说明
+	
+	参数：
+	task - 所要安排的任务。
+	delay - 执行任务前的延迟时间，单位是毫秒。
+	period - 执行各后续任务之间的时间间隔，单位是毫秒。 
+	
+	抛出： 
+	IllegalArgumentException - 如果 delay 是负数，或者 delay + System.currentTimeMillis() 是负数。 
+	IllegalStateException - 如果已经安排或取消了任务，已经取消了计时器，或者计时器线程已终止。
+
+5.	注意
+	也可以采用内部类的方式实现TimerTask。
+	编写如下：
+	tt.schedule(new TimerTask() {
+
+		@Override
+		public void run() {
+			System.out.println("test inner class");
+
+		}
+	}, 0, 1 * 1000);
+
+6.	让Servlet在Tomcat启动时加载
+	在<servlet>节点中配置<load-on-startup>0</load-on-startup>
+	The load-on-startup element indicates that this servlet should be loaded 
+ 	(instantiated and have its init() called) on the startup of the web 
+	application. The optional contents of these element must be an integer 
+	indicating the order in which the servlet should be loaded. If the value is a 
+	negative integer, or the element is not present, the container is free to load 
+ 	the servlet whenever it chooses. If the value is a positive integer or 0, the 
+ 	container must load and initialize the servlet as the application is deployed. 
+ 	The container must guarantee that servlets marked with lower integers are 
+ 	loaded before servlets marked with higher integers. The container may choose 
+	the order of loading of servlets with the same load-on-start-up value.
+	

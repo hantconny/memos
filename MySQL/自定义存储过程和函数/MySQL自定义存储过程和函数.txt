@@ -1,0 +1,72 @@
+·自定义FUNCTION
+·例子：
+CREATE FUNCTION fn_offsetMonth (offsetMonth INT) 
+RETURNS DATE
+BEGIN
+
+	DECLARE currentDate DATE DEFAULT CURRENT_DATE;
+	DECLARE resultDate DATE DEFAULT CURRENT_DATE;
+	
+	SET resultDate = DATE_ADD(CURRENT_DATE, INTERVAL offsetMonth MONTH);
+	
+	RETURN resultDate;
+	
+END //
+·语法结构：
+CREATE FUNCTION fn_functionName (varName TYPE) 
+RETURNS TYPE												-- VARCHAR(50), INT, DATE
+BEGIN
+
+	DECLARE currentDate DATE DEFAULT CURRENT_DATE;			--用DECLARE声明变量， 可以使用DEFAULT指定默认值
+	DECLARE resultDate DATE DEFAULT CURRENT_DATE;
+	
+	SET resultDate = DATE_ADD(CURRENT_DATE, INTERVAL offsetMonth MONTH);		--用SET给变量赋值， DATE_ADD是一个内置的函数，在当前之日上加上偏移多少个月
+	
+	RETURN resultDate;										--FUNCTION可以有RETURN， 但是PROCEDURE不能有RETURN
+															--FUNCTION不能有SELECT语句， 但是PROCEDURE可以有
+	
+END //
+
+
+
+·自定义PROCEDURE
+·例子：
+CREATE PROCEDURE xp_calDateOne (IN str VARCHAR(50)) 
+top: BEGIN
+	
+	DECLARE iResult INT DEFAULT 0;
+	DECLARE offsetMonth VARCHAR(50) DEFAULT '';
+	DECLARE idx INT DEFAULT 0;
+	
+	SET iResult = fn_validateShort(str);
+	
+	IF iResult != 1 THEN SELECT 'format error';
+		leave top;
+	END IF;
+	
+	SET idx = INSTR(str, '/');
+	SET offsetMonth = substring(str, 1, idx - 1);
+	
+	SELECT fn_offsetMonth(offsetMonth);
+	
+END //
+·语法结构：
+CREATE PROCEDURE xp_procedureName (IN varName TYPE) 		--用IN指定输入参数， 和FUNCTION不同，PROCEDURE不指定RETURN
+top: BEGIN													--top是用来LEAVE的一个flag
+	
+	DECLARE iResult INT DEFAULT 0;							--DECLARE部分和FUNCTION一样
+	DECLARE offsetMonth VARCHAR(50) DEFAULT '';
+	DECLARE idx INT DEFAULT 0;
+	
+	SET iResult = fn_validateShort(str);					--SET部分和FUNCTION一样
+	
+	IF iResult != 1 THEN SELECT 'format error';				--PROCEDURE不能RETURN， 但是可以SELECT一个结果集
+		leave top;											--LEAVE用来离开存储过程
+	END IF;
+	
+	SET idx = INSTR(str, '/');								--INSTR是一个函数，类似于Java的IndexOf()
+	SET offsetMonth = substring(str, 1, idx - 1);
+	
+	SELECT fn_offsetMonth(offsetMonth);						--PROCEDURE不能RETURN， 但是可以SELECT一个结果集
+	
+END //

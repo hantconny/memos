@@ -1,0 +1,107 @@
+1.添加spring支持
+	applicationContext.xml文件必须放在src目录下，并在web.xml下配置
+	<context-param>
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>WEB-INF/classes/applicationContext.xml</param-value>
+ 	</context-param>
+	指明applicationContext.xml的位置
+
+2.添加hibernate支持
+
+
+3.添加struts支持
+
+
+4.	反转entity，编写DAO，BO
+	正常配置applicationContext.xml文件，至此applicationContext.xml文件配置完成。
+	正常配置web.xml文件中的listener为ContextLoaderListener。
+	ssh整合完成
+
+
+----------------------------------------------以下是整合dwr-----------------------------------
+
+
+5.添加dwr包
+
+
+6.在Web-INF下新建dwr.xml文件：
+	1)新建xml
+		(第一个)Create XML file from a DTD file
+		(第二个)select XML Catalog entry
+		选//GetAhead Limited/DTD Direct Web Remoting 1.0//EN
+
+	2)配置dwr.xml
+		<allow>
+			<create javascript="ubo" creator="spring">
+				<param name="beanName" value="petBo"></param>
+				<param name="location" value="applicationContext.xml"></param>
+			</create>
+		</allow>
+
+		<create>节点下的JavaScript值是在页面使用的对象名，creator指定为spring，即使用spring托管
+		<param>节点下：
+			beanName指定applicationContext.xml文件中的<bean>id
+			location指定applicationContext.xml文件的位置，从src下开始，所以applicationContext.xml必须放在src下
+
+
+7.修改web.xml
+	1)添加一个dwr的Servlet
+		<servlet>
+			<servlet-name>dwr</servlet-name>
+			<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+		</servlet>
+		<servlet-mapping>
+			<servlet-name>dwr</servlet-name>
+			<url-pattern>/dwr/*</url-pattern>
+		</servlet-mapping>
+	
+		注意url-pattern按照规范必须是/dwr/*
+		至此web.xml配置完成
+
+
+
+8.页面使用dwr框架
+	1)导入两个必须的.js文件
+  		<script type="text/javascript" src="/test/dwr/engine.js"></script>
+  		<script type="text/javascript" src="/test/dwr/util.js"></script>
+
+	2)导入在dwr.xml文件中映射好的.js文件
+		<script type="text/javascript" src="/test/dwr/interface/ubo.js"></script>
+
+	3)例：在dwr.xml中配置了javascript="ubo"
+		<create javascript="ubo" creator="spring">
+			<param name="beanName" value="petBo"></param>
+			<param name="location" value="applicationContext.xml"></param>
+		</create>
+		那么在页面必须导入<script type="text/javascript" src="/test/dwr/interface/ubo.js"></script>
+
+	4)在js函数中可以直接使用ubo.调用其中的方法
+		<script type="text/javascript">
+  			function ckname(v){
+  				ubo.login(v,callback);
+				/* 调用时直接在方法中放置回调函数 */
+				/* 固定写法 */
+  			}
+  		
+			/* 回调函数的方法参数应该是由框架提供的boolean类型 */
+  			function callback(isok){
+  				alert(isok?"成功登陆":"登录失败");
+  			}
+  		</script>
+
+
+	5)在静态代码中直接调用js函数<input onblur="ckname(this.value)">
+
+
+summary:
+1.原理：
+	页面js调用-找到dwr.xml文件中JavaScript对应项
+	查看creator，说明是spring托管
+	查看param子节点的beanName，取得value
+	到spring配置文件(applicationContext.xml)中招到与value值匹配的<bean>id
+	读取到bean的class，调用其中的方法
+2.文件位置：
+	applicationContext.xml：src下
+	web.xml：WEB-INF
+	dwr.xml：WEB-INF
+	

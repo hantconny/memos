@@ -1,0 +1,45 @@
+-----------------
+使用前需要先导包
+-----------------
+<script type="text/javascript" src="/epet/js/jquery-1.4.js"></script>
+导包语句写在最上面，以后用到jQuery的地方不再导包，类似于jstl导入
+
+
+
+----------------
+取得对象的方法
+----------------
+/* 使用与css样式表的选择器类似的方法来取得对象 */
+
+/* 标签选择器 */
+$("input[name=stuName]")或$("[name=stuName]")							//取得所有name为stuName的input标签对象
+
+/* id选择器 */
+$("input[id=errInputId]")或$("[id=errInputId]")或$("#errInputId")				//取得所有id为errDivId的标签对象
+
+/* class选择器 */
+$("input[class=errInputClass]")或$("class=errInputClass")或$(".errInputClass")			//取得所有class为errDivClass的标签对象
+
+
+
+---------------
+方法调用
+---------------
+/* 类似于Java的内部类 */
+/* 在系统函数内部自定义一个匿名函数, 完成自定义功能 */
+/* js一定要在模板文本以后 */
+
+$("#errInputId").click(
+	function () {
+		alert(222);
+	}
+)
+
+
+---------------
+方法说明列表
+---------------
+	click()方法, 单击鼠标时触发, 同onClick()事件
+	hide()方法, 控制对象的隐藏, object.style.display = "none";
+	show()方法, 控制对象的显示, object.style.display = "block"
+	toggle(fn1,fn2)方法，点击第一次，调用fn1函数，点击第二次，调用fn2函数，来回切换

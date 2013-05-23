@@ -1,0 +1,56 @@
+1.数据库设计
+	数据库中不需要添加一个标识位，因为操作都集中在对session和application对象上。
+	Hibernate正常反转实体，配置***.hbm.xml文件。
+
+2.web.xml配置
+	1)需要配置session的超时时间
+	<session-config>
+		<session-timeout>1</session-timeout>
+	</session-config>
+
+	2)需要配置监听类
+	除了正常监听Spring以外，还需要监听实现了HttpSessionListener接口的实体类User
+	<listener>
+		<listener-class>com.entity.UserInfo</listener-class>
+	</listener>
+
+3.实体类
+	1)实体类需要声明HttpSessionListener接口
+	2)实现其中的public void sessionDestroyed(HttpSessionEvent event)方法
+		
+	说明：sessionDestroyed方法在session销毁之前执行，意思是执行完该方法，session就失效了。
+	
+	3)见具体示例
+
+4.Action中的实现
+	见具体示例
+
+5.实现思路
+	登录部分：
+	在application中保存一个维护在线用户的List集合onlines
+	每次登录时，先从application中取出onlines集合
+	遍历onlines集合
+	对比当前即将登录用户curLogin的usrName和从onlines中取出的在线用户logged的usrName
+	相同，说明该用户已在线，此次登录为非法登入，拒绝登录。
+	不同，将当前登录用户curLogin保存到session(在struts2中是一个Map)
+	并将当前登录用户curLogin保存到onlines集合
+
+	用户注销部分：
+	先从session中取出login属性，定义为一个expireUser(即一个User对象)
+	然后从application中取出onlines集合
+	从onlines集合中移除expireUser对象
+	从session中移除login属性
+
+	sessionDestroyed部分：
+	该方法在销毁session之前调用，针对单个的，即将超时或销毁的session。
+	所以，先从该session中取出login属性，定义为一个expireUser(即一个User对象)
+	判断expireUser是否为空
+	为空，说明是正常退出，已经在user.action的logout()方法中处理了。
+	否则，说明是异常退出。
+	将expireUser的usrName保存为一个临时变量tempName
+	然后通过HttpSessionEvent对象拿到ServletContext(见示例的实现)，即application
+	从application中取出onlines集合
+	遍历onlines集合
+	对比从遍历出的每个User对象logged中取出的usrName和临时变量tempName
+	相同，说明该用户异常下线，从onlines中移除对应的User对象
+	break

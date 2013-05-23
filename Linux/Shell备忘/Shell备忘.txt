@@ -1,0 +1,182 @@
+以
+	#!/bin/bash
+或
+	#!/bin/sh
+开头
+
+
+# 注释
+"" '' \都会转义#
+我们用##作为注释开始好了
+
+
+$parameter
+例如：
+a=2335
+echo $a						## 输出2335
+
+
+${}
+例如：
+a=2335
+echo ${a}					## 输出2335
+
+拼接字符串
+语法格式：
+${parameter}value								## value也可以是${parameter}形式的变量${param1}${param2}
+例如：
+your_id=${USER}-on-${HOSTNAME}					## USER 和 HOSTNAME 是常量 -on-只是字符串
+echo ${your_id}									## 输出 ternwit-on-localhost.localdomain
+
+## 暂未理解
+## 设置默认值
+## 语法格式${parameter-defaultValue} 或 ${parameter:-defaultValue}
+## defaultUser=									## 设置defaultUser为空
+## echo ${defaultUser:-CAI}						## 输出CAI 如果defaultUser为空 使用默认值
+## defaultUser=AAA									## 设置defaultUser为AAA
+## echo ${defaultUser-CAI}							## 输出AAA 此时defaultUser有值 不用默认值
+
+
+; 终止普通语句
+
+
+;; 终止case语句
+例如：
+variable='abc'
+case "$variable" in 
+abc) echo '$variable in abc';;
+xyz) echo '$variable in zyx';;
+esac
+
+
+"" 双引号会保留空格
+例如：
+hello="A B  C   D"	## 定义了一个变量 值为字符串"A B  C   D"
+echo $hello			## 输出A B C D 不保留多余空格 保留一个
+echo "$hello"		## 输出A B  C   D 与原先定义的一样
+
+
+\ 负责转义
+例如：
+echo "\$hello"		## 输出$hello字符串 而不是hello变量的值
+
+
+'' 单引号不会引用$开头的变量 纯输出
+例如：
+echo '$hello'		## 输出字符串$hello
+
+
+> 的使用
+例如：
+echo "## This is a comment" > makefile					## 将字符串值## This is a comment写入到名为makefile的文件中
+														## 如果makefile文件存在 文件内容会被替换
+														## 如果makefile文件不存在 将创建该文件
+
+echo > fileName											## 创建一个名为fileName的空文件
+
+														
+>> 的使用
+例如：
+echo "## This is also a comment" >> makefile			## 将字符串值## This is also a comment写入到名为makefile的文件中
+														## 如果makefile文件存在 新内容会追加到原文件末尾
+														## 如果makefile文件不存在 将创建该文件
+
+
+变量声明
+可以在同一行 用空格分开
+例如：
+var1=21 var2=22 var3=23		## 声明了三个变量var1, var2, var3
+
+
+变量赋值
+例如：
+a=23				## 
+也可以使用let
+例如：
+let b=23			## 只能用作整数运算
+
+
+读取用户输入并赋值
+例如：
+echo -n "Enter \"a\" "						## 屏幕输出Enter "a"
+											## -n 参数 去掉输入时的换行字符
+read a										## 读取用户输入 并赋值给a
+echo "The value of \"a\" is now $a."		## 屏幕输出The value of "a" is now a的值
+
+
+``的使用
+用来将`command`中的结果赋值给变量
+例如：
+a=`echo Hello`								## a的值是echo Hello命令的结果 Hello字符串
+b=`ls -l`									## b的值是ls -l命令的结果
+
+
+$()和``的效果一样
+用来将$(command)中的结果赋值给变量
+例如：
+a=$(echo Hello)								## a的值是echo Hello命令的结果 Hello字符串
+b=$(ls -l)									## b的值是ls -l命令的结果
+
+
+cat 命令
+例如：
+cat > newFile << EOF
+>This is file content of newFile
+>EOF
+
+## cat newFile << EOF会创建一个名为newFile的文件
+## 并且启动编辑 开始编辑文件内容
+## 最后一个EOF作为结束命令
+
+
+local 声明局部变量
+例如：
+func ()
+{
+	local loc_var=23						## 声明名为loc_var的局部变量
+	global_var=999							## 没有以local标注的变量默认是全局变量
+											## 但是 在func没有被调用前 所有声明在func中的变量在func体外均不可见
+}
+
+
+basename 命令								## 常用来获取文件名
+语法 basename String [ Suffix ]
+截去最后一个/(forward slash)之前的所有字符串
+如果指定了 suffix 则去除后缀
+basename ~/usr/share/apache/tomcat/bin/startup.sh .sh					## 指定了后缀 返回startup
+basename ~/usr/share/apache/tomcat/bin/startup.sh 						## 返回startup.sh
+
+
+if 参数
+## 字符比较
+	= 两个字符相等
+	!= 两个字符不等
+	-n 非空串
+	-z 空串
+## 数字比较
+	-eq 等于
+	-ne 不等于
+	-gt 大于
+	-lt 小于
+	-le 小于等于
+	-ge 大于等于
+
+	
+间接引用
+a=z
+z=4
+echo ${!a}				## 4
+
+
+$# 
+参数的总数量
+func(){
+	if [$# -ne 2]							## 如果调用func时传入参数个数不等于2
+	then
+		echo 'Arg number is not 2'
+	fi
+}
+
+vi操作
+:q不保存退出
+:wq保存后退出

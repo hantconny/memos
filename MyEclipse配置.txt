@@ -1,0 +1,15 @@
+General > Workspace > Text file encoding > UTF-8
+General > Workspace > New text file line delimiter > Unix
+General > Editors > Text Editors
+	Displayed tab width: 4
+	Insert spaces for tabs: checked
+Java > Code Style > Formatter
+	Click Edit button > Indentation tab > General settings
+	Tab policy: Spaces only
+General > Editors > File Associations > File types 增加*.bat > Associated editors 增加Text Editor 
+General > Editors > Text Editors > Show line numbers
+Java > Installed JREs > 用MyEclipse默认的Sun JDK 1.6.0_13
+
+MyEclipse的Workspaces\.metadata\.me_tcat\conf
+<Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" URIEncoding="UTF-8"/>
+如果用的是单独的Tomcat，修改对应的Tomcat配置

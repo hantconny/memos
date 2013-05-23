@@ -1,0 +1,143 @@
+﻿下载Berkeley Database名称为db-4.8.30.tar.gz
+cd 到tar包的目录
+sudo cp db-4.8.30.tar.gz /usr/src拷贝到/usr/src目录
+cd /usr/src
+sudo tar zxvf db-4.8.30.tar.gz
+cd db-4.8.30
+cd db-4.8.30/build_unix
+sudo ../dist/configure
+sudo make
+sudo make install
+该软件默认是安装在/usr/local/BerkeleyDB.4.8目录下
+安装完成后，要把/usr/local/BerkeleyDB.4.8/lib的库路径加到/etc/ld.so.conf文件内
+sudo gedit /etc/ld.so.conf开始编辑，添加如下行
+include /usr/local/BerkeleyDB.4.8/lib
+## 上面这步不做似乎也可以成功，因为一开始安装的是4.6的，只添加了4.6的lib路径，后来安装4.8的并没有添加进去
+## 测试后发现不要配置
+
+
+## 前提似乎是用sudo apt-get install ldap-utils安装该软件包，用来命令行执行LDAP的search指令
+下载OpenLDAP名称为openldap-stable-20100719.tgz
+cd 到tar包的目录
+sudo cp openldap-stable-20100719.tgz /usr/src拷贝到/usr/src目录
+cd /usr/src
+sudo tar zxvf openldap-stable-20100719.tgz
+cd openldap-2.4.23
+sudo env CPPFLAGS="-I/usr/local/BerkeleyDB.4.8/include" LDFLAGS="-L/usr/local/BerkeleyDB.4.8/lib -R/usr/local/BerkeleyDB.4.8/lib" LD_LIBERARY="/usr/local/BerkeleyDB.4.8/lib" ./configure --prefix=/usr/src/openldap --enable-ldbm  
+## LDFLAGS中的-R部分和LD_LIBERARY部分未测试是否必须
+## 测试后发现不需要LDFLAGS中的-R部分和LD_LIBERARY部分
+sudo make depend
+sudo make
+sudo make test
+## make test需要测试58步，耗时大概20分钟左右
+## 第一次安装一定要执行此步，避免以后安装出错
+sudo make install
+配置LDAP
+cd /usr/src/openldap/etc/openldap
+sudo gedit slapd.conf
+修改
+include         /usr/src/openldap/etc/openldap/schema/core.schema
+include         /usr/src/openldap/etc/openldap/schema/corba.schema
+include         /usr/src/openldap/etc/openldap/schema/cosine.schema
+include         /usr/src/openldap/etc/openldap/schema/inetorgperson.schema
+include         /usr/src/openldap/etc/openldap/schema/misc.schema
+include         /usr/src/openldap/etc/openldap/schema/openldap.schema 
+include         /usr/src/openldap/etc/openldap/schema/nis.schema 
+include         /usr/src/openldap/etc/openldap/schema/samba.schema
+## samba.schema在目录下找不到，所以自己安装的时候注释掉了
+
+
+####################################################################### 
+# ldbm database definitions 
+####################################################################### 
+  
+database        bdb 
+suffix          "dc=ternwit,dc=com"
+rootdn          "cn=root,dc=ternwit,dc=com"
+# Cleartext passwords, especially for the rootdn, should 
+# be avoid.  See slappasswd(8) and slapd.conf(5) for details. 
+# Use of strong authentication encouraged. 
+rootpw          {SSHA}mjkiuPt0wXhpxxkdiOOO00000000AKq0by
+## 设置root密码，
+## 用slappasswd， 默认以SSHA加密了
+# The database directory MUST exist prior to running slapd AND  
+# should only be accessible by the slapd and slap tools. 
+# Mode 700 recommended. 
+directory       /usr/src/openldap/var/openldap-data     
+# Indices to maintain 
+index   objectClass     eq
+
+
+## ACL configure start ##
+
+access to  attr=userPassword
+        by self write
+        by anonymous auth
+access to attr=mail
+        by dn="cn=root,dc=ternwit,dc=com"
+        by self write
+        by anonymous auth
+access to dn=".*,dc=ternwit,dc=com"
+        by self write
+        by * read
+		
+## ACL configure end ##
+
+
+
+
+·Windows安装openLDAP
+从http://www.userbooster.de/downloadablecontent/freeware/openldap-for-windows.msi下载openLDAP安装包
+正常以管理员身份安装
+并不像网上说的需要配置slapd.conf文件
+直接用默认的slapd.conf配置，写一个JavaTest类进行连接测试
+测试类如下：
+
+package com.ternwit.test;
+
+import java.util.Properties;
+
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.InitialDirContext;
+
+public class JavaConnectTest {
+
+	public static final String server = "169.254.30.82"; // 每次都要重新获取保证IP正确
+	public static final String suffix = "dc=maxcrc,dc=com";	// slapd.conf默认配置
+	public static final String rootdn = "cn=Manager," + suffix;	// slapd.conf默认配置
+	public static final String rootpw = "secret";	// slapd.conf默认配置
+
+	public static void main(String[] args) {
+
+		Properties env = new Properties();
+		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+		env.put(Context.PROVIDER_URL, "ldap://" + server + "/" + suffix);
+		env.put(Context.SECURITY_AUTHENTICATION, "simple");
+		env.put(Context.SECURITY_PRINCIPAL, rootdn);
+		env.put(Context.SECURITY_CREDENTIALS, rootpw);
+		DirContext ctx = null;
+		try {
+			ctx = new InitialDirContext(env);
+			System.out.println("认证成功");
+		} catch (javax.naming.AuthenticationException e) {
+			e.printStackTrace();
+			System.out.println("认证失败");
+		} catch (Exception e) {
+			System.out.println("认证出错：");
+			e.printStackTrace();
+		}
+
+		if (ctx != null) {
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				// ignore
+			}
+		}
+		System.exit(0);
+	}
+
+}
+首次连接使用slapd.conf的默认配置可以成功，LDAP服务重启后失败

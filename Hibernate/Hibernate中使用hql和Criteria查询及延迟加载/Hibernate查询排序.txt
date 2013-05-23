@@ -1,0 +1,75 @@
+查询主表时，往往会手工加载一些从表中的Set集合，但是Set集合是无序的。
+
+要使用排序，需要在主表映射实体类的hbm.xml文件中进行配置
+
+
+/* 一对多配置如下 */
+
+以Chance表和Plan表的一对多关系为例：
+Chance表是销售机会表，主表，一个销售机会包含多个销售计划
+Plan表是销售计划表，从表
+查询Chance时，需要加载出Chance对应的所有Plan。
+
+Chance.java中：
+
+正常配置Set集合，使用HashSet实现
+
+private Set<Plan> plans = new HashSet<Plan>();
+
+public Set<Plan> getPlans() {
+	return plans;
+}
+
+public void setPlans(Set<Plan> plans) {
+	this.plans = plans;
+}
+
+
+
+Chance.hbm.xml中：
+
+在set中添加order-by属性
+需要注意的是，order-by应该填写按数据库中哪个字段排序。
+可以指定desc或asc(默认)
+
+<set name="plans" order-by="pla_date desc">
+	<key column="pla_chc_id"></key>
+	<one-to-many class="com.entity.Plan"/>
+</set>
+
+其余配置不变
+
+
+/* 多对多配置如下 */
+
+以Role表和Right表的多对多关系为例：
+Role表是用户角色表，主表，一个用户角色对应多个用户权限
+Plan表是用户权限表，主表，一个用户权限对应多个用户角色
+rf_role_right表，关系表，用以维护两表关系
+多对多关系只需要在一方中进行配置，选择在Role表中配置。
+
+Role.java中：
+
+正常配置Set集合，使用HashSet实现
+
+private Set<Right> rights = new HashSet<Right>();
+
+public Set<Right> getRights() {
+	return rights;
+}
+
+public void setRights(Set<Right> rights) {
+	this.rights = rights;
+}
+
+
+Role.hbm.xml中：
+
+在many-to-many中添加order-by属性
+需要注意的是，order-by应该填写按数据库中两张主表中的哪个字段排序。
+可以指定desc或asc(默认)
+
+<set name="rights" table="sys_role_right">
+	<key column="rf_role_id"></key>
+	<many-to-many class="com.entity.Right" column="rf_right_code" order-by="right_code"></many-to-many>
+</set>

@@ -1,0 +1,14 @@
+SQL分页使用
+1.编写PageDao接口，声明public List select(String sql)和public int getCount(String sql)方法签名
+2.BaseDao中增加一个public int getCount(String sql)方法
+3.所有涉及分页的***Dao接口只extends PageDao，其余无动作
+4.所有涉及分页的***DaoImpl类extends BaseDao，implements ***Dao接口，实现PageDao接口的select方法
+5.所有涉及分页的***Bo接口增加一个findByPage()方法，参数列表同分页类的构造函数(缺省PageDao类型的参数)，返回类型为分页类
+6.Form类不变
+7.Action类调用***BoImpl类的findByPage()方法，传入相应参数，并将返回的分页类实例保存到作用域
+8.页面从相应作用域中取出分页类实例，调用getCurList()反法取得集合
+
+JS分页使用
+1.Action中实例化分页类，传入总集合和当前页，并保存到作用域
+2.页面从作用域中取出分页类属性，进行操作。
+3.其余不变

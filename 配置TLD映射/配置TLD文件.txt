@@ -1,0 +1,47 @@
+1.在WEB-INF目录下
+	new-other-选择TLD-next
+	Version------------2.0
+	Tlibversion--------1.2
+	Jspversion---------2.0
+	填写name和shortname以及uri
+	finish完成新建
+
+2.建立映射
+	
+ 	<uri>com.cz</uri>
+	<function>
+		/* jsp页面中EL调用时使用的名字 */
+		/* ${cz:makeNum} */
+	 	<name>makeNum</name>
+		/* 函数所在的java类的完全限定名 */
+	 	<function-class>com.test.RandNumber</function-class>
+		/* 对应的函数签名 */
+	 	<function-signature>int giveNum()</function-signature>
+	</function>
+
+	
+ 	<uri>com.cz</uri>
+	<function>
+	 	<name>makeWord</name>
+	 	<function-class>com.test.RandNumber</function-class>
+		/* 如果有参数，必须为每个参数制定完全限定类名 */
+		/* 基本类型可以不指定 */
+	 	<function-signature>String giveWord(com.entity.User)</function-signature>
+	</function>
+	
+	
+ 	<uri>com.cz</uri>
+	<function>
+ 		<name>sayHi</name>
+ 		<function-class>com.test.SayHi</function-class>
+		/* 也可以返回一个Object类型 */
+		/* 页面输出时会使用Object的toString()方法 */
+ 		<function-signature>Object sayHi(java.lang.String)</function-signature>
+ 	</function>
+
+3.jsp页面调用
+	使用<%@ taglib uri="myUri" prefix="myPrefix"%>导入tld文件
+	如2中，对应的uri值为com.cz
+	${myPrefix: sayHi('jim')}
+	
+	

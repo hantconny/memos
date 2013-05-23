@@ -1,0 +1,12 @@
+单一的Spring需要(没有AOP)
+spring-core-VERSION.jar
+spring-beans-VERSION.jar	// BeanFactory在这个包中
+spring-context-VERSION.jar	// ApplicationContext在这个包中
+common-logging-VERSION.jar
+
+AOP需要多加, 且必须是3.0以后的Spring版本
+org.springframwork.aop-VERSION.jar
+org.springframwork.asm-VERSION.jar
+org.springsource.org.aoplliance-VERSION.jar
+org.springframwork.expression-VERSION.jar
+org.springsource.org.aspectj.weaver-VERSION.jar

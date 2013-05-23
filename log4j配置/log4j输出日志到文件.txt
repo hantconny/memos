@@ -1,0 +1,20 @@
+log4j.property配置
+
+log4j.rootLogger=DEBUG, stdout
+log4j.appender.stdout=org.apache.log4j.RollingFileAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss}  %p %c{1}.%M(%L) | %m%n
+log4j.appender.stdout.MaxFileSize=100KB
+log4j.appender.stdout.MaxBackupIndex=1  
+log4j.appender.stdout.file=E:\\output.log
+
+
+java文件
+
+private Logger logger = Logger.getLogger(HelloLog4j.class);
+// 记录debug级别的信息  
+logger.debug("This is debug message.");  
+// 记录info级别的信息  
+logger.info("This is info message.");  
+// 记录error级别的信息  
+logger.error("This is error message.");  

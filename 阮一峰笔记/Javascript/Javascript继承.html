@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE> New Document </TITLE>
+<META NAME="Generator" CONTENT="EditPlus">
+<META NAME="Author" CONTENT="">
+<META NAME="Keywords" CONTENT="">
+<META NAME="Description" CONTENT="">
+<script>
+	/************************* method 1 *************************/
+	/* 使用方法: 在子类构造函数中添加 Parent.apply(this, arguments) */
+	/* 使用范围: 仅针对父类的属性都写在构造函数内的情况, 对使用Parent.prototype.properties无效 */
+	
+	// 父类
+	function Animal(){
+		this.species = 'Animal';
+	}
+	// 父类的eat方法
+	Animal.prototype.eat = function(){
+		alert('方法一: eat方法--Animal eating');
+	}
+
+	// 子类
+	function Cat(name, color){
+		// 在子类中添加apply方法
+		Animal.apply(this, arguments);
+		this.name = name;
+		this.color = color;
+	}
+
+	// 创建子类实例
+	var c1 = new Cat('kitty','yellow');
+	// 弹出父类的属性值
+	alert('方法一: 继承自Animal的属性--' + c1.species);	// Animal
+
+	// c1.eat();	// 无效调用
+
+	/************************* method 2 *************************/
+	/* 使用方法: new 一个父类对象，并赋值给子类的prototype属性, 同时更正子类的构造函数 */
+	/* 使用范围:  */
+
+	// 父类
+	function AnimalTwo(){
+		this.species = 'Animal';
+	}
+	// 父类的eat方法
+	AnimalTwo.prototype.eat = function(){
+		alert("方法二: eat方法--AnimalTwo eating");
+	}
+
+	// 子类
+	function CatTwo(name, color){
+		this.name = name;
+		this.color = color;
+	}
+
+	// 将Cat的prototype对象指向一个Animal的实例
+	CatTwo.prototype = new AnimalTwo();
+	// 任何一个prototype对象都有一个constructor属性, 指向它的构造函数
+	// 也就是说, Cat.prototype 这个对象的constructor属性, 是指向Cat的
+	// 第一步已经删除了这个prototype对象原来的值, 所以新的prototype对象没有constructor属性
+	// 所以我们必须手动加上去, 否则后面的"继承链"会出问题。
+	CatTwo.prototype.constructor = CatTwo;
+
+	alert('方法二: 查看CatTwo的构造函数--' + CatTwo.prototype.constructor);
+
+	var c2 = new CatTwo('kevin','white');
+	alert('方法二: 继承自AnimalTwo的属性--' + c2.species);
+
+	c2.eat();	// 有效调用
+
+	/************************* method 3 *************************/
+	/* 使用方法: 将父类的prototype赋值给子类的prototype, 并更正子类的构造函数 */
+	/* 使用范围:  */
+	/* 注意问题: 该方法会导致子类构造函数修改为父类, 不建议使用 */
+
+	// 父类
+	function Dog(food){
+		this.food = food;
+	}
+	// 父类的eat方法
+	Dog.prototype.eat = function(){
+		alert("方法三: eat方法--Dog eat");
+	}
+
+	// 子类
+	function Wolf(name, color){
+		this.name = name;
+		this.color = color;
+	}
+
+	Wolf.prototype = Dog.prototype;		// line 1
+	// 记住prototype对象都持有一个constructor属性
+	// line2是有问题的, line1在替换prototype时, 已经将子类Wolf的构造函数替换为父类Dog的构造函数
+	Wolf.constructor = Wolf;	// line 2
+	alert('方法三: 查看子类的构造函数--' + Wolf.prototype.constructor);	// 弹出的是Dog的构造函数
+
+	var w1 = new Wolf('will','gray');
+	w1.eat();	// 没有问题
+	w1.food = 'meat';	// 对子类继承下来的属性赋值
+	alert('方法三: 对父类的属性赋值--' + w1.food);		// OK
+
+
+	/************************* method 4 *************************/
+	/* 使用方法: 综合method 2 并利用空对象封装方法 */
+	/* 使用范围:  */
+	/* 注意问题: 该方法会导致子类构造函数修改为父类, 不建议使用 */
+
+	// 封装的继承方法
+	function extend(Child, Parent){
+		var Temp = function(){};
+		Temp.prototype = Parent.prototype;
+		Child.prototype = new Temp();
+		Child.prototype.constructor = Child;
+		// 为子对象设一个uber属性, 这个属性直接指向父对象的prototype属性
+		// 这等于是在子对象上打开一条通道, 可以直接调用父对象的方法
+		// 这一行放在这里，只是为了实现继承的完备性，纯属备用性质
+		Child.uber = Parent.prototype;
+	}
+
+	// 父类
+	function Father(name, color){
+		this.name = name;
+		this.color = color;
+	}
+	// 父类的say方法
+	Father.prototype.say = function(name){
+		alert("方法四: say方法--hello, " + name);
+	}
+
+	// 子类
+	function Children(age){
+		this.age = age;
+	}
+	
+	// 调用封装好的继承方法
+	extend(Children, Father);
+	
+	// 使用子类构造函数创建实例
+	var child1 = new Children(18);
+	// 对父类属性赋值, 并调用父类方法
+	child1.say(child1.name = 'jimmy');
+	alert('方法四: 查看子类的构造函数--' + Children.prototype.constructor);
+	alert('方法四: 查看instance--' + (child1 instanceof Children));
+</script>
+</HEAD>
+
+<BODY>
+
+</BODY>
+</HTML>

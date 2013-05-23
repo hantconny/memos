@@ -1,0 +1,10 @@
+命令行
+netstat -ano
+说明：	查看端口使用情况
+使用：	记住PID
+		任务管理器查看 --> 选择行 --> 选择PID
+
+备注：	有时候CMD中不识别netstat 加入环境变量 PATH  C:/windows/system32
+		查询16000端口被谁占用, findstr只是一个查找字符串命令, 还需要人工判断
+
+示例：	netstat -aon|findstr "16000"

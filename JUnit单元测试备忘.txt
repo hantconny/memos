@@ -1,0 +1,46 @@
+1.创建测试类
+	右键新建other-Java-JUnit-JUnit Test Case
+	填写类名。在6.5中会提示无法找到junit，ctrl+1，Add JUnit 3 to the build path，添加Junit3类库即可。
+
+
+2.编写测试
+	/* 加载Spring配置文件 */
+	ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+	
+	/* 获得dao类 */
+	ChanceDao dao = (ChanceDao) ctx.getBean("chanceDao");
+						chanceDao是在applicationContext.xml中配置的一个bean的id
+	
+	/* 调用dao类方法 */
+	List<Chance> list = dao.select("from Chance");
+
+
+3.查看测试结果
+
+
+
+PS:
+注解：
+	@Test测试运行的方法
+	public void test(){
+		for (float f : arrs) {
+			System.out.println(f);
+		}
+	}
+	@BeforeClass在测试启动前执行
+	public static void init(){
+		System.out.println("初始化数组...");
+		arrs = new ForEachFloat().getArr(num);
+	}
+	
+	@AfterClass在测试启动后执行
+	public static void destroy(){
+		System.out.println("销毁数组...");
+		arrs = null;
+	}
+
+
+	@BeforeClass和@AfterClass必须为静态类
+
+summary:
+	JUnit测试解决了spring中不编写action就无法测试dao层方法的问题

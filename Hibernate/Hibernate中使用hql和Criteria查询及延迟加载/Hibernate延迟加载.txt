@@ -1,0 +1,26 @@
+1.lazy的含义
+
+lazy=true:true为默认情况，不延迟加载，需要程序员手工加载，遵循要什么取什么原则，取主键列无效
+lazy=false:使用延迟加载，效率低，无需手工加载。
+
+2.如何手工加载
+
+以crm中的UserDaoImpl为例
+	List<User> list = c.list();
+	for (User user : list) {
+		for (Right right : user.getRole().getRights()) {
+			/* lazy默认true, 手工加载 */
+		}
+	}
+	
+	当需要加载的属性（以rights为例）是一个Set集合时，只需要遍历该集合即可取得其中的内容。
+
+以crm中的PlanDaoImpl为例
+	List<Plan> list = c.list();
+			
+	for (Plan plan : list) {
+		/* lazy默认为true, 手工加载 */
+		plan.getChance().getChcCustName();
+	}
+
+	当需要加载的属性（以chance为例）是一个普通Java对象时，则需要get该对象的一个非主键属性。

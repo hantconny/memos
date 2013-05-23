@@ -1,0 +1,31 @@
+声明HttpSessionBindingListener接口，需要实现
+	public void valueUnbound(HttpSessionBindingEvent event) {
+	}
+
+	public void valueBound(HttpSessionBindingEvent event) {
+	}
+两个接口
+
+声明HttpSessionAttributeListener接口，需要实现
+	public void attributeAdded(HttpSessionBindingEvent arg0) {
+	}
+
+	public void attributeRemoved(HttpSessionBindingEvent arg0) {
+	}
+
+	public void attributeReplaced(HttpSessionBindingEvent arg0) {
+	}
+三个接口
+
+声明HttpSessionListener接口，需要实现
+	public void sessionCreated(HttpSessionEvent arg0) {
+	}
+
+	public void sessionDestroyed(HttpSessionEvent event) {
+	}
+两个接口
+
+关于进入顺序
+
+当将一个属性保存到session中时，首先进入valueBound，然后才进入attributeAdded
+当将session销毁时，首先进入sessionDestroyed，该方法运行后，session被销毁，然后进入valueUnbound接触绑定到session的所有属性

@@ -1,0 +1,5 @@
+在两种情况下进行调整：
+	情况一：
+		A1，并且source和target的deceasedDate不一致，那么降级到A2
+	情况二：
+		TCRMPartyBObj的retrieveReturnAllSuspectsIndicator默认为Y，会返回1234所有。所以要设置为N进行筛选

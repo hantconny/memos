@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project basedir="." name="cowork" default="svncheckout">
+  <property name="destPath" value="${basedir}" />
+  <property name="antPath" value="C:/Program Files/ant" />
+  <property name="svnurl" value="http://dell/svn/twdoc/Document Archive" />
+  <property name="svn.username" value="##username##" />
+  <property name="svn.password" value="##password##" />
+
+  <path id="path.svnant">
+    <fileset dir="${antPath}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <typedef resource="org/tigris/subversion/svnant/svnantlib.xml" classpathref="path.svnant"/>
+  <target name="svncheckout" >
+    <svnSetting id="svnparams" username="${svn.username}" password="${svn.password}" javahl="false"/>
+    <svn refid="svnparams">
+      <checkout url="${svnurl}" destPath="${destPath}" />
+    </svn>
+  </target>
+</project>

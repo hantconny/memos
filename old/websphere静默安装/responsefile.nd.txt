@@ -1,0 +1,934 @@
+#################################################################################
+# 
+# WebSphere Application Server V7.0 installation options file
+# 
+# This options file runs the installation wizard in silent mode. This lets the
+# options file author specify installation settings without having to run the
+# wizard in graphical mode. To use this options file for silent mode execution,
+# use the following command line arguments when running the wizard:
+# 
+#    -options "/<responsefile.path>/responsefile.nd.txt" -silent
+# 
+# Read the documentation for information on changing the value for each option.
+# Enclose all values within a single pair of double quotes.
+################################################################################
+
+################################################################################
+#                     Installation options and values
+################################################################################
+# 
+# License Acceptance
+# 
+# By changing the silentInstallLicenseAcceptance property in this response file
+# to "true", you agree that you have reviewed and agree to the terms of the
+# IBM International Program License Agreement accompanying this program, which
+# is located at CD_ROOT\was.primary.pak\repository\legal\lafiles. If you 
+# do not agree to these terms, do not change the value or otherwise download, 
+# install, copy, access, or use the program and promptly return the program 
+# and proof of entitlement to the party from whom you acquired it to obtain 
+# a refund of the amount you paid.
+# 
+# Valid values for silentInstallLicenseAcceptance:
+#     true - Accepts the license and product installation will occur.
+#     false - Declines the license and product installation will not occur.
+# 
+  -OPT silentInstallLicenseAcceptance="true"
+# 
+# If no install occurs, a log file is created in the temporary directory area
+# of the user account that performed the installation (<user_area>\waslogs\).
+# 
+################################################################################
+# 
+# Non-Root Installation Limitations
+# 
+# This option indicates whether you accept the limitations associated with 
+# installing as a non-root user. The following installation actions cannot be
+# performed with installing as a non-root or non-administrative user.
+#     - Creation of a Windows or Linux service for WebSphere Application Server.
+#     - Native registration with the operating system.
+#     - Port conflicts may occur with other installations of WebSphere 
+#       Application Server that are not registered with the operating system.
+# 
+# Valid values for allowNonRootSilentInstallation:
+#     true - Accepts the limitations. Will install the product.
+#     false - Do not accept the limitations. Install will not occur.
+# 
+# Uncomment the following option only if you are installing as a non-root user. 
+# 
+# -OPT allowNonRootSilentInstall="true"
+# 
+################################################################################
+# 
+# Prerequisite Checking
+# 
+# The installer checks the system for prerequisites by default.
+# 
+# Uncomment the following option to notify the installer to continue with 
+# the installation and log the warnings even though prerequisite checking 
+# of the operating system failed.
+# 
+ -OPT disableOSPrereqChecking="true"
+# 
+# Uncomment the following option to notify the installer to continue with
+# the installation and log the warnings even though prerequisite checking
+# failed.
+# 
+# -OPT disableNonBlockingPrereqChecking="true"
+# 
+################################################################################
+# 
+# File Permission Checking
+# 
+# The installer does not check whether the user account that is running the 
+# installation has sufficient permissions to perform the installation by default.
+# 
+# Uncomment the following option to notify the installer that it should
+# verify whether the user account has sufficient file permissions to perform 
+# the required install operations on each of the files to be installed.
+#
+# File permission checking is recommended when installing as a non-root user
+# or when using the installType = "addFeature" command. If you are sure you 
+# have proper permissions, then you can bypass this check and save time. 
+#
+# Permission checking is not available for Windows operating systems.
+# 
+# -OPT checkFilePermissions="true"
+# 
+################################################################################
+# 
+# Installation Type
+# 
+# Valid values for installType:
+#     installNew - install a new copy.
+#     addFeature - add features to an existing installation.
+#
+# Valid values for features: 
+#     noFeature - do not install any additional features
+#     samplesSelected - install the Application Server Samples code.
+#     languagepack.console.all - install the non-English language files for the 
+#          administrative console application.
+#     languagepack.server.all - install the non-English language files for the 
+#          server runtime environments such as wsadmin and logging.
+# 
+# The default installType setting is to install a new copy of WebSphere 
+# Application Server without the Application Server Samples. 
+# 
+# All new installations require that the profileType option has a valid value 
+# because at least one profile is required to become functional. Additional 
+# profiles can be created after installation using manageProfiles command or 
+# the graphical Profile management tool.
+# 
+# Depending on the profileType selected, additional options must be specified
+# to setup and configure the environment. Read the Profile creation options
+# and values section below for additional information.
+#
+# Valid values for profileType:
+#     cell - two profiles are created, one with a deployment manager and
+#            another with a managed node that is federated into the cell.
+#     management - The management profile provides the servers and services
+#            necessary to manage your WebSphere environments.  For a base 
+#            application server topology an administrative agent is provided.
+#            For a Network Deployment topologies, a deployment manager is 
+#            provided  for tightly coupled management and the job manager  
+#            is provided for loosely coupled management.
+#     standAlone - a profile is created with a stand alone application server.
+#     custom - a profile is created with an empty node.
+#     secureProxy - a secure proxy profile for a DMZ node is created.
+#     none - a profile is not created during installation.
+# 
+  -OPT installType="installNew"
+  -OPT profileType="cell"
+# 
+# Uncomment the following line and comment out the options below to not
+# install any optional features.
+# 
+# -OPT feature="noFeature"
+# 
+# To install all the optional features into an existing installation of 
+# WebSphere Application Server, comment out the options above and uncomment 
+# the following options. Also, be sure the installLocation option is set to 
+# an existing installation.
+# 
+# -OPT installType="addFeature"
+# -OPT feature="samplesSelected"
+  -OPT feature="languagepack.console.all"
+  -OPT feature="languagepack.server.all" 
+# 
+###############################################################################
+# 
+# Administrative Security
+# 
+# Valid profile types: cell, deployment manager, and stand alone
+# 
+# Valid values for PROF_enableAdminSecurity:
+#     true - Administrative security is enabled during installation.
+#     false - Administrative security is not enabled during installation.
+# 
+# Enabling administrative security during installation is recommended.
+# To configure administrative security, an administrative user name and 
+# password must be specified. Additionally, if the Application Server 
+# Samples are installed, a password also is required for the Samples user.
+# 
+# Valid values for adminUserName: a character string
+# Valid values for adminPassword: a character string
+# Valid values for samplesPassword: a character string
+# 
+# Notes: 
+# Do not use the following special characters for user names:
+#    / \ * , : ; = + ? | < > & % ' " [ ] > # $ ^ { }
+# A space ( ) is not valid in user names or passwords.
+# A period (.) is not valid if it is the first character in user names.
+# A dash (-) is not valid if it is the first character in user names.
+# A dash (-) is not valid if it is the first character in passwords.
+# Special characters can be used in passwords
+# 
+  -OPT PROF_enableAdminSecurity="true"
+  -OPT PROF_adminUserName=wasadmin
+  -OPT PROF_adminPassword=wasadmin
+# -OPT PROF_samplesPassword=
+# 
+################################################################################
+# 
+# Installation Location
+# 
+# Specify a valid directory path into which the product can be installed. 
+# Only Windows operating systems support spaces in the installation location 
+# and must be enclose in double-quotes as shown below. 
+# Additionally, the maximum path length is 60 characters for Windows systems.
+# 
+# Uncomment the appropriate option for your operating system.
+#
+# If you are installing as a non-root user on Unix or non-administrator on
+# Windows, be sure you have write permission for the install location chosen.
+# Also, be sure to include the appropriate value for <user_home>. 
+# 
+# AIX Default Install Location:
+# -OPT installLocation="/usr/IBM/WebSphere/AppServer"
+# AIX Default Non-Root Install Location:
+# -OPT installLocation="<user_home>/IBM/WebSphere/AppServer"
+# 
+# HP-UX, Linux or Solaris Default Install Location:
+# -OPT installLocation="/opt/IBM/WebSphere/AppServer"
+# HP-UX, Solaris or Linux Default Non-Root Install Location:
+# -OPT installLocation="<user_home>/IBM/WebSphere/AppServer"
+# 
+# i5OS Default Install Location:
+# -OPT installLocation="/QIBM/IBM/WebSphere/AppServer/V7/<productOffering>"
+# 
+# Windows Default Install Location:
+# -OPT installLocation="C:\Program Files\IBM\WebSphere\AppServer"
+# Windows Default Non-Administrator Install Location:
+# -OPT installLocation="C:\IBM\WebSphere\AppServer"
+#
+ -OPT installLocation="/var/apps/was7"
+################################################################################
+# 
+# Repository for Centralized Installation Managers
+#  
+# Choose whether to create a repository for centralized installation management. 
+# Deployment managers can access and install contents from this repository to 
+# other target locations. If created now, a copy of this installation package can 
+# be put in the repository. Use the WebSphere Installation Factory to create and 
+# populate a repository later.
+#
+# To create a repository for Centralized Installation Managers, uncomment the
+# following option:
+# 
+# -OPT cimSelected="true"
+#
+# Once option above is specified, the directory path of repository must be specified.
+# Only Windows operating systems support spaces in the directory path 
+# and must be enclose in double-quotes as shown below. 
+# 
+# Uncomment the appropriate option for your operating system.
+#
+# If you are installing as a non-root user on Unix or non-administrator on
+# Windows, be sure you have write permission for the directory path chosen.
+# Also, be sure to include the appropriate value for <user_home>. 
+# 
+# AIX Default Directory Path:
+# -OPT cimRepositoryLocation="/usr/IBM/WebSphere/cimrepos"
+# AIX Default Non-Root Directory Path:
+# -OPT cimRepositoryLocation="<user_home>/IBM/WebSphere/cimrepos"
+# 
+# HP-UX, Linux or Solaris Default Directory Path:
+# -OPT cimRepositoryLocation="/opt/IBM/WebSphere/cimrepos"
+# HP-UX, Solaris or Linux Default Non-Root Directory Path:
+# -OPT cimRepositoryLocation="<user_home>/IBM/WebSphere/cimrepos"
+# 
+# i5OS Default Directory Path:
+# -OPT cimRepositoryLocation="/QIBM/IBM/WebSphere/cimrepos"
+# 
+# Windows Default Directory Path:
+# -OPT cimRepositoryLocation="C:\Program Files\IBM\WebSphere\cimrepos"
+# Windows Default Non-Administrator Directory Path:
+# -OPT cimRepositoryLocation="C:\IBM\WebSphere\cimrepos"
+#
+# To populate the repository with this installation package, uncomment the
+# following option: 
+#
+# -OPT populateRepository="true"
+# 
+# To overwrite the existing installation package, uncomment the
+# following option: 
+#
+# -OPT overwriteRepository="true"
+# 
+################################################################################
+# 
+# Trace Control Output
+# 
+# Valid Values for traceFormat:
+#     ALL - output files saved as separate plain text and XML files.
+#     text - output file saved in plain text format only.
+#     XML - output file saved in standard Java logging XML format only.
+# 
+# Trace output is saved as both text and XML files by default, but it can be 
+# restricted to only one output format.
+# 
+# The amount of trace information captured can be controlled. All informational
+# messages, warnings, and severe warnings are output to a trace file by default. 
+# 
+# Valid values for traceLevel:
+#     OFF - No trace file is produced.
+#     SEVERE - Only severe errors are output to a trace file.
+#     WARNING - Non-fatal exceptions and warnings are added to trace file.
+#     INFO - Informational messages are added to the trace file.
+#     CONFIG - Configuration related messages are added to the trace file.
+#     FINE - Trace all public method calls.
+#     FINER - Trace all non-public method calls except getters and setters.
+#     FINEST - Trace all methods, entry and exit parameters, and return values.
+# 
+ -OPT traceFormat=ALL
+ -OPT traceLevel=INFO
+# 
+################################################################################
+
+################################################################################
+#                     Profile creation options and values 
+################################################################################
+# In this section, the options and valid values for creating all of the 
+# profile types are described. Following this descriptive section, each 
+# profile type is listed with all of the options necessary to create it 
+# with its default values.
+# 
+################################################################################
+# 
+# Profile Settings
+# 
+# Valid profile types: cell, management, stand alone, custom, and secure proxy
+# 
+# Valid values for PROF_profilePath: An empty directory path, such as
+#       <app_server_root>/profiles/<profile_name>
+# 
+# If a Cell profile is being created, the format should be
+#       <app_server_root>/profiles
+#   because two profiles will be created under this directory, one for 
+#   the deployment manager, and one for the managed application server node.
+# 
+# Specify a valid directory to contain the files for the run-time environment, 
+# such as, commands, configuration files, and log files.
+# The user account that runs the installation must have proper permissions.
+# The directory must be empty and have adequate disk space available.
+# On Windows systems, the total path length cannot exceed 80 characters.
+# 
+# Valid values for PROF_profileName: a unique character sting
+# Valid values for PROF_dmgrProfileName: a unique character sting
+# Valid values for PROF_appServerProfileName: a unique character sting
+# 
+# Assign a name to the profile. Because creation of a cell creates two 
+# profiles, options exists to assign separate names to the deployment
+# manager and application server profiles.
+# 
+# Do not use the following special characters for profile names:
+#     / \ * , : ; = + ? | < > & % ' " [ ] > # $ ^ { }
+# Note: a period (.) is not valid if it is the first character.
+# 
+# Valid values for PROF_isDefault:
+#     true - make this profile the default profile for the installation.
+#     false - retain the current default profile for the installation.
+# 
+# The first profile created for an installation is designated the default.
+# Only one profile can be designated the default profile for an installation.
+# Commands that are executed from the <app_server_root>/bin/ directory that
+# do not specify a profile to run against are run against the default profile.
+# 
+###############################################################################
+#
+# Management Server Type
+#
+# Valid profile type: management
+#
+# Valid values for PROF_serverType:
+#     ADMIN_AGENT - An administrative agent provides management capability for 
+#          base application server profiles. Administrative agents have the 
+#          ability to manage multiple separate base profiles simultaneously. 
+#          Administrative agents only manage profiles within the boundary 
+#          of the single system.
+#     DEPLOYMENT_MANAGER - The default server created in a management profile.
+#          A deployment manager provides management capability for multiple 
+#          federated application server nodes. A deployment manager cell can 
+#          span multiple systems and platforms.
+#     JOB_MANAGER - A job manager provides management capability for multiple 
+#          base application server profiles spanning multiple systems. Nodes
+#          managed by one job manager can be managed by other job managers.
+#
+# When you create a management profile, specify one of management server types
+# to create. If none is specified, then a deployment manager is created.
+#
+###############################################################################
+# 
+# Node, Host, Server and Cell Names
+# 
+# Valid profile types: cell, management, stand alone, custom, and secure proxy
+# 
+# Valid values for PROF_hostName: a character string
+# Valid values for PROF_nodeName: a character string
+# Valid values for PROF_appServerNodeName: a character string
+# Valid values for PROF_cellName: a character string
+# Valid values for PROF_serverName: a character string
+# 
+# Do not use the following special characters for node, host or cell names:
+#     / \ * , : ; = + ? | < > & % ' " [ ] > # $ ^ { }
+# Note: a period (.) is not valid if it is the first character.
+# 
+# The node name is for administration by a deployment manager. Each node name
+# within a cell must be unique.
+# 
+# The host name is the domain name system (DNS) name (short or long) or 
+# the IP address of this computer. If using IPv6, then specify the IP address.
+# 
+# The server name is a logical name for the JVM process that runs in a node.
+# You can specify your own server name using the PROF_serverName option. 
+# The default server name for an application server is server1. 
+# The default server name for an secure proxy server is proxy1. 
+#
+# The cell name is a logical name for a group of nodes administered by 
+# a deployment manger.
+# 
+# Creation of the cell profile type creates two separate nodes, therefore 
+# options exists to assign separate names to the deployment manager and 
+# application server nodes. However, because both nodes are in the same cell 
+# and on the same host, those names are specified only once.
+# 
+##############################
+# 
+# Development Server Template
+# 
+# Valid profile type: stand alone
+# 
+# Valid values for PROF_isDeveloperServer: 
+#    true - create the application server with developer settings.
+# 
+# The application server process created in the stand alone application server
+# profile can be configured with settings that are optimized for development.
+# The development template reduces startup time and allows the server to run
+# on less powerful hardware. Do not use this option for production servers.
+# 
+###############################################################################
+# 
+# Optional Application Deployment
+# 
+# Valid profile types: cell, management, and stand alone
+# 
+# Valid values for PROF_omitAction:
+#     deployAdminConsole - do not deploy the administrative console
+#     defaultAppDeployAndConfig - do not deploy the default application
+#     samplesInstallAndConfig - do not deploy the sample applications
+# 
+# The administrative console, default application, and Application Server
+# Sample applications can be optionally deployed to supported profiles types. 
+# Use the omitAction option to prevent the specified applications from 
+# being deployed to the new profile.
+# 
+# The administrative console is a Web-based console for managing application 
+# servers. The administrative console is deployable to stand alone application
+# servers and deployment managers, including the deployment manager created
+# with the cell set of profiles. Deploying the administrative console 
+# is strongly recommended.
+# 
+# The default application contains the Snoop, Hello, and HitCount servlets.
+# The default application is deployable to the application server in the 
+# stand alone application server profile and the application server profile
+# created with the cell set of profiles.
+# 
+# The sample applications are not recommended for deployment to production 
+# Application Server environments. Deploy the sample applications to exercise 
+# the application server and evaluate the latest technological advancements. 
+# The sample applications are deployable to the application server in the 
+# stand alone application server profile and the application server profile
+# created with the cell set of profiles. 
+# 
+###############################################################################
+# 
+# Custom Node Federation
+# 
+# Valid profile type: custom
+# 
+# Valid values for PROF_federateLater: 
+#     true - do not federate this node to a deployment manager.
+#     false - federate this node to a deployment manager during installation.
+# 
+# Custom nodes are intended to be administered by a deployment manager.
+# By default, the node will be federated to a deployment manager.
+# If the deployment manager is not running or does not use SOAP, then 
+# choose to federate the node later.
+# 
+# Valid values for PROF_dmgrHost: a deployment manager host name
+# Valid values for PROF_dmgrPort: a SOAP port number
+# Valid values for PROF_dmgrAdminUserName: the user name of an administrator 
+# Valid values for PROF_dmgrAdminPassword: the password for an administrator
+# 
+# Specify the host name and the SOAP port to federate the custom node.
+# If the deployment manager has administrative security enabled, then
+# an administrator user name and password must be provided.
+# 
+###############################################################################
+# 
+# Proxy Server Security Level Selection
+# 
+# Valid profile type: secure proxy
+# 
+# Valid values for PROF_securityLevel
+#     high - the process runs as an unprivileged user ID, static routing is 
+#          enabled, and local error page handling is enabled.
+#     medium - the process runs as an unprivileged user ID, dynamic routing 
+#          is enabled, and local error page handling is enabled. 
+#     low - the process runs as an unprivileged user ID, dynamic routing 
+#          is enabled, and remote error page handling is enabled.
+#
+# Valid values for PROF_supportedProtocols
+#     HTTP - support Web transport protocol
+#     SIP - support SIP transport protocol
+# 
+###############################################################################
+# 
+# Certificate Management
+# 
+# Valid profile types: cell, management, stand alone, custom, and secure proxy
+#
+# Use these options fo request a certificate from a Certificate Authority (CA)
+# or import an existing certificate. Both options require that the 
+# PROF_keyStorePassword to be set.
+# 
+# Valid values for PROF_keyStorePassword: a character string
+# 
+# Requesting a certificate
+# Valid values for PROF_personalCertDN: a character string
+# Valid values for PROF_personalCertValidityPeriod: number of days (integer)
+# Valid values for PROF_signingCertDN: a character string
+# Valid values for PROF_signingCertValidityPeriod: number of days (integer)
+# 
+# Importing a certificate
+# Valid values for PROF_importPersonalCertKS: 
+#     path to the key store file (character string)
+# Valid values for PROF_importPersonalCertKSType: a character string
+# Valid values for PROF_importPersonalCertKSPassword: a character string
+# Valid values for PROF_importPersonalCertKSAlias: 
+#     the unique alias of the certificate in the key store (character string)
+# Valid values for PROF_importSigningCertKS: 
+#     path to the key store file (character string)
+# Valid values for PROF_importSigningCertKSType: a character string
+# Valid values for PROF_importSigningCertKSPassword: a character string
+# Valid values for PROF_importSigningCertKSAlias:
+#     the unique alias of the certificate in the key store (character string)
+#  
+###############################################################################
+# 
+# Port Value Assignment and Validation
+# 
+# Valid profile types: cell, management, stand alone, custom, and secure proxy
+# 
+# Valid values for PROF_defaultPorts: 
+#     true - use the default port values for WebSphere Application Server.
+# Valid values for PROF_startingPort: 
+#     a positive integer port value, within the valid port range
+# Valid values for PROF_nodeStartingPort: 
+#     a positive integer port value, within the valid port range
+# Valid values for PROF_portsFile: 
+#     a fully qualified path to a valid ports property file
+# Valid values for PROF_nodePortsFile: 
+#     a fully qualified path to a valid ports property file
+# 
+# There are four ways to assign port values, choose only one option.
+# Consult the Information Center for lists of the ports that each profile
+# type uses and the default values assigned to each port.
+# 
+# Use PROF_defaultPorts to assign the set of default port values assigned
+# to the selected profile type. When creating a custom profile, the default
+# set of port values will be assigned during the federation process. 
+# Therefore, this option is not supported for custom profiles.
+# 
+# Alternatively, use PROF_startingPort to assign a block of ports to the
+# profile. Port values will be assigned incrementally as required to assign 
+# a unique value to each port in the selected profile type. This option 
+# is not supported for creating custom profile. Include the 
+# PROF_nodeStartingPorts option when creating a cell set of profiles.
+# 
+# Otherwise, use PROF_portsFile to assign your own specific port values 
+# to each port that is needed for the selected profile type. This option
+# is supported for custom profiles when federating to a deployment manager. 
+# Include the PROF_nodePortsFile option when creating a cell set of profiles.
+# 
+# The last way to assign port values is to not specify any of the three
+# options. If none of the three options are specified, then initially the 
+# default port values will be assigned. However, if an assigned port value 
+# is in use by another installation of WebSphere Application Server or 
+# is actively in use by any other application on the system, then the  
+# port value will be incremented to a port value that is open and available. 
+# 
+# Note that installations of WebSphere Application Server prior to 
+# Version 6.1 might not be found reliably. 
+#
+# Also, installation of WebSphere Application Server that are not 
+# registered with the operating system might not be found reliably. 
+#
+# To have more than one installation of WebSphere Application Server 
+# running on the same machine, unique port values must be assigned 
+# to each installation. Otherwise, only one installation of WebSphere 
+# Application Server can run. 
+#
+# Valid values for PROF_validatePorts: 
+#     true - validates that each port value is unique and is not in use. 
+#     false - no validation of port values 
+# 
+# The validatePorts option is set to false by default. The validatePorts 
+# option verifies whether the port values to be used are assigned to other
+# profiles and whether the ports are actively in use by other applications.
+# If a port conflict is detected, then validation fails and the profile 
+# will not be created. This option is not supported for custom profiles.
+# 
+###############################################################################
+
+###############################################################################
+# 
+# Windows Service Creation
+#  
+# Valid profile types: cell, management, and stand alone
+#
+# Valid values for PROF_winserviceCheck:
+#     true - run as Windows service.
+#     false - do not run as Windows service.
+#
+# Specify whether to run the deployment manager or application server as a 
+# Windows service. For the cell set of profiles, a service is created only
+# for the deployment manager. A service cannot be created when installing
+# as a non-administrative user.
+# 
+# Valid values for PROF_winserviceAccountType:
+#     localsystem - run this service as the Local System account
+#     specifieduser - run this service as a specified user account
+# Valid values for PROF_winserviceUserName:
+#     a user account that already exists on the Windows system that has 
+#     the permission to log on as a service
+# Valid values for PROF_winservicePassword:
+#     the password for the specified user account
+# Valid values for PROF_winserviceStartupType:
+#     manual - the windows service must be started and stopped manually.
+#     automatic - the windows service will start automatically after reboot.
+#     disabled - the windows service is disabled.
+# 
+# Choose whether to run the service as Local System or a specified user.
+# When specifying a user account also include the password for the user. 
+# By default, the service startup type is set to automatic. 
+# 
+##############################
+# 
+# Linux Service Creation
+# 
+# Valid values for PROF_enableService:
+#     true - run as a Linux service.
+#     false - do not run as a Linux service.
+# Valid values for PROF_serviceUserName:
+#     a user account that already exists on the Linux system
+# 
+# Specify whether to run the deployment manager or application server as a 
+# Linux service. For the cell set of profiles, a service is created only
+# for the deployment manager. A service can be created only when installing
+# as a root user.
+# 
+###############################################################################
+# 
+# Web Server Definition 
+# 
+# Valid profile types: cell and stand alone
+# 
+# Valid values for PROF_webServerCheck:
+#     true - enable the creation of a Web server definition.
+#     false - do not create a Web server definition. 
+#
+# A Web server definition is not created by default. 
+# If a Web server is used to route requests for dynamic content from the 
+# application server, then you may want to create a Web server definition.
+# Web server definitions also may be created from the administrative console
+# or using a script that is generated during Web server plug-in installation.
+#  
+# Valid values for PROF_webServerType (case sensitive):
+#     IHS - IBM HTTP Server
+#     HTTPSERVER_ZOS - IBM HTTP Server for Z/OS
+#     APACHE - Apache Web servers
+#     DOMINO - Lotus Domino Web servers
+#     IIS - Microsoft Internet Information Services
+#     SUNJAVASYSTEM - Sun Web servers
+# Valid values for PROF_webServerOS: 
+#     aix, hpux, linux, os390, os400, solaris, windows
+# Valid values for PROF_webServerName: a character string
+# Valid values for PROF_webServerHostName: DNS host name or IP Address
+# Valid values for PROF_webServerPort: a HTTP port number
+# Valid values for PROF_webServerPluginPath: directory path to plug-in 
+# Valid values for PROF_webServerInstallPath: directory path to Web server 
+# 
+# To create a Web server definition, specify the type of Web server and its
+# operating system. The Web server name is used to identify the specified
+# Web server in the administrative console. Also provide the DNS host name 
+# or IP address of the Web server, its primary communication port 
+# (default 80), and the complete directory path to the Web server plug-ins.
+# Additionally, if the Web server is IHS, then provide the complete 
+# directory path to where it is installed.
+#  
+# Do not use the following special characters for Web server names:
+#     / \ * , : ; = + ? | < > & % ' " [ ] > # $ ^ { }
+# Note: a period (.) is not valid if it is the first character.
+# 
+###############################################################################
+
+
+################################################################################
+# Uncomment the following to create a cell set of profiles.
+################################################################################
+# The cell profile type creates two separate profiles, a deployment manager 
+# and an application server that is federated to the deployment manager cell.
+# Therefore, settings for both profiles must be specified. 
+#
+## Profile Settings
+ -OPT PROF_profilePath=/var/apps/was7/profiles
+ -OPT PROF_dmgrProfileName=dmgr
+ -OPT PROF_appServerProfileName=appsrv01
+ -OPT PROF_isDefault="true"
+## Node, Host and Cell Names
+ -OPT PROF_hostName=appsrv01.yourpomain.com
+ -OPT PROF_nodeName=node01
+ -OPT PROF_appServerNodeName=appsrv01node01
+ -OPT PROF_cellName=cell01
+## Optional Application Deployment
+# -OPT PROF_omitAction="samplesInstallAndConfig"
+## Certificate Management
+# -OPT PROF_keyStorePassword=
+## Requesting a certificate
+# -OPT PROF_personalCertDN=
+# -OPT PROF_personalCertValidityPeriod=1
+# -OPT PROF_signingCertDN=
+# -OPT PROF_signingCertValidityPeriod=20
+## Importing a certificate
+# -OPT PROF_importPersonalCertKS=
+# -OPT PROF_importPersonalCertKSType=
+# -OPT PROF_importPersonalCertKSPassword=
+# -OPT PROF_importPersonalCertKSAlias=
+# -OPT PROF_importSigningCertKS=
+# -OPT PROF_importSigningCertKSType=
+# -OPT PROF_importSigningCertKSPassword=
+# -OPT PROF_importSigningCertKSAlias=
+## Port Value Assignment and Validation
+# -OPT PROF_defaultPorts="true"
+# -OPT PROF_startingPort=
+# -OPT PROF_nodeStartingPort=
+# -OPT PROF_portsFile=
+# -OPT PROF_nodePortsFile=
+# -OPT PROF_validatePorts="true"
+## Windows Service Creation
+# -OPT PROF_winserviceCheck="true"
+# -OPT PROF_winserviceAccountType="localsystem"
+# -OPT PROF_winserviceUserName=
+# -OPT PROF_winservicePassword=
+# -OPT PROF_winserviceStartupType="automatic"
+## Linux Service Creation
+ -OPT PROF_enableService="true"
+ -OPT PROF_serviceUserName=root
+## Web Server Definition
+# -OPT PROF_webServerCheck="false"
+# -OPT PROF_webServerType=
+# -OPT PROF_webServerOS=
+# -OPT PROF_webServerName=
+# -OPT PROF_webServerHostname=
+# -OPT PROF_webServerPort="80"
+# -OPT PROF_webServerPluginPath=
+# -OPT PROF_webServerInstallPath=
+#
+################################################################################
+# Uncomment the following to create a management profile.
+################################################################################
+#
+## Profile Settings
+# -OPT PROF_profilePath=
+# -OPT PROF_profileName=
+# -OPT PROF_isDefault="true"
+# -OPT PROF_serverType="DEPLOYMENT_MANAGER"
+## Node, Host and Cell Names
+# -OPT PROF_hostName=
+# -OPT PROF_nodeName=
+# -OPT PROF_cellName=
+## Optional Application Deployment
+# -OPT PROF_omitAction=
+## Certificate Management
+# -OPT PROF_keyStorePassword=
+## Requesting a certificate
+# -OPT PROF_personalCertDN=
+# -OPT PROF_personalCertValidityPeriod=1
+# -OPT PROF_signingCertDN=
+# -OPT PROF_signingCertValidityPeriod=20
+## Importing a certificate
+# -OPT PROF_importPersonalCertKS=
+# -OPT PROF_importPersonalCertKSType=
+# -OPT PROF_importPersonalCertKSPassword=
+# -OPT PROF_importPersonalCertKSAlias=
+# -OPT PROF_importSigningCertKS=
+# -OPT PROF_importSigningCertKSType=
+# -OPT PROF_importSigningCertKSPassword=
+# -OPT PROF_importSigningCertKSAlias=
+## Port Value Assignment and Validation
+# -OPT PROF_defaultPorts="true"
+# -OPT PROF_startingPort=
+# -OPT PROF_portsFile=
+# -OPT PROF_validatePorts="true"
+## Windows Service Creation
+# -OPT PROF_winserviceCheck="true"
+# -OPT PROF_winserviceAccountType="localsystem"
+# -OPT PROF_winserviceUserName=
+# -OPT PROF_winservicePassword=
+# -OPT PROF_winserviceStartupType="automatic"
+## Linux Service Creation
+# -OPT PROF_enableService="true"
+# -OPT PROF_serviceUserName=
+#
+################################################################################
+# Uncomment the following to create a stand alone application server profile.
+################################################################################
+#
+## Profile Settings
+# -OPT PROF_profilePath=/var/apps/was7/appsrv01
+# -OPT PROF_profileName=
+# -OPT PROF_isDefault="true"
+## Node, Host, Server, and Cell Names
+# -OPT PROF_hostName=
+# -OPT PROF_nodeName=
+# -OPT PROF_cellName=
+# -OPT PROF_serverName="server1"
+# -OPT PROF_isDeveloperServer="false"
+## Optional Application Deployment
+# -OPT PROF_omitAction="samplesInstallAndConfig"
+## Certificate Management
+# -OPT PROF_keyStorePassword=
+## Requesting a certificate
+# -OPT PROF_personalCertDN=
+# -OPT PROF_personalCertValidityPeriod=1
+# -OPT PROF_signingCertDN=
+# -OPT PROF_signingCertValidityPeriod=20
+## Importing a certificate
+# -OPT PROF_importPersonalCertKS=
+# -OPT PROF_importPersonalCertKSType=
+# -OPT PROF_importPersonalCertKSPassword=
+# -OPT PROF_importPersonalCertKSAlias=
+# -OPT PROF_importSigningCertKS=
+# -OPT PROF_importSigningCertKSType=
+# -OPT PROF_importSigningCertKSPassword=
+# -OPT PROF_importSigningCertKSAlias=
+## Port Value Assignment and Validation
+# -OPT PROF_defaultPorts="true"
+# -OPT PROF_startingPort=
+# -OPT PROF_portsFile=
+# -OPT PROF_validatePorts="true"
+## Windows Service Creation
+# -OPT PROF_winserviceCheck="true"
+# -OPT PROF_winserviceAccountType=
+# -OPT PROF_winserviceUserName=
+# -OPT PROF_winservicePassword=
+# -OPT PROF_winserviceStartupType="automatic"
+## Linux Service Creation
+# -OPT PROF_enableService="true"
+# -OPT PROF_serviceUserName=
+## Web Server Definition
+# -OPT PROF_webServerCheck="false"
+# -OPT PROF_webServerType=
+# -OPT PROF_webServerOS=
+# -OPT PROF_webServerName=
+# -OPT PROF_webServerHostname=
+# -OPT PROF_webServerPort="80"
+# -OPT PROF_webServerInstallPath=
+# -OPT PROF_webServerPluginPath=
+#
+################################################################################
+# Uncomment the following to create a custom profile.
+################################################################################
+#
+## Profile Settings
+# -OPT PROF_profilePath=
+# -OPT PROF_profileName=
+# -OPT PROF_isDefault="true"
+## Node, Host, and Cell Names
+# -OPT PROF_hostName=
+# -OPT PROF_nodeName=
+# -OPT PROF_cellName=
+## Custom Node Federation
+# -OPT PROF_federateLater="false"
+# -OPT PROF_dmgrHost="localhost"
+# -OPT PROF_dmgrPort="8879"
+# -OPT PROF_dmgrAdminUserName=
+# -OPT PROF_dmgrAdminPassword=
+## Certificate Management
+# -OPT PROF_keyStorePassword=
+## Requesting a certificate
+# -OPT PROF_personalCertDN=
+# -OPT PROF_personalCertValidityPeriod=1
+# -OPT PROF_signingCertDN=
+# -OPT PROF_signingCertValidityPeriod=20
+## Importing a certificate
+# -OPT PROF_importPersonalCertKS=
+# -OPT PROF_importPersonalCertKSType=
+# -OPT PROF_importPersonalCertKSPassword=
+# -OPT PROF_importPersonalCertKSAlias=
+# -OPT PROF_importSigningCertKS=
+# -OPT PROF_importSigningCertKSType=
+# -OPT PROF_importSigningCertKSPassword=
+# -OPT PROF_importSigningCertKSAlias=
+## Port Value Assignment and Validation
+# -OPT PROF_portsFile=
+#
+################################################################################
+# Uncomment the following to create a secure proxy (configuration only) profile.
+################################################################################
+#
+## Profile Settings
+# -OPT PROF_profilePath=
+# -OPT PROF_profileName=
+# -OPT PROF_isDefault="true"
+## Node, Host, Server, and Cell Names
+# -OPT PROF_hostName=
+# -OPT PROF_nodeName=
+# -OPT PROF_cellName=
+# -OPT PROF_serverName="proxy1"
+## Security Level Selection
+# -OPT PROF_securityLevel="high"
+# -OPT PROF_supportedProtocols="SIP,HTTP"
+## Certificate Management
+# -OPT PROF_keyStorePassword=
+## Requesting a certificate
+# -OPT PROF_personalCertDN=
+# -OPT PROF_personalCertValidityPeriod=1
+# -OPT PROF_signingCertDN=
+# -OPT PROF_signingCertValidityPeriod=20
+## Importing a certificate
+# -OPT PROF_importPersonalCertKS=
+# -OPT PROF_importPersonalCertKSType=
+# -OPT PROF_importPersonalCertKSPassword=
+# -OPT PROF_importPersonalCertKSAlias=
+# -OPT PROF_importSigningCertKS=
+# -OPT PROF_importSigningCertKSType=
+# -OPT PROF_importSigningCertKSPassword=
+# -OPT PROF_importSigningCertKSAlias=
+## Port Value Assignment and Validation
+# -OPT PROF_defaultPorts="true"
+# -OPT PROF_startingPort=
+# -OPT PROF_portsFile=
+# -OPT PROF_validatePorts="true"
+#
+################################################################################

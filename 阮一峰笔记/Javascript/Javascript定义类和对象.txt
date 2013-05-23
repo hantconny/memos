@@ -1,0 +1,18 @@
+对于包含可变属性的类：
+function Cat(name, color{
+	this.name = name;
+	this.color = color;
+}
+
+对于不变的属性和方法
+function Cat(name, color){
+	this.name = name;
+	this.color = color;
+}
+
+Cat.prototype.type = "猫科动物";
+Cat.prototype.eat = function(){
+	alert("吃老鼠");
+}
+
+详见Javascript面向对象编程（一）：封装

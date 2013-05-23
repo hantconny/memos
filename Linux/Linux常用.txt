@@ -1,0 +1,180 @@
+重启tomcat
+sudo /etc/init.d/tomcat6 start(stop/restart)
+
+重启mysql
+sudo /etc/init.d/mysql start(stop/restart)
+
+
+1. /etc/profile：这是系统整体的配置，你最好不要修改这个文件；
+2. ~/.bash_profile 或 ~/.bash_login 或 ~/.profile：属于使用者个人配置，你要改自己的数据，就写入这里！
+
+详见http://vbird.dic.ksu.edu.tw/linux_basic/0320bash_4.php#settings_bashrc
+
+在个人用户（非root）下设置环境变量
+if [ $inst == "dcdp" ]; then
+        if [ -r 'env/initiate' ]; then
+                . env/initiate
+        fi
+else
+        if [ -r 'env/tiny' ]; then
+                . env/tiny
+        fi
+fi
+
+export PATH=$PATH:.:/home/initiate/bin
+
+
+df -lh
+查看磁盘空间
+
+
+clear
+清空terminal屏幕，翻页，原先的命令不会消失，向上翻可以看到
+
+
+显示文件总行数
+wc -l 文件名
+
+
+某命令 --help 显示某命令的帮助，可以搭配什么参数
+cat --help
+man 某命令  显示某命令的帮助，可以搭配什么参数
+man cat
+按q退出 
+
+ps -aux查看所有进程
+
+kill -9 进程号 强杀掉某进程
+
+把多个文件内容合并到一个文件中
+cat part1.txt part2.txt part3.txt > combined.txt
+cat par*.txt > combined.txt
+
+.tar
+tar zxvf FileName.tar
+
+.gz
+gunzip FileName.gz
+
+
+top
+列出CPU，内存占用，类似Windows任务管理器
+
+
+
+grep
+grep -in 'MAD' file.txt --color=auto
+显示file.txt中有MAD的行，忽略大小写
+
+-i忽略大小写
+-n显示行号
+-v反转
+--color=auto显示颜色
+
+
+cat
+cat -An ~/env/tiny
+-A -vET的组合
+-n 显示所有行的行号，包括空白行
+-v 显示特殊字符
+-E 显示换行符为$
+-T 显示Tab为^I
+-b 显示行号，不显示空白行的行号
+
+
+tac
+将cat取反
+
+
+less
+less ~/env/tiny
+空白键 向下翻动一页；
+pagedown 向下翻动一页；
+pageup 向上翻动一页；
+/字串 向下搜寻『字串』的功能；
+?字串 向上搜寻『字串』的功能；
+n 重复前一个搜寻 (与 / 或 ? 有关！)
+N 反向的重复前一个搜寻 (与 / 或 ? 有关！)
+q 离开 less 这个程序；
+
+
+
+head
+显示前几行
+head -n 15 ~/env/tiny
+-n 后面空格接数字，代表显示几行
+
+默认显示前面十行
+如果后面100行的数据都不列印，用负数
+head -n -100 ~/env/tiny
+
+
+
+tail
+显示从尾巴开始数多少行数据
+-n 用法和head一样
+tail -n +10 ~/env/tiny
+文件一开头10行不显示
+
+-f 监控改文件
+tail -f ~/env/tiny
+你想要让该文件有数据写入时就立刻显示到屏幕上，就利用 -f 这个选项，他可以一直侦测/var/log/messages这个文件，新加入的数据都会被显示到屏幕上。 直到你按下[crtl]-c才会离开tail
+
+
+nohup command &      后台运行某程序
+nohup command        前景运行某程序
+
+
+2>&1 标准输出1和标准错误输出2
+
+
+环境变量配置
+File path is /d00/initiate/env/initiate
+Modify ~/.bash_profile
+Sample .bash_profile looks like below:
+
+#echo "Executing .bash_profile for user $USER"
+set -o vi
+#read -p "Specify instance [dcdp, tiny]: " inst
+#if [ $inst == "dcdp" ]; then
+        if [ -r 'env/initiate' ]; then
+                echo "Defaulting to 'dcdp' instance..."
+                . env/initiate
+        fi
+#else
+#       if [ -r 'env/tiny' ]; then
+#               . env/tiny
+#       fi
+#fi
+export PATH=$PATH:.:/d00/initiate/bin
+
+查找文件
+whereis -bmsu file_name
+-b    :只找 binary 格式的檔案
+-m    :只找在說明檔 manual 路徑下的檔案
+-s    :只找 source 來源檔案
+-u    :搜尋不在上述三個項目當中的其他特殊檔案
+
+或者
+locate -i keyword
+-i  ：忽略大小寫的差異；
+-r  ：後面可接正規表示法的顯示方式
+
+或者
+find -name file_name
+
+或者
+grep -r -i file_name ./
+-r 递归
+-i 忽略大小写
+
+打包时排除部分文件
+tar -cvf newTar.tar /folder-name --exclude file-name/sub-folder-name
+
+vi操作
+进入编辑模式		I
+退出编辑模式		ESC
+撤销上次操作		U
+保存并退出			:X
+不保存退出			:Q
+保存后退出			:WQ

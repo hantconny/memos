@@ -1,0 +1,3 @@
+MyEclipse的Workspaces\.metadata\.me_tcat\conf
+<Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" URIEncoding="UTF-8"/>
+如果用的是单独的Tomcat，修改对应的Tomcat配置

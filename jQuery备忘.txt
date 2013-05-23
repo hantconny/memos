@@ -1,0 +1,91 @@
+Ajax发送GET请求
+$.get(
+	"/TN_TMS_v2.0/task/task!ajaxViewSubTaskList.action",
+	{
+		"taskDetail.taskName":taskName,		/** taskName和taskCode是方法签名上的参数 **/
+		"taskDetail.taskCode":taskCode		/** 注意逗号分隔, 最后一个参数不加逗号 **/
+	},
+	function(data) {
+		$(obj).next().show();
+		$(obj).hide();
+		$(obj).parents(".add_2").after(data);	/** 定位到class为add_2的父元素, 注意parents **/
+	}, 
+	"html"
+);
+
+
+Ajax发送POST请求
+$.post(
+	"/TN_TMS_v2.0/user/user!ajaxViewUsrAndMgrListAtAssign.action",
+	{
+		/** ajax里面也可以做struts的name bingding **/
+		"taskDetail.taskId":"<s:property value='#request.taskToAssign.taskId'/>"	/** struts标签必须用双引号引起来, 否则报错 **/
+	},
+	function(data) {
+		/** 回调函数 **/
+		$("#div_assistant").html(data);
+		$("#div_assistant").dialog("open");
+	}, 
+	/** 请求的action返回的是一个dom片段, 所以要当作html处理 **/
+	"html"
+);
+
+
+/** name为radio的input标签, 并且被选中 **/
+$("input:radio[name=radio]:checked").val();
+
+
+/** remove方法就是销毁元素 **/
+/** nextAll向下所有 **/
+$(obj).parents(".add_2").nextAll("#" + parentTaskId + "_child_tr").remove();
+
+
+/** 增加样式 **/
+$("ul[class='nav nav-pills']" li:nth-child(2)).addClass("class", "active")
+说明:
+$("ul[class='nav nav-pills']")选择了class为nav nav-pills的ul元素
+$("ul[class='nav nav-pills']" li)该ul元素下所有的li元素的集合
+$("ul[class='nav nav-pills']" li:nth-child(2))这个集合中第2个li元素
+
+
+/** startsWith **/
+"Hello World!".startsWith("He");	// true
+
+var data = "Hello world";
+var input = 'He';
+data.startsWith(input);				// true
+
+
+/** 查找子元素 **/
+HTML代码
+<tr>
+	<td class="STYLE7">
+		<div align="center">
+			<input type="radio" name="radio" value="<s:property value='#iUser.userId'/>"/>
+		</div>
+	</td>
+	<td class="STYLE20"><div align="center"><span class="STYLE10"><s:property value="#iUser.userName"/></span></div></td>
+	...
+</tr>
+JS代码
+var userName = $("input:radio[name=radio]:checked").parents("td").next().find("span.STYLE10").html();
+$("input:radio[name=radio]:checked")												/** 被选中的radio **/
+$("input:radio[name=radio]:checked").parents("td")									/** 被选中的radio的父级td元素 **/
+$("input:radio[name=radio]:checked").parents("td").next()							/** 紧接着的td元素 **/
+$("input:radio[name=radio]:checked").parents("td").next().find("span.STYLE10")		/** 在紧接着的td元素中查找class为STYLE10的span元素 **/
+
+
+/** ">"选择和" "选择 **/
+">" is the child selector
+" " is the descendant selector
+
+A descendant can be a child of the element, or a child of a child of the element or a child of a child of a child ad inifinitum.
+A child element is simply one that is directly contained within the parent element:
+
+<foo> <!-- parent -->
+  <bar> <!-- child of foo, descendant of foo -->
+    <baz> <!-- descendant of foo -->
+    </baz>
+  </bar>
+</foo>
+for this example, foo * would match <bar> and <baz>, whereas foo > * would only match <bar>.

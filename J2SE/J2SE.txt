@@ -1,0 +1,37 @@
+字符串转码：
+String customerName = new String(customerName.getBytes("iso-8859-1"), "UTF-8");
+
+
+文件分割符：
+File.separator
+
+
+获得绝对路径：
+new File("相对文件路径").getCanonicalPath();
+
+
+Hashtable<?, ?> env 参数
+(Hashtable<Object, Object>) env.clone();
+
+
+try-catch-finally正确关闭connection写法：
+finally {
+	if (rs != null) {
+		try {
+			rs.close();
+		} catch (SQLException e) {
+		}
+	}
+	if (stmt != null) {
+		try {
+			stmt.close();
+		} catch (SQLException e) {
+		}
+	}
+	if (conn != null) {
+		try {
+			conn.close();
+		} catch (SQLException e) {
+		}
+	}
+}

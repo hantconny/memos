@@ -1,0 +1,132 @@
+·配置Oracle
+	安装完成后，Win+R启动运行，进入cmd命令行。
+	直接输入netca，进入Net Configuration Assistant，配置监听。
+	监听名：LISTENER，其余默认。
+	具体见书P70 6.2
+
+
+·创建数据库实例
+	Win+R启动运行，进入cmd命令行。
+	直接输入dbca，进入Database Configuration Assistant，创建DB。
+	具体见书P74 6.3
+
+
+·连接到Oracle
+	方法一：
+	Win+R启动运行，进入cmd命令行。
+	直接输入sqlplus。
+	输入sys/as sysdba，无密码
+
+	方法二：
+	Win+R启动运行，进入cmd命令行。
+	直接输入sqlplus sys as sysdba
+
+
+·连接到其他用户
+	连接到用户名为jim，密码为ok的用户
+	CONN[ECT] jim/ok
+
+	
+·方案：
+	方案就是一个用户拥有的所有对象的集合。
+	例如，SYS用户，又叫SYS方案。
+	用户，方案，方案拥有者，账户经常交替使用。
+
+
+·创建用户（创建方案）
+	GRANT USER jim
+	IDENTIFIED BY pwd;
+	
+	这句话创建了一个名为jim，密码为pwd的用户（又叫jim方案）
+
+
+·用户授权
+	此时jim用户还无法登录。
+		授予启动会话的授权
+		GRANT CREATE SESSION TO jim;
+	现在jim可以连接数据库，但是不能执行增删改查操作。
+		授予建表权限
+		GRANT CREATE TABLE TO jim;
+		授予查询某张表的(tbl_name)权限
+		GRANT SELECT ON tbl_name TO jim;
+		授予增加/更新某张表的权限
+		GRANT INSERT/UPDATE ON tbl_name TO jim;
+
+
+·对所有用户授予某张表的权限
+	GRANT SELECT/INSERT/UPDATE ON tbl_name TO PUBLIC;
+
+
+·对所有用户移除某张表的权限
+	REVOKE SELECT/INSERT/UPDATE ON tbl_name FROM PUBLIC;
+
+
+·修改用户
+	HR方案是Oracle内置的人力资源管理方案，默认是锁定的，如果需要使用HR方案，需要解锁HR用户。
+	解锁hr用户
+	ALTER USER hr ACCOUNT UNLOCK;
+
+·创建具有DBA权限的账号
+	GRANT DBA TO jim;
+	建议创建一个具有DBA权限的账号供自己使用，以避免在SYS或SYSTEM方案中创建不必要的对象。
+
+
+·移除权限
+	移除jim用户的DBA权限
+	REVOKE DBA FROM jim;
+	移除jim对某张表的权限
+	REVOKE SELECT/INSERT/UPDATE ON tbl_name FROM jim;
+
+
+·删除用户
+	仅在该用户没有穿件任何对象（表、视图）的情况下使用，否则报错
+	DROP USER jim;
+	删除jim用户时级联删除该用户创建的所有对象
+	DROP USER jim CASCADE;
+
+
+·DESCRIBE命令用以描述表/视图结构
+	描述dba_users视图的结构(字段名，数据类型，允许null)
+	DESCRIBE dba_users;
+
+
+·众所周知的DBA字典视图
+	dba_users			关于数据库所有用户的信息
+	dba_tablespaces			关于表空间的描述
+	dba_data_files			关于表空间中每个数据文件的描述
+	dba_indexes			数据库中每个索引的描述
+	dba_ind_columns			每个索引的每个列的描述
+	dba_tables			数据库中每个表的描述
+	dba_tab_columns			每个表的每个列的描述
+	dba_views			数据库中每个视图的描述
+	dba_objects			组成方案的对象
+	dba_segments			方案中的段类型
+
+
+·属于用户的视图
+	以"user_"开头的视图是属于特定用户的。
+	如：以jim/ok登录，user_tables将描述属于jim方案的所有表
+
+
+·数据的导入和导出
+	具体见书P125 8.3
+	方法一：
+	INSERT语句，仅针对小数据量
+	
+	方法二：
+	exp和imp命令
+	语法：这两个命令不需要在sqlplus环境运行，直接在命令行运行即可。
+	exp hr file='c:\hr.dmp' consistent=y tables=(countries,departments,employees,jobs,job_history,locations,regions)
+	[exp] [从哪个用户名导出] [导出到哪个文件的路径] [consistent=y确保该文件所有内容但见的正确表示] [需要导出的表名]
+
+	imp jim file='c:\hr.dmp' fromuser=hr touser=jim tables=(countries,departments,employees,jobs,job_history,locations,regions)
+	[imp] [导入到哪个用户] [导入文件路径] [来自哪个用户] [目标用户] [导入哪些表]
+	
+	方法三：
+	数据泵实用程序
+	语法：这两个命令和exp/imp一样，也不需要在sqlplus环境运行，直接在命令行运行即可。
+	expdp hr directory data_pubp_dir dumpfile=hr.dmp flashback_time="to_timestamp(sysdate)" tables=(countries,departments,employees,jobs,job_history,locations,regions)
+	[expdp] [从哪个用户名导出] [目录] [文件] [闪回时间，这里应该是调用了一个函数] [需要导出的表名]
+
+	impdp jim directory=data_pump_dir dumpfile=hr.dmp remap_schema=hr:jim tables=(countries,departments,employees,jobs,job_history,locations,regions)
+	[impdp] [导入到哪个用户] [目录] [文件] [类似于fromuser touser]

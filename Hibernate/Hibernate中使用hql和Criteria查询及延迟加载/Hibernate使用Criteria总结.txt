@@ -1,0 +1,78 @@
+1.Dao层结构搭建
+	以crm为例，PlanDao的写法如下：
+	// 执行查询
+	public List select(List<Criterion> cs);
+	
+	BO层需要传入一个List<Criterion>集合，包含所有约束Restrictions条件
+
+	// 执行增删改
+	public boolean update(Plan plan);
+
+	和使用HQL一样实现，传递一个实体类
+
+	*Restrictions是一个单独的类，里面的方法如isEq(),like()等的返回类型为SimpleExpression或Criterion。
+	*SimpleExpression实现了Criterion接口，所以依据面向接口编程的实践，应该使用Criterion作为泛型。
+	
+	DaoImpl实现中
+	1.取得session：Session session = BaseDao.getSession();
+		
+		*在SSH整合后，使用Spring提供的模板
+		getHibernateTemplate().executeFind(new HibernateCallback(){
+
+			public Object doInHibernate(Session session)
+					throws HibernateException, SQLException {
+				session.createCriteria(Plan.class, "pla");
+			}
+		});
+	
+	2.判断传入的List<Criterion>集合非空，size()不为0
+	
+	3.创建Criteria
+		
+		多表查询时，使用Criteria c = session.createCriteria(Plan.class, "p")--------多表需要别名
+		*推荐尽量使用带别名的创建方式
+		
+		单表查询，Criteria c = session.createCriteria(Plan.class)--------单表创建Criteria对象。
+		
+	4.遍历Criterion集合，放入Criteria
+		
+		if (null != cs && 0 < cs.size()) {
+			for (Criterion cri : cs) {
+				c.add(cri);
+			}
+		}
+	
+	5.取得list
+		List<Plan> list = c.list();
+		
+	6.进行级联
+		对于包含复杂对象的实体，还需要正常级联出来。
+		for (Plan pla : list) {
+			pla.getChance().getChcDesc();
+		}
+	
+	7.返回list
+		return list;
+
+2.Bo层搭建
+	创建List<Criterion> cs = new ArrayList<Criterion>();Criterion对象集合，保存所有Restrictions条件
+	
+	*Restrictions是一个单独的类，里面的方法如isEq(),like()等的返回类型为SimpleExpression或Criterion。
+	*SimpleExpression实现了Criterion接口，所以依据面向接口编程的实践，应该使用Criterion作为泛型。
+	
+	// 封装条件
+	Criterion c = null;
+	if (null != isbn && !"".equals(isbn)) {
+		c = Restrictions.eq("isbn", isbn);
+		cs.add(c);
+	}
+	// 调用dao层的方法，传入cs集合
+	List<Book> list = dao.select(cs);
+	if (null != list && 1 == list.size()) {
+		return list.get(0);
+	}
+	return null;
+
+3.使用Criteria进行多表查询时，返回的仍然是单个的对象
+	
+和hql不一样，hql返回的是一个List<Object[]>；一个list元素，即Object[]封装一条DB中的数据；Object[]中的一个元素是一个属性值。

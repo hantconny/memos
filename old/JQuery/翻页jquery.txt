@@ -1,0 +1,40 @@
+//跳转到第一页
+				$("#page_first").click(function(){
+					$("input[name='pageNo']").val('1');
+					$("form:last").submit();
+				})
+				
+				//跳转到最后一页
+				$("#page_last").click(function(){
+					$("input[name='pageNo']").val('<s:property value="#request.pager.maxPage"/>');
+					$("form:last").submit();
+				})
+				
+				//跳转到上一页
+				$("#page_pre").click(function(){
+					var $pageNo = $("input[name='pageNo']");
+					$pageNo.val($pageNo.val() - 1);
+					if ($pageNo.val() <= 1) {
+						$pageNo.val('1');
+					}
+					$("form:last").submit();
+				})
+				
+				//跳转到下一页
+				$("#page_next").click(function(){
+					var $pageNo = $("input[name='pageNo']");
+					//alert($pageNo.val()+":-----pageNo起始值");
+					var $maxPage = '<s:property value="#request.pager.maxPage"/>';
+					//alert($maxPage+":-----maxPage起始值");
+					$pageNo.val(parseFloat($pageNo.val()) + 1);
+					//alert($pageNo.val()+":-----pageNo加过以后");
+					if ($pageNo.val() >= parseFloat($maxPage)) {
+						$pageNo.val($maxPage);
+					}
+					$("form:last").submit();
+				})
+				
+				//提交翻页
+				$("input[type='button']:last").click(function(){
+					$("form:last").submit();
+				});

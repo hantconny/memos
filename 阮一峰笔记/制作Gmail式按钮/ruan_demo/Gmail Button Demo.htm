@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- saved from url=(0047)http://www.ruanyifeng.com/webapp/google_button/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ 
+<title>Gmail Button Demo</title>
+ 
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<style type="text/css">
+@import url(style.css);
+@import url("button.css");
+</style>
+
+<link rel="shortcut icon" href="http://www.ruanyifeng.com/webapp/google_button/favicon.ico" type="image/x-icon">
+
+<link rel="alternate" type="application/atom+xml" title="Atom" href="">
+<script type="text/javascript" src="./Gmail Button Demo_files/jquery.min.js"></script>
+<script type="text/javascript">
+       $(document).ready(function(){
+       	$(".goog-imageless-button").hover(   	
+       		function(){
+       			if(!$(this).hasClass("goog-imageless-button-disabled")){
+        		$(this).addClass("goog-imageless-button-hover"); 
+        		}
+       		},
+       		function(){
+       			if(!$(this).hasClass("goog-imageless-button-disabled")){
+       			$(this).removeClass("goog-imageless-button-hover"); 
+       			}
+       		}
+       	);
+       	$(".goog-imageless-button").mousedown(
+       		function(){
+       			if(!$(this).hasClass("goog-imageless-button-disabled")){
+       			$(this).addClass("goog-imageless-button-checked"); 
+       			}
+       		}
+	      ).mouseup(
+	      function(){
+	      	if(!$(this).hasClass("goog-imageless-button-disabled")){
+	      	$(this).removeClass("goog-imageless-button-checked"); 
+	      	}
+	      }
+	      );
+	      $("#pillButton > div").click(
+	      function(){
+	      	$("#pillButton > div").removeClass("goog-imageless-button-checked");
+	      	$(this).addClass("goog-imageless-button-checked"); 
+	      });
+	      $(".goog-imageless-button").focus(function(){$(this).addClass("goog-imageless-button-focused")});
+	      $(".goog-imageless-button").blur(function(){$(this).removeClass("goog-imageless-button-focused")});
+       });
+</script>
+ 
+</head>
+ 
+<body class="l3 equal">
+<div id="container">
+	<div id="header">
+		<div class="content"><h2>Gmail Button Demo</h2></div>
+	</div>
+	<div id="primary">
+		<div class="content">
+						<!-- Button Area Beginning-->
+		<h2>Example 1：单个按钮</h2>
+			<div role="button" id="" class="goog-imageless-button goog-inline-block" act="1" tabindex="0">
+			<div class="goog-inline-block goog-imageless-button-outer-box">
+				<div class="goog-inline-block goog-imageless-button-inner-box">
+					<div class="goog-imageless-button-pos">
+						<div class="goog-imageless-button-top-shadow">&nbsp;</div>
+						<div class="goog-imageless-button-content">确定</div>
+						</div>
+						</div>
+						</div>
+						</div>
+									
+		<h2>Example 2：按钮组</h2>
+		<div class="goog-inline-block">
+				<div role="button" id=":nh" class="goog-imageless-button goog-inline-block goog-imageless-button-collapse-right goog-imageless-button-primary" act="2" tabindex="0">
+					<div class="goog-inline-block goog-imageless-button-outer-box">
+						<div class="goog-inline-block goog-imageless-button-inner-box">
+							<div class="goog-imageless-button-pos">
+								<div class="goog-imageless-button-top-shadow">&nbsp;</div>
+							<div class="goog-imageless-button-content">主按钮</div>
+							</div>
+							</div>
+							</div>
+							</div><div role="button" class="goog-imageless-button goog-inline-block goog-imageless-button-collapse-left goog-imageless-button-disabled" tabindex="0">
+								<div class="goog-inline-block goog-imageless-button-outer-box"><div class="goog-inline-block goog-imageless-button-inner-box">
+									<div class="goog-imageless-button-pos">
+										<div class="goog-imageless-button-top-shadow">&nbsp;</div>
+										<div class="goog-imageless-button-content">不可选择</div>
+										</div>
+										</div>
+										</div>
+										</div>
+										
+					</div>
+		
+		<h2>Example 3：三选一旋钮</h2>
+
+	<div id="pillButton" class="button-area goog-inline-block">
+		
+		<div role="button" id="button1" class="goog-imageless-button goog-inline-block goog-imageless-button-collapse-right goog-imageless-button-primary" tabindex="0">
+			<div class="goog-inline-block goog-imageless-button-outer-box">
+				<div class="goog-inline-block goog-imageless-button-inner-box">
+					<div class="goog-imageless-button-pos">
+						<div class="goog-imageless-button-top-shadow">&nbsp;</div>
+						<div class="goog-imageless-button-content">Button 1</div>
+						</div>
+						</div>
+						</div>
+						</div><div role="button" id="button2" class="goog-imageless-button goog-inline-block goog-imageless-button goog-imageless-button-collapse-left goog-imageless-button-collapse-right" act="9" tabindex="0">
+							<div class="goog-inline-block goog-imageless-button-outer-box">
+								<div class="goog-inline-block goog-imageless-button-inner-box">
+									<div class="goog-imageless-button-pos">
+								<div class="goog-imageless-button-top-shadow">&nbsp;</div>
+								<div class="goog-imageless-button-content">Button 2</div>
+								</div>
+								</div>
+								</div>
+								</div><div role="button" id="button3" class="goog-imageless-button goog-inline-block goog-imageless-button-active goog-imageless-button-collapse-left" act="10" tabindex="0"><div class="goog-inline-block goog-imageless-button-outer-box">
+										<div class="goog-inline-block goog-imageless-button-inner-box"><div class="goog-imageless-button-pos"><div class="goog-imageless-button-top-shadow">&nbsp;</div><div class="goog-imageless-button-content">Button 3</div>
+											</div>
+											</div>
+											</div>
+											</div>
+											
+			</div>
+
+
+			
+			
+			<!--Button Area Ending-->
+			</div>
+	</div>
+	<div id="secondary">
+		<div class="content">
+					<h2>说明</h2>
+		<ul>
+	  <li> 所有按钮都是HTML+CSS设计，不使用任何背景图片。</li>
+		<li> 鼠标悬停时，按钮的边框颜色会加深。</li>
+		<li> 点击时，具有动画效果。</li>
+		<li> Example 2中的“主按钮”，表示这是首选的按钮，加深字体吸引用户的注意。</li>
+	  <li> 选中状态下，按钮呈现反白显示。</li>
+	  <li> 支持使用Tab键，进行按钮切换。</li>
+		</ul>
+		</div>
+	</div>
+	<div id="tertiary">
+		<div class="content"></div>
+	</div>
+	<div id="footer">
+		<div class="content">Made by Ruan YiFeng, 28th Feb, 2009<!-- footer content --></div>
+	</div>
+</div>
+
+
+</body></html>

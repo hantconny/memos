@@ -1,0 +1,7 @@
+<!-- change the file name to build.xml and delete this comment -->
+<?xml version="1.0" encoding="utf-8"?>
+<project basedir="." name="TestAnt" default="sysout">
+  <target name="sysout" >
+    <echo message="Hello, world"></echo>
+  </target>
+</project>

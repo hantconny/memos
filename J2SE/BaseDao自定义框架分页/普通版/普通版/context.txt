@@ -1,0 +1,1 @@
+<Resource name="jdbc/restaurant" auth="Container" type="javax.sql.DataSource" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" url="jdbc:sqlserver://localhost:1090;databasename=y2_restaurant" username="sa" password="ok" maxActive="100" maxIdle="100" maxWait="10000" />

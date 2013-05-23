@@ -1,0 +1,49 @@
+<HTML>
+ <HEAD>
+ <script src="jquery-1.4.js"></script>
+ <script>
+	$(function(){
+		$("span:contains('*')").prev().blur(
+			function(){
+				if($(this).val()=="" || $(this).val()=="该项不能为空！"){
+					$(this).css("color","red");
+					$(this).val("该项不能为空！");				
+				}else
+					$(this).css("color","black");
+			}
+		)
+
+		$("input[type=submit]").click(
+			function(){
+				var $isok = true;
+				$("span:contains('*')").prev().each(
+					function(){
+						if($(this).val()=="" || $(this).val()=="该项不能为空！"){
+							$(this).css("color","red");
+							$(this).val("该项不能为空！");
+							$isok = false;
+							return $isok;
+						}else
+							$(this).css("color","black");
+					}
+				)
+				return $isok;
+			}
+		)
+	})
+ </script>
+ </HEAD>
+
+ <BODY>
+ <form>
+	  <input><span>*</span><br>
+	  <input><span></span><br>
+	  <input><span>*</span><br>
+	  <input><span></span><br>
+	  <input><span></span><br>
+	  <input><span>*</span><br>
+	  <input><span>*</span><br>
+	  <input type="submit" value="注册">
+  </form>
+ </BODY>
+</HTML>

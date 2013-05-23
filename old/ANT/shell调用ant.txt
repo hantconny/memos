@@ -1,0 +1,4 @@
+shell:    执行  sh ant.sh     
+                 ant.sh 内容:  ant -f file_exsit.xml
+bat:        执行ant.bat
+                ant.bat  内容:  ant -f file_exsit.xml

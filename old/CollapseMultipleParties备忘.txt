@@ -1,0 +1,19 @@
+CollapseMultipleParties
+Usage1: 给定一个partyId, 搜索DB中所有A1, 并且collapse掉
+Usage2: 给定多个partyId, collapse掉
+Usage3: 给定多个partyId, 放在<TCRMPartyListBObj>节点下, 根据给定的全party信息, 加入新party
+
+Usage1行为: 
+	查suspect表, 找到所有A1, 使用rule：FindAllSuspectMatchRules, ruleId 118
+		备注：返回的数量是有限制的, 该限制被设定在Configuation and Management Component中, 如果超出该设定, 会按match score倒序排列, 最高分第一, 截取出设定数量
+		似乎是CONFIGELEMENT表中名为/IBM/Party/CollapseMutipleParties/collapsedPartiesNumberLimit的项，defaultValue为0，value为null，这样表示没有限制
+	创建新party, 使用rule：CollapseMultiplePartiesRule
+		备注：对于BusinessKey, 会将所有独立的数据复制到新party, 其余数据按LastUpdateDate(LUD)去最新的复制到新party
+	Inactive所有的A1
+	对新创建的party进行suspect, 并插入suspect表
+	将新创建的party和被collapse掉的party链接起来(可能是记录该新party是由哪几个partycollaps后形成的, 以便rollback), 记录在INACTIVECONTLINK表中
+	
+	连个rule的分析：见FindAllSuspectMatchRules说明，
+Usage2行为: 
+	
+	

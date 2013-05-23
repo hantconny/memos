@@ -1,0 +1,40 @@
+1.配置TLD文件
+<tag>
+	/* 描述性文字，可以写注释和示例 */
+ 	<description>my test tag</description>
+ 	
+	/* 对应jsp页面<my:sayHi />的名字 */
+	<name>sayHi</name>
+	
+	/* 映射类的完全限定名 */
+	/* extends自SimpleTagSupport */
+	/* 必须重写父类的doTag()方法 */
+	/* jsp在使用自定义标记的名字时，容器会调用doTag方法 */
+	/* 有几个attribute，就要写几个set方法 */
+ 	<tag-class>com.test.SayHi</tag-class>
+ 	
+	/* 指定标签是否可以包含体 */
+	/* 有4个值可选 */
+	/* empty，这个标记不能有体 */
+	/* scriptless，不能有脚本元素(小脚本，表达式，声明) */
+	/* tagdependent，标记体要被看做纯文本，所以不会计算EL，也不触发标记/动作 */
+	/* JSP，能放在jsp中的东西都可以放在体中 */
+	<body-content>empty</body-content>
+ 	
+	/* 声明出自定义标签的属性 */
+	/* <my:sayHi user="" /> */
+	<attribute>
+		/* 属性名 */
+		/* 对应的类中必须有一个setUser()方法 */
+ 		<name>user</name>
+		/* 可选的type子标签，指定name的完全限定名 */
+		/* 该属性是否必须 */
+ 		<required>true</required>
+		/* 是否允许运行时表达式(rt---runtime, expr---express), 如EL和表达式 */
+ 		<rtexprvalue>true</rtexprvalue>
+ 	</attribute>
+</tag>
+
+2.页面
+	使用<%@ uri="com.cz" prefix="myPrefix" %>导入tld文件
+	<myPrefix: sayHi user="" />

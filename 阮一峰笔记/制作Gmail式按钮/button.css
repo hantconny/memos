@@ -1,0 +1,156 @@
+/* Gmail Button Style */
+
+
+.goog-inline-block {
+display:-moz-inline-stack;
+display:inline-block;
+zoom:1;
+*display:inline;
+position:relative;
+}
+
+.goog-imageless-button {
+border:0 none;
+cursor:default;
+list-style-image:none;
+list-style-position:outside;
+list-style-type:none;
+margin:2px;
+outline-style:none;
+outline-width:medium;
+padding:0;
+text-decoration:none;
+vertical-align:middle;
+}
+
+.goog-imageless-button-outer-box, .goog-imageless-button-inner-box {
+border-style:solid;
+padding:0;
+}
+
+.goog-imageless-button-outer-box {
+border-width:1px 0;
+margin:0;
+}
+
+.goog-imageless-button-inner-box {
+border-width:0 1px;
+margin:0 -1px;
+}
+
+.goog-imageless-button-pos {
+height:100%;
+position:relative;
+}
+.goog-imageless-button-top-shadow {
+height:0.9em;
+left:0;
+overflow:hidden;
+position:absolute;
+right:0;
+top:0;
+}
+
+.goog-imageless-button-content {
+line-height:1.8em;
+padding:0 8px;
+position:relative;
+text-align:center;
+vertical-align:middle;
+white-space:nowrap;
+}
+
+.goog-imageless-button-collapse-right, .goog-imageless-button-collapse-right .goog-imageless-button-inner-box, .goog-imageless-button-collapse-right .goog-imageless-button-outer-box {
+margin-right:0 !important;
+}
+.goog-imageless-button-collapse-left, .goog-imageless-button-collapse-left .goog-imageless-button-outer-box, .goog-imageless-button-collapse-left .goog-imageless-button-inner-box {
+margin-left:0 !important;
+}
+
+.goog-imageless-button {
+font-family:arial,sans-serif;
+font-size:85%;
+font-size-adjust:none;
+font-stretch:normal;
+font-style:normal;
+font-variant:normal;
+font-weight:normal;
+line-height:normal;
+margin:0 10px 2px 2px;
+}
+
+.goog-imageless-button-primary {
+font-weight:bold;
+}
+
+.goog-imageless-button-outer-box, .goog-imageless-button-inner-box {
+border-color:#BBBBBB;
+}
+
+.goog-imageless-button-inner-box {
+background:#E3E3E3 none repeat scroll 0 0;
+}
+.goog-imageless-button-top-shadow {
+background:#F9F9F9 none repeat scroll 0 0;
+border-bottom:0.2em solid #EEEEEE;
+}
+.goog-imageless-button-disabled .goog-imageless-button-content {
+color:#888888;
+}
+.goog-imageless-button-content {
+color:#000000;
+}
+
+
+.goog-imageless-button-hover .goog-imageless-button-outer-box, .goog-imageless-button-hover .goog-imageless-button-inner-box {
+border-color:#939393;
+cursor:pointer;
+}
+.goog-imageless-button-focused .goog-imageless-button-outer-box, .goog-imageless-button-focused .goog-imageless-button-inner-box {
+border-color:#444444;
+}
+.goog-imageless-button-active .goog-imageless-button-inner-box {
+background:#F9F9F9 none repeat scroll 0 0;
+}
+.goog-imageless-button-active .goog-imageless-button-top-shadow {
+background:#E3E3E3 none repeat scroll 0 0;
+border-color:#EEEEEE;
+}
+
+/*
+.goog-imageless-button-open .goog-imageless-button-outer-box, .goog-imageless-button-open .goog-imageless-button-inner-box {
+border-color:#888888;
+}
+.goog-imageless-button-open .goog-imageless-button-outer-box {
+border-bottom-color:#F7F7F7;
+}
+.goog-imageless-button-open {
+background:transparent url(images/2/5/ocean/vimages7.png) no-repeat scroll -24px 50%;
+}
+*/
+
+.goog-imageless-button-checked .goog-imageless-button-inner-box, .goog-imageless-button-open .goog-imageless-button-inner-box {
+background:#999999 none repeat scroll 0 0;
+}
+.goog-imageless-button-checked .goog-imageless-button-top-shadow, .goog-imageless-button-open .goog-imageless-button-top-shadow {
+background:#777777 none repeat scroll 0 0;
+border-color:#888888;
+}
+.goog-imageless-button-checked .goog-imageless-button-content, .goog-imageless-button-open .goog-imageless-button-content {
+color:#FFFFFF;
+}
+.goog-imageless-button-collapse-left .goog-imageless-button-inner-box {
+border-left:1px solid #FFFFFF;
+}
+.goog-imageless-button-collapse-left.goog-imageless-button-checked .goog-imageless-button-inner-box, .goog-imageless-button-collapse-left.goog-imageless-button-open .goog-imageless-button-inner-box {
+border-left:1px solid #999999;
+}
+.goog-imageless-button-collapse-left.goog-imageless-button-checked .goog-imageless-button-inner-box {
+border-left:1px solid #999999;
+}
+.goog-imageless-button-collapse-left.goog-imageless-button-open .goog-imageless-button-inner-box {
+border-left:1px solid #888888;
+}
+.goog-imageless-button-collapse-right .goog-imageless-button-inner-box {
+border-right-color:#BBBBBB !important;
+}

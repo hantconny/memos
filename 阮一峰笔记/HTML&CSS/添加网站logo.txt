@@ -1,0 +1,2 @@
+在head标签中加入
+<link rel="icon" type="image/png" href="http://example.com/myicon.png">

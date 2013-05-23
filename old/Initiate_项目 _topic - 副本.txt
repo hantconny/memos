@@ -1,0 +1,73 @@
+
+caudrecno/maudrecno必须是mpi_audhead中的audrecno值
+select * from mpi_audhead
+
+
+
+
+
+
+composite view中的Filters for selected Composite View是用来过滤JMS中的信息的，配了什么就有什么。可以选择哪个attribute的那个segment，来自哪个source。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+在Initiate Workbench中安装subclipse插件， 启用classic update
+
+
+relationship用到的sql
+select max(memrecno) + 1 from mpi_memhead where srcrecno in (4,8,9,13);
+select * from mpi_srchead
+select * from mpi_memphone order by memrecno desc
+select * from mpi_memhead where memrecno = '200000'
+select * from mpi_entlink_org where curentrecno=49092
+select * from mpi_memhead where memrecno=50033
+select * from mpi_memattr where memrecno=50033 and  attrrecno in (25,61)
+select * from mpi_segattr 
+select * from mpi_rellink where entrecnoleft = 57437
+select * from mpi_memattr where attrrecno = 16 and attrval = 108621
+
+
+看rellink的unl文件entrecnoleft和entrecnoright，这个是EID
+到mpi_entlink_org表中select * from mpi_entlink_org where curentrecno=EID
+找到对应memrecno
+select * from mpi_memattr where memrecno in (MEMRECNO) and attrrecno in (duns number, parent duns number)；
+
+select * from mpi_memattr where memrecno in (
+	select memrecno from mpi_entlink_ENTITY where curentrecno in (entrecnoleft, entrecnoright)
+)
+and 
+attrrecno in (
+	select attrrecno from mpi_segattr where attrcode in ('DUNSNUM', 'PARENTDUNSNUM')
+)
+
+
+comparison function上面的weight table percentage cut-off的含义
+数据中有百分之多少包含这个，过高在generate weight的时候会报错：try to low ***
+
+调整maximum bucket size后，要跑一个FBB的job set，会在string文件夹下生成string文件，需要重新load string
+
+
+查export文件中连续的EID
+EID1
+EID2
+
+找到连续的memrecno就是断点
+
+
+
+
+searchForOrganizationList
+	一个member一个member来
+searchORGListAsOrganization
+	一个节点出现多次

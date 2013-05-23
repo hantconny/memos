@@ -1,0 +1,107 @@
+DB2执行sql文件
+db2 -tvf test.sql
+
+
+清空MDM的SQL
+D:\workspace\NEWMDM\InstallVerification\sql\clearOperationData.sql
+
+
+SDP开关
+select * from configelement where name like '%/IBM/Party/SuspectProcessing/enabled%'
+
+
+查询一列中值相同的的所有记录
+select * from <tbl_name> where <group_by_field> in (select <group_by_field> from <tbl_name> group by <group_by_field> having count(<group_by_field>) > 1);
+
+
+连接DB2
+db2 connect to <db_name> user db2admin using <user_pwd>
+示例：
+		db2 connect to MDM901 user db2admin using db2admin
+
+
+选取前多少条记录
+select * from mpi_stdfunc FETCH FIRST 15 ROWS ONLY;
+
+oracle对应的是：
+select * from tbl_name where rownum < 15;
+
+-- CONFIGELEMENT SDP 开关
+SELECT * FROM CONFIGELEMENT WHERE NAME='/IBM/Party/SuspectProcessing/enabled'
+
+
+-- CDMATCHRELEVTP
+
+
+
+-- CDSUSPECTREASONTP
+
+
+
+-- ADDACTIONTYPE
+
+
+	
+-- 知道RULE_ID查询实现类
+SELECT * FROM JAVAIMPL WHERE EXT_RULE_IMPL_ID IN (SELECT EXT_RULE_IMPL_ID FROM EXTRULEIMPLEM WHERE RULE_ID IN (SELECT RULE_ID FROM EXTRULE WHERE RULE_ID = '3'))
+
+
+-- 关闭BEHAVIOR EXTENSION
+UPDATE EXTENSIONSET SET INAVTIVE_IND='Y' WHERE EXTENSION_SET_ID = '';
+
+
+-- 查询Business Key
+SELECT * FROM V_ELEMENTATTRIBUTE WHERE ATTRIBUTE_TP_CD = (SELECT ATTRIBUTE_TP_CD FROM CDATTRIBUTETP WHERE NAME = 'Business Key') ORDER BY GROUP_NAME DESC
+
+
+Import from del
+必须在命令行处理器进行，不加DB2在最前面
+IMPORT FROM C:\Initiate\projects\profling\data-in\Account.del OF DEL MODIFIED BY COLDEL | INSERT INTO CAI.TBL_CUSTOMER
+
+DB2 IMPORT命令
+IMPORT DEL文件
+打开DB2 Command Line Processor(DB2命令行处理器), 都不加分号
+CONNECT TO <DB_NAME> USER <USER_NAME> USING <USER_PWD>
+IMPORT FROM "<DEL|TXT|DAT_FILE_PATH>" OF DEL MODIFIED BY COLDEL | INSERT INTO DB2ADMIN.<TBL_NAME>
+
+
+Windows下的DB2 Command Line(DB2命令行窗口)无法识别管道(|)符号, 所以无法操作, 但是可以识别逗号(,)符号
+
+
+说明: 
+必须保证TXT|DEL|DAT文件的编码为UTF-8 without BOM
+
+
+References: 
+http://www.ibm.com/developerworks/data/library/techarticle/dm-0610tham/index.html?S_TACT=105AGX52&S_CMP=cn-a-db2
+
+db2 =>
+修改日志文件大小
+修改日志文件大小: update db cfg using logfilsiz 65536; 实际大小为65536（页数）×4k（块大小）；
+增加主日志文件数: update db cfg using logprimary 10;最多不超过256；
+也可以增加辅助日志文件数: update db cfg using logsecond 100；最大不超过254；辅助日志文件在需要时分配，不再使用时系统收回。
+也可以不写日志：
+ALTER TABLE A ACTIVATE NOT LOGGED INITIALLY;注意当事务提交后，表A就会恢复到logging状态；即设置一次只能做一个事务。再要no logging的话，还需要设置。
+
+
+db2重启
+在db2 command line processor下 
+db2 => db2stop
+db2 => db2start
+
+
+db2对大数据支持使用clob(character large object)类型
+blob(double byte large object)
+
+
+MDM的update语句必须
+UPDATE TABLE_NAME SET column_1 = 'value_1', LAST_UPDATE_DT = CURRENT_TIMESTAMP WHERE column_2 = 'value_2';
+
+
+查询出数据库中所有表的删除语句
+select   'drop   table   '||name|| '; '   from   sysibm.systables where creator = current_user and name like '%MPI_%'
+结果大致如下：	
+		drop table tbl_name1;
+		drop table tbl_name2;
+备注：	
+		sysibm.systables存储所有表名
