@@ -1,0 +1,8 @@
+下载：
+http://curl.haxx.se/download.html
+
+配置环境变量
+PATH：c:\curl\
+
+用法，发送delete请求
+curl -X DELETE http://localhost/example/  
