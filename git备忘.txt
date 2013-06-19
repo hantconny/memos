@@ -1,0 +1,18 @@
+初始化本地Git库
+git init
+
+添加所有
+git add .
+
+提交更改到本地库
+git commit -m "提交备注"
+
+同步本地库到GitHub，类似SVN的commit
+git push origin master
+
+从GitHub克隆到本地，类似SVN的update
+git pull origin master
+
+从本地库中删除文件
+git rm MyEclipse备忘.txt
+
