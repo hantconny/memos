@@ -124,3 +124,11 @@ triggers.sql内容
 创建insert.sql文件
 insert.sql内容
 	insert into ......
+
+
+导入csv文件
+LOAD DATA INFILE "C:/Users/Cai/Desktop/x.csv"
+ REPLACE INTO TABLE t_division
+ CHARACTER SET utf8
+ FIELDS TERMINATED BY "," ENCLOSED BY ""
+ LINES TERMINATED BY "\n";

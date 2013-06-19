@@ -136,7 +136,6 @@ BEGIN
 	while i < 100
 		do
 			sql_statement;
-		end;
 	end while;
 END
 //
