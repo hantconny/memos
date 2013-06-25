@@ -1,0 +1,52 @@
+{
+	"identifier": "name",
+	"label": "name",
+	"items": [{
+		"name": "Object-Oriented",
+		"type": "category",
+		"children": [{
+			"name": "JavaScript",
+			"type": "language"
+		},
+		{
+			"name": "Java",
+			"type": "language"
+		},
+		{
+			"name": "Ruby",
+			"type": "language"
+		}]
+	},
+	{
+		"name": "Imperative",
+		"type": "category",
+		"children": [{
+			"name": "C",
+			"type": "language"
+		},
+		{
+			"name": "FORTRAN",
+			"type": "language"
+		},
+		{
+			"name": "BASIC",
+			"type": "language"
+		}]
+	},
+	{
+		"name": "Functional",
+		"type": "category",
+		"children": [{
+			"name": "Lisp",
+			"type": "language"
+		},
+		{
+			"name": "Erlang",
+			"type": "language"
+		},
+		{
+			"name": "Scheme",
+			"type": "language"
+		}]
+	}]
+}
