@@ -1,0 +1,25 @@
+<!-- 导入对话框 -->
+	<div id="importDialog" dojotype="dijit.Dialog" title="Import Question" style="width: 600px; height: 400px">
+		<div dojoType="dijit.layout.ContentPane" style="height: 100%; border: 0px">
+			<!-- 在上传文件时ENCTYPE="multipart/form-data"必须给上 -->
+			<form id="importForm" action="../QARestAPI/ImportServlet" method="post" ENCTYPE="multipart/form-data">
+				<!-- 上传文件的同时需要获得表单内其他的参数 -->
+				<input type="hidden" id="imp_questionnaireId" name="impQnrId" value="13">
+				<table>
+					<tr>
+						<td colspan="2">Batch import with csv file.</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<input name="file_upload" size="40" type="file">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div type="submit" id="btnImport" dojotype="dijit.form.Button">Import</div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div><!-- 导入对话框结束 -->

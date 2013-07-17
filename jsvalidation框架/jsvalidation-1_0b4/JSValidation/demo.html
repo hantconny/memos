@@ -1,0 +1,67 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta http-equiv="Content-Language" content="zh-cn">
+<title>JavaScript Validation Framework</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script language="JavaScript" src="validation-framework.js"></script>
+<SCRIPT LANGUAGE="JavaScript" src="site.js"></SCRIPT>
+</head>
+
+<body>
+
+<SCRIPT LANGUAGE="JavaScript">writeTop();</SCRIPT>
+
+<table cellpadding="10" width="760" cellspacing="0" align="center" class="ContentTable">
+<tr>
+<td class="Nav" valign="top">
+<SCRIPT LANGUAGE="JavaScript">writeNav();</SCRIPT>
+</td>
+<td valign="top">
+
+<b>演示</b>
+<p><b>演示1：基本登录验证（formId='form1'，错误信息以对话框显示）<br>
+</b>
+<form method="GET" action="demo_result.html" id="form1" onsubmit="return doValidate('form1')">
+  用户名：<input type="text" name="username" size="20"><br>
+  密&nbsp;&nbsp; 码：<input type="password" name="password" size="20"><br><br>    
+  <input type="submit" value=" 登 录 ">&nbsp; <input type="reset" value=" 取 消 ">    
+</form>
+<p><b>演示2：复杂的注册验证（formId=&quot;form2&quot;，错误信息显示在div中。这里有个div   
+id=&quot;errorDiv&quot;）</b></p>
+
+<div id="errorDiv" style="color:red;font-weight:bold"></div>
+<form method="GET" action="demo_result.html" ID="form2" onsubmit="return doValidate(this)">
+  用户名：<input type="text" name="username" size="20"><br>
+  密&nbsp;&nbsp; 码：<input type="password" name="password" size="20"><br> 
+  确&nbsp;&nbsp; 认：<input type="password" name="confirm" size="20"><br> 
+  性&nbsp;&nbsp; 别：<select size="1" name="gender"> 
+    <option selected value="">--------</option>
+    <option value="男">男</option>
+    <option value="女">女</option>
+    <option value="不男不女">不男不女</option>
+    <option value="不告诉你">不告诉你</option>
+  </select><br>
+  兴&nbsp;&nbsp; 趣：<input type="checkbox" name="interest" value="足球">足球  
+  <input type="checkbox" name="interest" value="篮球">篮球<input type="checkbox" name="interest" value="音乐">音乐<input type="checkbox" name="interest" value="绘画">绘画<input type="checkbox" name="interest" value="其他">其他<br>
+  电&nbsp;&nbsp; 邮：<input type="text" name="email" size="33"><br> 
+  年&nbsp;&nbsp; 龄：<input type="text" name="age" size="13"><br> 
+  中文名：<input type="text" name="cname" size="20"><br>
+  <br>
+  <input type="submit" value=" 提 交 "> <input type="reset" value=" 重 写 ">
+</form>
+
+</td>
+</tr>
+</table>
+<table class="BottomTable" cellpadding="0" align="center">
+<tr><td align="right">
+<i>This software developed by Michael Chen. 2004/04<br>   
+Please visit <a href="http://www.cosoft.org.cn/projects/jsvalidation">www.cosoft.org.cn/projects/jsvalidation</a> for update.   
+</i>
+</td></tr></table>
+
+</body>
+
+</html>

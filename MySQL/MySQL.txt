@@ -132,3 +132,5 @@ LOAD DATA INFILE "C:/Users/Cai/Desktop/x.csv"
  CHARACTER SET utf8
  FIELDS TERMINATED BY "," ENCLOSED BY ""
  LINES TERMINATED BY "\n";
+
+\n是换行.如果下一行已经有了一些内容的话它会在那些内容的后边.因为一搬情况下下一行是没有数据的,很多时候\n也就成了\r\n作用一样 

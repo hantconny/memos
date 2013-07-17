@@ -1,0 +1,53 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta http-equiv="Content-Language" content="zh-cn">
+<title>JavaScript Validation Framework</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<SCRIPT LANGUAGE="JavaScript" src="site.js"></SCRIPT>
+</head>
+
+<body>
+
+<SCRIPT LANGUAGE="JavaScript">writeTop();</SCRIPT>
+
+<table cellpadding="10" width="760" cellspacing="0" align="center" class="ContentTable">
+<tr>
+<td class="Nav" valign="top"><SCRIPT LANGUAGE="JavaScript">writeNav();</SCRIPT>
+</td>
+<td valign="top">
+
+<b>FAQ</b>
+<p><b>常见问题</b></p>
+<ol>
+  <li><a href="#1">JSValidation的路径配置看起来比较麻烦，在JSP/Servlet 
+    WebApp中到底该怎么配置？</a></li>
+  <li><a href="#2">如何保证我编写的配置文件是正确的？</a></li>
+  <li><a href="#3">有什么比较快的编写validation-config.xml的方法吗？</a></li>
+</ol>
+<p><b><a name="1"></a>1. JSValidation的路径配置看起来比较麻烦，在JSP/Servlet 
+WebApp中到底该怎么配置？[<a href="#">top</a>]</b></p>
+<p>&nbsp;&nbsp;&nbsp; 在JSP/Servlet WebApp中，很多人经常把&quot;/&quot;认为是JSvalidation的RootPath。在普通的JSP 
+WebApp中，/代表的往往不是应用程序根目录，而是站点的根目录。例如，http://localhost:8080/webapp/中，/代表http://localhost:8080/，而不是/webapp/。在一些开发框架如Struts，提供了URL 
+Rewrite的功能，能够自动将/映射为/webapp/。但是，这一点，在jsvalidation中并不有效。<br>
+&nbsp;&nbsp;&nbsp; 所以，你需要确认，RootPath是否就是真正的jsvalidation的路径。例如，你将jsvalidation放到了webapp_home/javascripts/jsvalidation，这时候，RootPath应该是/webapp_name/javascripts/jsvalidation，而并非/javascripts/jsvalidation。检验路径最有效的方法是直接打开浏览器，浏览资源http://domain:port/RootPath/validation-config.xml。如果能够访问，说明配置正确。</p>
+<p><b><a name="2"></a>2. 如何保证我编写的配置文件是正确的？[<a href="#">top</a>]</b></p>
+<p>&nbsp;&nbsp;&nbsp; 答案很简单。由于新的validation-config.xml文件采用了DTD验证，因此，只要你的文件能够在支持xml校验的浏览中打开并不报错，说明你的配置文件编写正确。</p>
+<p><b><a name="3"></a>3. 有什么比较快的编写validation-config.xml的方法吗？[<a href="#">top</a>]</b></p>
+<p>&nbsp;&nbsp;&nbsp; 清风很热心的编写了一个基于xdoclet的插件，能够在基于JSF, 
+Struts等WebForm的Jsp/servlet的项目中使用。通过在标准的javadoc中添加若干属性，以及在ant中添加一个简单的target，就可以自动生成配置文件。
+
+</td>
+</tr>
+</table>
+<table class="BottomTable" cellpadding="0" align="center">
+<tr><td align="right">
+<i>This software developed by Michael Chen. 2004/04<br>   
+Please visit <a href="http://www.cosoft.org.cn/projects/jsvalidation">www.cosoft.org.cn/projects/jsvalidation</a> for update.   
+</i>
+</td></tr></table>
+
+</body>
+
+</html>

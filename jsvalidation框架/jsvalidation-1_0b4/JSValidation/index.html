@@ -1,0 +1,109 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta http-equiv="Content-Language" content="zh-cn">
+<title>JavaScript Validation Framework</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<SCRIPT LANGUAGE="JavaScript" src="site.js"></SCRIPT>
+</head>
+
+<body>
+
+<SCRIPT LANGUAGE="JavaScript">writeTop();</SCRIPT>
+
+<table cellpadding="10" width="760" cellspacing="0" align="center" class="ContentTable">
+<tr>
+<td class="Nav" valign="top">
+<SCRIPT LANGUAGE="JavaScript">writeNav();</SCRIPT>
+</td>
+<td valign="top">
+
+<b>
+
+首页</b>
+<p><font color="#0066CC"><b><u>News</u></b></font><br>
+<table class="NewsTable" width="100%" cellpadding="4px">
+  <tr>
+    <td width="100%"><b>2004/08/17 jsvalidation 1.0b4 released</b><br>    
+	<xmp>* 修正了以下Bug:
+  1) 密码与确认密码在提示时，提示信息为"密码与password必须一致"  (呼声很高 ;-))
+  2) 在Mozilla浏览器环境中，对普通ASCII字符判断错误.（严重）
+  3) 校验失败后，光标应该停在第一个出错的域中。（普通）
+  4) 在IE5.0中完全不能校验（严重）
+
+* 增强了功能：
+  1) 增强了多表单的处理，对于新的处理方式稍微麻烦，但是分布式管理的validation-config.xml更能够适合多人协作。
+     例如，原来只需要在Html页面顶端引入<script src="path/to/jsvalidation.js">，现在除了这种方式，还可以加上
+     <script>
+           ValidationFramework.init("validation-config.xml");
+     </script>
+     多添这一句使得validation配置文件能够分开存放，在多人项目中非常重要。当然，原有方式继续保留。
+
+  2) doValidate()方法现在更加易用，只需要在需要验证的表单上加入doValidate(this)即可。当然，<form>标记中的ID还是必须有的。
+
+  3) 增强了错误的显示方式。目前可以在form的配置文件中选择是显示全部还是显示第一条。（show-type="all|first"）
+  
+  4) 增强了错误的显示效果，可以在validation-framework.js中对ValidationFailCssStyle进行更改。（这个功能不知是否实用）
+
+感谢大家对JSvalidation的一贯支持！
+	</xmp></td>
+  </tr>
+</table><br>
+<table class="NewsTable" width="100%" cellpadding="4px">
+  <tr>
+    <td width="100%"><b>2004/04/30 jsvalidation 1.0b3 released</b><br>    
+      感谢清风不屈不挠的邮件，使我修正了一些不合理的地方，并增加了一些实用的FAQ。同时清风也做了一个基于xdoclet的自动生成validation-config.xml的小插件，这样使得在Struts, 
+      JSF的WebForm中能够自动生成配置文件，自动化程度大大提高。本次发布更新了以下内容：<br>
+      <br>
+      * 在&lt;validation-config&gt;元素中增加了lang属性（可选），用于对国际化支持。<br>
+      * 
+      加入国际化支持。针对客户浏览器的不同语言，可以显示不同的提示信息。目前支持中文(zh-cn)和英文(en-us)。具体请看用户手册部分。&nbsp;<br>
+      * 一些小bug的修正。<br>
+      * 项目页面增加了FAQ<br>
+      * 增加了贡献者（Contributors）名单以及贡献名称。</td>
+  </tr>
+</table><br>
+<table class="NewsTable" width="100%" cellpadding="4px">
+  <tr>
+    <td width="100%"><b>2004/04/22 jsvalidation 1.0b2 released</b><br>    
+      由于发现一个重大bug，决定提前发布1.0b2。该版本特性如下：<br>
+      * 修正了FormFactory.getFormFromId()只能取得validation-config.xml中的第一个Form的Bug。<br>  
+      * 重新制作了文档（漂亮^_^）<br> 
+      * 重新编写了Demo。<br>  
+      * 为validation-config.xml编写了DTD，避免编写validation-config.xml错误. [Thanks 清风]<br>  
+      大家可以在cosoft的项目页面中下载最新版本。</td>
+  </tr>
+</table><br>
+
+<table class="NewsTable" width="100%" cellpadding="4px">
+  <tr>
+    <td width="100%"><b>2004/04/22 jsvalidation用户手册编写完成</b><br>    
+      大家可以去《用户手册》查看。<br>
+      开发指南的编写正在考虑中。是否有必要写？</td>
+  </tr>
+</table><br>
+<table class="NewsTable" width="100%" cellpadding="4px">
+  <tr>
+    <td width="100%"><b>2004/04/21 jsvalidation 1.0b1 released</b><br>  
+      新版本发布。详情请看http://cosoft.org.cn/projects/jsvalidation</td>
+  </tr>
+</table>
+<p><b>JSValidation是什么?</b><br>
+JSValidation是强大灵活的客户端验证框架。在应用服务器或者开发框架不提供验证的情况下，例如，普通的JSP,    
+ASP, PHP等开发，以及一些不提供验证支持的开发框架，如Tapestry,    
+Velocity等，JSValidation提供了一种灵活的解决方案。与其他验证方式相比，它最大的优点在于独立与易于集成。纯JavaScript结构，可以很容易的集成到现有的应用中而不论现有的应用是基于什么语言。将所有的表单验证集中管理，使得维护应用更加容易。简便的XML配置，易于扩充的验证方式（目前支持13种验证，囊括了大部分常用表单验证），使得JSValidation成为验证框架的首选。
+
+</td>
+</tr>
+</table>
+<table class="BottomTable" cellpadding="0" align="center">
+<tr><td align="right">
+<i>This software developed by Michael Chen. 2004/04<br> 
+Please visit <a href="http://www.cosoft.org.cn/projects/jsvalidation">www.cosoft.org.cn/projects/jsvalidation</a> for update. <img height="12" src="http://www.cuhk.edu.hk/cgi-custom/nph-count?width=8&amp;link=jsvalidation">
+</i>
+</td></tr></table>
+
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+//$Id: todo.txt,v 1.4 2004/04/30 05:33:29 jzchen Exp $
+
+v1.0b3
+1 加入国际化支持（中文，英文，以及UTF8编码）
+2 改善错误的显示方式，对ErrorString进行重构(DONE, 2004/04/30)
+
+v1.0b2
+
+v1.0b1
+1 加入逻辑功能，比如，总金额＝出资人A + 出资人B - C 14:22 2004-4-19, by gigx [Considering]
+2 js中有个错误，FormFactory.getFormFromId()有错误，逻辑出错了。(FIXED)

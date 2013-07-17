@@ -40,7 +40,7 @@ PS:
 	}
 
 
-	@BeforeClass和@AfterClass必须为静态类
+	@BeforeClass和@AfterClass必须为static
 
 summary:
 	JUnit测试解决了spring中不编写action就无法测试dao层方法的问题

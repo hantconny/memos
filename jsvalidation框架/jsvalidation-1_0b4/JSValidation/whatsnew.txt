@@ -1,0 +1,35 @@
+//$Id: whatsnew.txt,v 1.4 2004/08/17 09:30:21 jzchen Exp $
+v1.0b4
+* 修正了以下Bug:
+  1) 密码与确认密码在提示时，提示信息为"密码与password必须一致"  (呼声很高 ;-))
+  2) 在Mozilla浏览器环境中，对普通ASCII字符判断错误.（严重）
+  3) 校验失败后，光标应该停在第一个出错的域中。（普通）
+  4) 在IE5.0中完全不能校验（严重）
+
+* 增强了功能：
+  1) 增强了多表单的处理，对于新的处理方式稍微麻烦，但是分布式管理的validation-config.xml更能够适合多人协作。
+     例如，原来只需要在Html页面顶端引入<script src="path/to/jsvalidation.js">，现在除了这种方式，还可以加上
+     <script>
+           ValidationFramework.init("validation-config.xml");
+     </script>
+     多添这一句使得validation配置文件能够分开存放，在多人项目中非常重要。当然，原有方式继续保留。
+
+  2) doValidate()方法现在更加易用，只需要在需要验证的表单上加入doValidate(this)即可。当然，<form>标记中的ID还是必须有的。
+
+  3) 增强了错误的显示方式。目前可以在form的配置文件中选择是显示全部还是显示第一条。（show-type="all|first"）
+  
+  4) 增强了错误的显示效果，可以在validation-framework.js中对ValidationFailCssStyle进行更改。（这个功能不知是否实用）
+
+感谢大家对JSvalidation的一贯支持！
+
+v1.0b2
+* 修正了FormFactory.getFormFromId()只能取得validation-config.xml中的第一个Form的Bug。
+* 重新制作了文档（漂亮）
+* 重新编写了Demo。
+* 为validation-config.xml编写了DTD，避免编写validation-config.xml错误. [Thanks 清风]
+
+v1.0b1
+* 对体系进行重构，框架更加合理
+* 精简了代码，更有效率
+* 现在可以正常运行在IE, Mozilla, NetScape和DOM2兼容的浏览器上
+* 实现了mask校验
