@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+version="1.0">
+
+	<persistence-unit name="persistenceUnit" transaction-type="RESOURCE_LOCAL">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<!-- 非JEE环境，需要列出 -->
+		<!-- Hibernate实现的JPA支持在JEE和JSE都不需要列出 -->
+		<properties>
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://192.168.1.151:3306/cims" />
+			<property name="hibernate.connection.username" value="root" />
+			<property name="hibernate.connection.password" value="ok" />
+			<!-- 解决MySQL8小时断线，需要使用C3P0连接池 -->
+			<property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.show_sql" value="false" />
+  			<property name="hibernate.format_sql" value="false" />
+  			<!-- 显示SQL的出处, 显式查询还是集合初始化生成 -->
+  			<property name="hibernate.use_sql_comments" value="false" />
+  			
+  			<!-- EHCache -->
+  			<property name="hibernate.cache.region.factory_class" value="net.sf.ehcache.hibernate.EhCacheRegionFactory" />
+            <property name="net.sf.ehcache.configurationResourceName" value="ehcache.xml" />
+            <property name="hibernate.cache.use_query_cache" value="true" />
+            <property name="hibernate.cache.use_second_level_cache" value="true" />
+            <property name="hibernate.generate_statistics" value="false" />
+  			<!-- EHCache -->
+  			
+  			<!-- Hibernate推荐的c3p0设置 -->
+  			<!-- 需要c3p0.jar -->
+			<!-- 最小连接数 -->
+			<property name="c3p0.min_size" value="5" />
+			<!-- 最大连接数, 超出报错 -->
+			<property name="c3p0.max_size" value="30" />
+			<!-- 获得连接的超时时间, 如果超过这个时间, 会抛出异常, 单位秒 -->
+			<property name="c3p0.timeout" value="600" />
+			<!-- 缓存50个预编译的语句 -->
+			<property name="c3p0.max_statements" value="50" />
+			<!-- 连接池自动验证之前，一个以秒为单位的闲置时间 -->
+			<property name="c3p0.idle_test_period" value="120" />
+			<!-- 网上的额外设置 -->
+			<!--最大空闲时间, 60秒内未使用则连接被丢弃。 若为0则永不丢弃。 Default: 0 -->
+			<property name="c3p0.maxIdleTime" value="60" />
+			<!-- 当连接池里面的连接用完的时候, C3P0一下获取的新的连接数 -->
+			<property name="c3p0.acquire_increment" value="1" />
+			<!-- 是否每次都验证连接是否可用 -->
+			<property name="c3p0.validate" value="false" />
+		</properties>
+	</persistence-unit>
+
+</persistence>

@@ -110,3 +110,7 @@ Java > Installed JREs > 用MyEclipse默认的Sun JDK 1.6.0_13
 MyEclipse的Workspaces\.metadata\.me_tcat\conf
 <Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" URIEncoding="UTF-8"/>
 如果用的是单独的Tomcat，修改对应的Tomcat配置
+
+MyEclipse中Web项目引用Java项目
+修改了全局的配置
+MyEclipse > Java Enterprise Project > Web Project > Deployment > Choose Jar dependent Java project output and place in 'lib' directory

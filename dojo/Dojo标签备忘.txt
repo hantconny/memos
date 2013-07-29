@@ -1,0 +1,175 @@
+DOJO版本为IBM RSA V8中自带1.4.x
+
+
+·dijit.byId
+	1.dijit.byId("controlId")只能获取dojo控件，即含有dojotype的标签
+	2.dijit.byId("controlId").set("propertyName")设置dojo控件的属性值;
+		如dijit.byId("txtProjectDesc").set("value", "This is a Project Description");
+		将控件Id为txtProjectDesc的文本框值设置为"This is a Project Description"
+	3.dijit.byId("controlId").get("propertyName")获取dojo控件的属性值;
+		如dijit.byId("txtProjectDesc").get("value");
+		将获取控件Id为txtProjectDesc的文本框值
+
+
+
+·dijit.form.Form
+	1.用来代替普通HTML的<form>标签
+	2.<div id="projectDetailForm" dojotype="dijit.form.Form">
+	3.提交表单
+		dojo.addOnLoad(function() {
+			dojo.connect(dijit.byId("submit"), "onClick", function(event) {
+				// handle "onClick" from widget "submit"
+				// 获取表单对象
+				var projectDetailForm = dijit.byId("projectDetailForm");
+				// 设置表单action地址
+				projectDetailForm.set("action", "manager!managerUpdateProject.action");
+				// 设置表单提交方式为post提交
+				projectDetailForm.set("method", "post");
+				// 提交表单
+				projectDetailForm.submit();
+			});
+		});
+
+
+
+·dijit.form.DateTextBox
+	1.用来显示日历控件
+	2.使用displayedValue来绑定显示后台传递的数据
+	3.displayedValue中可以使用struts2的表达式，<s:date>或<s:property>
+	3.使用constraints="{datePattern:'yyyy-MM-dd'}"来约束显示的格式，如果不约束，用户操作后会根据浏览器的local显示为默认格式
+		如：中文环境下可能是2011-01-13
+		而在英文环境下可能是01/13/2011
+	4.<input type="text" 
+		displayedValue='<s:date name="#request.startDate" format="yyyy-MM-dd"/>' 
+		constraints="{datePattern:'yyyy-MM-dd'}" 
+		dojotype="dijit.form.DateTextBox">
+	5.该控件在浏览器local为英文环境下整合struts2无法提交表单，而在local为中文环境是可以，尚未解决该问题。
+	6.dojo.date.stamp.fromISOString("2010-04-02")
+
+
+·dijit.form.NumberTextBox
+	1.用来控制数字格式的输入
+	2.min表示最小允许
+	3.max表示最大允许
+	4.palces为0说明值允许整数
+	5.<div dojotype="dijit.form.NumberTextBox" constraints="{min:0, max:500, places:0}"></div>	
+
+
+
+·dojox.grid.DataGrid
+	1.用来显示列表，如果在JSON字符串中有HTML代码，需要配置escapeHTMLInData="false"
+	2.rowselector="0px"设置为0px可以将每行前面的复选框去掉。
+	3.某些情况下，如果不显示设定宽高，会倒是grid不显示，这种情况需要显示设定table的width和height
+	3.如果想隐藏某些列，如敏感ID列，可以将width设置为-1px。或者直接不写<th>标签即可。
+	4.根据官方说明，可以在要隐藏的<th>中使用hidden=true来隐藏。
+	5.<thead>标签必须
+	
+		<table id="projectGrid" dojotype="dojox.grid.DataGrid" autowidth="true" rowselector="0px" escapeHTMLInData="false">
+			<thead>
+				<tr>
+					<th width="-1px" field="projectId">Project ID</th>
+					<th width="150px" field="projectName">Project Name</th>
+					<th width="80px" field="category">Category</th>
+					<th width="80px" field="status">Status</th>
+					<th width="150px" field="startDate">Start Date</th>
+					<th width="150px" field="endDate">End Date</th>
+				</tr>
+			</thead>
+		</table>
+	
+	6.需要样式表
+		<link rel="stylesheet" type="text/css" title="Style" href="/TMS/dojo/dojox/grid/resources/Grid.css">
+		<link rel="stylesheet" type="text/css" title="Style" href="/TMS/dojo/dojox/grid/resources/claroGrid.css">
+	7.需要引入
+		<script type="text/javascript">
+			dojo.require("dojo.parser");
+			dojo.require("dojox.grid.DataGrid");
+			dojo.require("dojo.data.ItemFileReadStore");
+		</script>
+	8.需要ItemFileReadStore
+		<script language="javascript">
+			// Load the grid when the page initially loads
+			dojo.addOnLoad(function(){
+				// If the data in the response does not conform to the Data Store's
+				// structure, massage the response and return it in the proper format
+				var filterData = function(response) {
+					return response;
+				};
+				
+				// Set up all grid event handlers
+				var addListeners = function(dataStore) {
+				};
+				
+				dojo.connect(dijit.byId("project_status_select"), "onChange", function(event) {
+					
+					// handle "onChange" from node "project_status_select"
+					
+					// get statusId from dijit.form.FilteringSelect control
+					var statusId = dijit.byId("project_status_select").get("value");
+					if (0 > statusId) {
+						return;
+					}
+					
+					// Populate the Data Grid
+					dojo.xhrGet( {
+						url: "xxx.action?statusId=" + statusId,
+						handleAs: "json",
+						headers: {"If-Modified-Since":0},
+						load: function(response){
+							var filteredData = filterData(response);
+							var dataStore = new dojo.data.ItemFileReadStore({data: filteredData, id:"dataStoreId"});
+							var grid = dijit.byId("projectGrid");
+							grid.setStore(dataStore);
+							addListeners(dataStore);
+						},
+						error: function(){
+							alert("error");
+						}
+					});
+					
+				});
+				
+				
+				dojo.connect(dijit.byId("projectGrid"), "onRowClick", function(row) {
+					// handle "onRowClick" from widget "projectGrid"
+					var projectId = row.grid.store.getValue(row.grid.getItem(row.rowIndex), "projectId");
+					window.location.href = "xxx.action?projectId=" + projectId;
+				});
+				
+			});
+		</script>
+	9.Action类中输出JSON格式的字符串
+		// 注意所有引号需要转义
+		// 注意projectId属于标识类，即使JSP页面不显示，在JSON字符串中仍然需要
+		String str = "{items:[{"startDate":"2011-08-09","status":"GENERATED","projectName":"proj007","projectId":"150003","endDate":"2011-09-10","category":"INTERNAL"}],identifier:"projectId"}";
+		// write response
+		try {
+			ServletActionContext.getResponse().getWriter().write(str);
+			ServletActionContext.getResponse().getWriter().flush();
+			ServletActionContext.getResponse().getWriter().close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+
+·dojo控件的readOnly属性
+	1.使用dijit.byId("controlId").set("readOnly", true);
+		设置为只读，用户无法更改控件值
+	2.使用dijit.byId("controlId").set("readOnly", false);
+		取消控件的只读状态，用户可以修改控件值
+	3.不同于HTML的readonly，dojo使用的readOnly有大小写区分
+
+
+
+·dojo控件的destroy()函数
+	1.用来彻底销毁一个控件
+	2.dijit.byId("submit").destroy();
+		这样会销毁一个id为submit的dojo控件
+
+
+·dojo控件的disabled属性
+	1.用来禁用一个控件，该控件被禁用后，似乎无法提交值
+	2.dijit.byId("submit").set("disabled", true);
+		这样会禁用一个id为submit的dojo控件

@@ -1,13 +1,17 @@
 IOException while loading persisted sessions: java.io.EOFException
 解决：
-删除tomcat_home\work\Catalina\localhost\project_name\SESSIONS.ser
+	删除tomcat_home\work\Catalina\localhost\project_name\SESSIONS.ser
 
 Struts2中文URL传参乱码
 解决：
-在MyEclipse中
-MyEclipse的Workspaces\.metadata\.me_tcat\conf
-<Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" URIEncoding="UTF-8"/>
+	在MyEclipse中
+	MyEclipse的Workspaces\.metadata\.me_tcat\conf
+	<Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" URIEncoding="UTF-8"/>
 
-单独的Tomcat中
-<TOMCAT_HOME>\conf
-<Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" URIEncoding="UTF-8"/>
+	单独的Tomcat中
+	<TOMCAT_HOME>\conf
+	<Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" URIEncoding="UTF-8"/>
+
+应用被删除后，启动时报错找不到该应用
+解决：
+	删除tomcat_home\conf\Catalina\localhost下与该项目有关的xml文件，注意保留host-manager.xml和manager.xml

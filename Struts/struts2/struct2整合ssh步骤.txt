@@ -97,3 +97,31 @@
 			ActionContext ctx = ActionContext.getContext();
 			ctx.put(String key, Object value);	//在request中放置
 			ctx.getSession().put(String key, Object value);		//在session中放置
+
+12.struts2中action的validate()方法的验证机制： 
+在访问Action的login方法时，struts2会首先查找是否存在validateLogin()方法，如果存在，则先执行validateLogin()方法。 
+如果在validateLogin()方法中，遇到this.addFieldError()方法，则自动返回一个名称为"input"的字符串，转向struts.xml中配置的对应的action的<result name="input"> 指定的页面中去。
+private String inputPage;
+// 省略了 get / set inputPage
+/* 该方法会在进入login()前被调用 */
+public void validateLogin() {
+	/* input page in struts xml is dynamically configured by this field, using ${inputPage}*/
+	this.inputPage = "/jsp/pmuser/login.jsp";
+	
+	/* clear all field errors, provided by struts */
+	clearFieldErrors();
+	
+	/* BO login method should return a full info of PMUser */
+	User login = userBo.login(user);
+	
+	if (null == login) {
+		/* pmUser.userPwd对应页面上的struts标签 */
+		/* <s:password name="pmUser.userPwd" cssClass="text" value="" label="密码"></s:password> */
+		addFieldError("pmUser.userPwd", "用户名或密码错误");
+	}
+	
+	ctx = ActionContext.getContext();
+	ctx.getSession().put("login", login);
+	
+}
+<result name="input">${inputPage}</result>
