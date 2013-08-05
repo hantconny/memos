@@ -1,0 +1,13 @@
+·启动企业管理器
+	Win+R，运行cmd
+	直接输入set ORACLE_SID=ORCL
+	ORCL为安装Oracle时输入的SID
+	
+	然后emctl status dbconsole
+	注意获取的URL
+	如：http://a103:5500/em/console/aboutApplication
+
+	使用该URL进入企业管理器
+	
+	注意：使用企业管理器要求OracleDBConsoleORCL服务必须启动
+	可以在命令行使用emctl start dbconsole启动该服务
