@@ -124,4 +124,6 @@ public void validateLogin() {
 	ctx.getSession().put("login", login);
 	
 }
+
+13.struts.xml返回传入页面
 <result name="input">${inputPage}</result>

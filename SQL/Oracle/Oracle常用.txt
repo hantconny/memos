@@ -24,3 +24,10 @@ Oracle database error code ORA-01400 – cannot insert NULL into (string)
 
 oracle选取前多少条记录
 select * from tbl_name where rownum < 15;
+
+oracle拼接字符串
+update tbl_users set full_name = first_name || last_name where user_id = '10010';
+-- 将名和姓拼接到全名中
+
+oracle左外联
+select * from tbl_a left outer join tbl_b on tbl_a.a = tbl_b.a(+)

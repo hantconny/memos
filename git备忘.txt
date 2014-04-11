@@ -16,3 +16,24 @@ git pull origin master
 从本地库中删除文件
 git rm MyEclipse备忘.txt
 
+
+eclipse git
+如何commit & push
+右键项目 > Team > commit
+右键项目 > Team > Synchronize Workspace
+不打开新的视图
+点击push按钮
+
+如何pull
+右键项目 > Team > Synchronize Workspace
+不打开新的视图
+点击pull按钮
+
+
+netbeans git
+如何commit & push
+右键项目 > Git > 提交..., 去掉不需要提交的文件, 如project.properties等
+右键项目 > Git > 远程 > 推入...
+
+如何pull
+右键项目 > Git > 远程 > 提取...

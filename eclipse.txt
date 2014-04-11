@@ -77,7 +77,11 @@ Window > Preferences > General > Startup and Shutdown > Workspaces > 选择 > Re
 项目右键 > Properties > Builders > 取消JavaScript Validator
 
 
-
+全局搜索
+Search > File... > File Search或Ctrl + H
+以下例子搜索所有含有activity/item/getLoginUser字符串的java文件
+Containing text:	activity/item/getLoginUser
+File name patterns:	*.java
 
 
 

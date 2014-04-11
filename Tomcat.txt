@@ -15,3 +15,7 @@ Struts2中文URL传参乱码
 应用被删除后，启动时报错找不到该应用
 解决：
 	删除tomcat_home\conf\Catalina\localhost下与该项目有关的xml文件，注意保留host-manager.xml和manager.xml
+
+Tomcat7内存溢出
+Window > Preferences > Java > Installed JREs > Edit > Default VM Arguments 添加
+-Xms215M -Xmx700M -XX:PermSize=700M -XX:MaxPermSize=1024M

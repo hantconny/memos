@@ -26,7 +26,7 @@ stopManager
 stopManager和startManager的命令在WebSphere/AppServer/profiles/Dmgr01/bin/下
 其余命令在对应的profile的bin目录下
 
-即使stopSserver以后，仍然可以进入admin console
+即使stopServer以后，仍然可以进入admin console
 
 
 在ND版本的WebSphere上创建新server（默认值有一个server1）

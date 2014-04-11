@@ -44,3 +44,52 @@ System.out.println(i++);	// 输出1
 ++i是先加1后使用, 即先让i = i + 1, 再使用i的新值
 int i = 1;
 System.out.println(++i);	// 输出2
+
+
+Java本地应用控制台和日志
+控制面板 > Java > 高级 > Java控制台 > 显示控制台
+控制面板 > Java > 高级 > 调试 > 启用日志记录
+
+利用序列化进行深拷贝
+public HelloDeepClone deepClone() {
+	try {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(baos);
+		oos.writeObject(this);
+
+		ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+		ObjectInputStream ois = new ObjectInputStream(bais);
+		return (HelloDeepClone) ois.readObject();
+	} catch (IOException e) {
+		e.printStackTrace();
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	}
+	return null;
+}
+
+Clone方法
+public Object clone()
+{
+	TWObject clone;
+
+	try
+	{
+		clone = (TWObject) super.clone();
+	}
+	catch (CloneNotSupportedException e)
+	{
+		clone = new TWObject();
+	}
+	// set all fields
+	clone.setName(getName());
+	clone.setGender(getGender());
+
+	return clone;
+}
+
+迭代Map
+Map<String, Object> iMap = new HashMap<String, Object>();
+for (Map.Entry<String, Object> entry : iMap.entrySet()) {
+	System.out.println(entry.getKey() + "|" + entry.getValue());
+};

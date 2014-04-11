@@ -27,6 +27,8 @@ export PATH=$PATH:.:/home/initiate/bin
 df -lh
 查看磁盘空间
 
+fdisk -l
+查看磁盘挂载
 
 clear
 清空terminal屏幕，翻页，原先的命令不会消失，向上翻可以看到

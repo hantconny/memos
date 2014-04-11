@@ -5,3 +5,7 @@ HighChart
 
 懒人包
 Bootstrap
+
+
+JSF库
+primeface

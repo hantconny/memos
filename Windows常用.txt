@@ -8,3 +8,11 @@ netstat -ano
 		查询16000端口被谁占用, findstr只是一个查找字符串命令, 还需要人工判断
 
 示例：	netstat -aon|findstr "16000"
+
+
+telnet 192.168.111.127 80
+说明：	查看指定IP的端口是否开启
+使用：	
+备注：	
+示例：	telnet 192.168.111.127 80
+		telnet IP				PORT

@@ -1,0 +1,9 @@
+commandLink的value中拼接字符串
+<p:commandLink id="title" value="#{logInfo.planActivtyName}-#{logInfo.planName != null ? logInfo.planName : logInfo.logType}" 
+										action="#{logInfoOptionActionBean.selectLogInfo(logInfo.number)}" 
+										update=":logInfoListForm,:logInfoDetailForm" styleClass="hideLink"></p:commandLink>
+										
+										或
+<p:commandLink id="title" value="#{logInfo.planName != null ? ''.concat(logInfo.planActivtyName).concat('--').concat(logInfo.planName) : logInfo.logType}" 
+										action="#{logInfoOptionActionBean.selectLogInfo(logInfo.number)}" 
+										update=":logInfoListForm,:logInfoDetailForm" styleClass="hideLink"></p:commandLink>

@@ -1,0 +1,32 @@
+将NetBeans快捷键映射改为Eclipse, 并修改代码补全提示
+1.Tools > Options > Keymap > Profile > Eclipse
+2.Search: Show Code Completion Popup, 修改Shortcut为Alt+SLASH
+
+NetBeans原生快捷键
+格式化 Alt + Shift + f
+
+代码提示 Ctrl+\
+可以在Tools -> Options -> Keymap -> Other -> Show Code Completion Popup修改
+
+错误修改提示：
+Alt + Enter
+
+自动导入未声明的包：
+Ctrl + Shift + I
+
+eclipse: F5(步入step into), F6(步进step over), F7(步出step out), F8(resume开始, 跳过该断点)
+netbean: F7(步入step into), F8(步进step over), F5(resume开始, 跳过该断点)
+
+
+NetBeans签名
+项目 > Properties > Build > Deployment > Request unrestricted access (Enable signing) > Signing Certificate > Edit > Self-sign by generated key
+因为WebStart启动时要验证签名
+
+
+NetBeans的log4j乱码
+NetBeans不要换成英文
+
+
+NetBeans改英文
+NetBeans\etc\netbeans.conf
+找到netbeans_default_options, 加入 -J-Duser.language=en -J-Duser.country=US

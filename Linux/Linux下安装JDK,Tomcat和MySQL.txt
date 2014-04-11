@@ -208,3 +208,5 @@ vi /etc/default/locale
 sudo mount -t cifs -o iocharset=utf8,username=twdell002,password=tw888 //192.168.1.101/alex_shared /mnt/alex_shared
 suod mount -t cifs -o iocharset=utf8,username=<local user name>,password=<local pwd> //<local IP address>/shared /mnt/dell
 																													<remote directory>
+																													
+开机自动mount需要修改/etc/fstab文件
