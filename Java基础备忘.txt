@@ -1,1 +1,0 @@
-i++是先使用后加1, 即先使用i的值, 后让i = i + 1int i = 1;System.out.println(i++);	// 输出1++i是先加1后使用, 即先让i = i + 1, 再使用i的新值int i = 1;System.out.println(++i);	// 输出2

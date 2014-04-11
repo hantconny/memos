@@ -1,0 +1,82 @@
+http://192.168.111.177:28017/ AdminConsole
+
+假设有uses表
+id:
+name:
+age:
+gender:
+
+查询
+	SQL: select * from users where age > 25;
+	MON: {"age" : {$gt : 25}}
+	
+	SQL: select * from users where age >= 25;
+	MON: {"age" : {$gte : 25}}
+
+查询字段
+	SQL: select name, age from users;
+	MON: {name:1, age:1} // 1代表查询该字段, 0代表查询除该字段外的其他字段
+	
+	SQL: select id, gender from users;
+	MON: {name:0, age:0} // 1代表查询该字段, 0代表查询除该字段外的其他字段
+	
+查询排序
+	SQL: select age from users order by age asc;
+	MON: {age:1} // 1为ASC, -1为DESC
+	
+	SQL: select age from users order by age desc;
+	MON: {age:-1} // 1为ASC, -1为DESC
+	
+查询模糊 
+	SQL的%对应MON的.*
+	SQL: select * from users where name like '%will%';
+	MON: {"name" : /.*will.*/}
+	
+查询日期
+	SQL: select * from users where timestamp between '2013-12-12' and '2013-12-13';
+	MON: 
+	{
+		timestamp:
+		{
+			$gte:ISODate("2013-12-12T00:00:00.000Z"),
+			$lt:ISODate("2013-12-13T00:00:00.000Z")
+		}
+	}
+
+分组聚合查询
+Group的Key, true就是在结果集中显示该列
+	{
+		url:true,
+		period:true
+	}
+Group的Conditions, 类似find查询中的条件
+	{
+		timestamp:
+		{
+			$gte:ISODate("2014-01-14T00:00:00.000Z"),
+			$lt:ISODate("2014-01-15T00:00:00.000Z")
+		},
+		source:
+		{
+			$not:/.*heartbeat.*/
+		},
+		period:
+		{
+			$gte:5000,
+			$lt:8000
+		}
+	}
+
+Reduce的Initial Value
+	{
+		count:0
+	}
+Reduce的function
+	function Reduce(doc, out) {
+		out.count++;
+	}
+ 
+Finalize的function
+	function Finalize(out) {
+		return out;
+	}

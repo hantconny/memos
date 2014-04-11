@@ -1,1 +1,0 @@
-避免使用TIME类型, 可以使用DATETIME替代
